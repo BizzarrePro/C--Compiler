@@ -7,4 +7,5 @@ public interface FileMenuItemFunc {
 	void openFileAction();
 	void saveFileAction();
 	void saveAsFileAction();
+	void openRecentFileAction();
 }

@@ -1,6 +1,8 @@
 package team.weird.texteditor.implement;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 
 import java.awt.Font;
 
@@ -12,40 +14,45 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.AbstractAction;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import team.weird.texteditor.UIConfigure.TabbedPanel;
+import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.function.FileMenuItemFunc;
-
-class FileAttribute {
-	public String path;
-	public String name;
-
-	public FileAttribute(String path, String name) {
-		this.path = path;
-		this.name = name;
-	}
-}
+import team.weird.texteditor.util.FileActionUtil;
 
 public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	/**
 		 * 
 		 */
 	private static final long serialVersionUID = 1L;
-	private Map<String, FileAttribute> fileMap = new HashMap<String, FileAttribute>();
+	private HashMap<String, FileAttribute> fileMap;
 	private JTabbedPane tab;
 	private int id;
-
-	public FileAction(String name, JTabbedPane tab) {
+	private FileActionUtil util = new FileActionUtil();
+	
+	public FileAction(String name, JTabbedPane tab, HashMap<String, FileAttribute> fileMap) {
 		super(name);
 		this.tab = tab;
+		this.fileMap = fileMap;
 	}
 
 	public void actionPerformed(ActionEvent event) {
@@ -67,8 +74,6 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 			JTextArea temp = (JTextArea) ((JScrollPane) tab
 					.getSelectedComponent()).getViewport().getView();
 			String str = temp.getText();
-			System.out.println(str);
-			System.out.println("pupu");
 			fw.write(str);
 			fw.flush();
 			fw.close();
@@ -78,15 +83,23 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	}
 	@Override
 	public JTextArea newFileAction(String name) {
-		JTextArea text = new JTextArea();
+		final JTextArea text = new JTextArea();
+		JTextArea row = new JTextArea();
 		text.setLineWrap(true);
 		text.setFont(new Font("Consolas", Font.PLAIN, 15));
+		JPanel rowNum = new JPanel();
+		rowNum.add(row);
+		rowNum.setLayout(new GridLayout());
 		JScrollPane scrollPane = new JScrollPane(text);
+		final DefaultListModel<Integer> model = new DefaultListModel<>();
+		scrollPane.setRowHeaderView(util.initRowList(model));
 		text.setBackground(new Color(40, 40, 40));
 		text.setForeground(new Color(248, 248, 242));
 		tab.addTab(name, scrollPane);
 		final int EIndex = tab.indexOfTab(name);
 		tab.setTabComponentAt(EIndex, new TabbedPanel(tab));
+		DocumentListener textAction = new FileTextAction(model, text);
+		text.getDocument().addDocumentListener(textAction);
 		id++;
 		return text;
 	}
@@ -102,8 +115,6 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 			FileAttribute fa = new FileAttribute(filename.toString(),
 					filename.getName());
 			fileMap.put(filename.getName(), fa);
-			System.out.println(fileMap.size());
-			System.out.println(filename.getName().hashCode());
 			JTextArea temp = newFileAction(filename.getName());
 			StringBuffer sb = new StringBuffer();
 			int tag = 0;
@@ -126,18 +137,15 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	public void saveFileAction() {
 		// TODO Auto-generated method stub
 		int index = tab.getSelectedIndex();
-		System.out.println(fileMap.containsKey(tab.getTitleAt(index)));
-		System.out.println(tab.getTitleAt(index).hashCode());
-		System.out.println(fileMap.keySet().size());
 		if (fileMap.containsKey(tab.getTitleAt(index))) {
-			File file = new File(fileMap.get(tab.getTitleAt(index)).path);
+			File file = new File(fileMap.get(tab.getTitleAt(index)).getPath());
 			System.out.println(file);
 			FileWriter fw = null;
 			file.delete();
 			writeToFile(file, fw);
 		}
 		else{
-			System.out.println("Error");
+			saveAsFileAction();
 		}
 	}
 
@@ -161,13 +169,20 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 				writeToFile(fr, fw);
 				putToMap(fr);
 			}
+			util.putToRecentDirec(path);
 		}
 	}
+
+	@Override
+	public void openRecentFileAction() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public void putToMap(File fr){
 		tab.setTitleAt(tab.getSelectedIndex(), fr.getName());
 		FileAttribute fa = new FileAttribute(fr.toString(),
 				fr.getName());
 		fileMap.put(fr.getName(), fa);
 	}
-
 }

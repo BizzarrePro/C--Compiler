@@ -18,9 +18,9 @@ public class EditMenuItem {
 	public void initEditMenuItem(){
 		JMenu editMenu = new JMenu("Edit");
 		menuBar.add(editMenu);
-		EditAction cutTxt = new EditAction("Cut");
-		EditAction copyTxt = new EditAction("Copy");
-		EditAction pasteTxt = new EditAction("Paste");
+		EditAction cutTxt = new EditAction("Cut", contentPane);
+		EditAction copyTxt = new EditAction("Copy", contentPane);
+		EditAction pasteTxt = new EditAction("Paste", contentPane);
 		JMenuItem copyItem = new JMenuItem(copyTxt);	
 		JMenuItem cutItem = new JMenuItem(cutTxt);
 		JMenuItem pasteItem = new JMenuItem(pasteTxt);

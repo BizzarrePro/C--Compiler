@@ -1,2 +1,1 @@
-# TextEditor
-A basic text editor.
+A text editor with lexer and parsing.
