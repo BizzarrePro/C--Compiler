@@ -38,7 +38,9 @@ import team.weird.texteditor.UIConfigure.TabbedPanel;
 import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.function.FileMenuItemFunc;
 import team.weird.texteditor.util.FileActionUtil;
-
+/**
+ * @author Siyuan_Liu
+ */
 public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	/**
 		 * 
@@ -54,6 +56,10 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		this.tab = tab;
 		this.fileMap = fileMap;
 	}
+	
+	public FileAction(String name){
+		super(name);
+	}
 
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("New")) {
@@ -64,6 +70,8 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 			saveFileAction();
 		} else if (event.getActionCommand().equals("Save as")) {
 			saveAsFileAction();
+		} else if (event.getActionCommand().equals("Exit")) {
+			exitFileAction();
 		}
 
 	}
@@ -132,7 +140,10 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 			}
 		}
 	}
-
+	@Override
+	public void openFileAction(String path){
+		
+	}
 	@Override
 	public void saveFileAction() {
 		// TODO Auto-generated method stub
@@ -184,5 +195,11 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		FileAttribute fa = new FileAttribute(fr.toString(),
 				fr.getName());
 		fileMap.put(fr.getName(), fa);
+	}
+
+	@Override
+	public void exitFileAction() {
+		// TODO Auto-generated method stub
+		System.exit(0);
 	}
 }

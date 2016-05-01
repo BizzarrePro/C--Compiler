@@ -6,7 +6,9 @@ import javax.swing.JTabbedPane;
 
 import team.weird.texteditor.menu.EditMenuItem;
 import team.weird.texteditor.menu.FileMenuItem;
-
+/**
+ * @author Siyuan_Liu 
+ */
 public class FrameDesign extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane contentPane = new JTabbedPane();

@@ -16,7 +16,11 @@ import team.weird.texteditor.implement.FileAction;
 import team.weird.texteditor.menu.EditMenuItem;
 import team.weird.texteditor.menu.FileMenuItem;
 
-
+/**
+ * @author Siyuan_Liu
+ * @version 1.0 
+ * @look Nimbus
+ */
 public class LookAndFeel extends JFrame {
 	/**
 	 * 

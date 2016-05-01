@@ -19,7 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicButtonUI;
-
+/**
+ * @author CSDN
+ */
 public class TabbedPanel extends JPanel {  
     private final JTabbedPane pane;  
     public TabbedPanel(final JTabbedPane pane){  
