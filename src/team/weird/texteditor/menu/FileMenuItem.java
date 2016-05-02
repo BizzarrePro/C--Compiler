@@ -1,6 +1,7 @@
 package team.weird.texteditor.menu;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -14,6 +15,7 @@ import javax.swing.KeyStroke;
 
 import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.implement.FileAction;
+import team.weird.texteditor.implement.FileOpenRecAction;
 import team.weird.texteditor.util.FileActionUtil;
 /**
  * @author Siyuan_Liu
@@ -30,7 +32,6 @@ public class FileMenuItem {
 	}
 	public void initFileMenuItem(){
 		JMenu fileMenu = new JMenu("File");
-		menuBar.add(fileMenu);
 		FileAction newTxt = new FileAction("New File", contentPane, fileMap);
 		FileAction OpenFile = new FileAction("Open File..", contentPane, fileMap);
 		FileAction OpenRecentFile = new FileAction("Open Recent", contentPane, fileMap);
@@ -39,22 +40,22 @@ public class FileMenuItem {
 		FileAction ExitFile = new FileAction("Exit");
 		JMenuItem newItem = new JMenuItem(newTxt);
 		JMenuItem openItem = new JMenuItem(OpenFile);
-		/**
-		 * @author Siyuan_Liu
-		 */
-		JMenuItem openRecentItem = new JMenuItem(OpenRecentFile);
-/*		FileActionUtil util = new FileActionUtil();
-		FileAction OpenDirectly = new FileAction("Open Dire");
+
+		
+		JMenu openRecentItem = new JMenu("Open Recent");
+		FileActionUtil util = new FileActionUtil();
 		container = util.ExtractRecentPath("./recent/recentFile.txt");
-		JMenu recentFile = new JMenu();
+
+		JMenuItem[] TextItem = new JMenuItem[container.size()];
 		System.out.println(container.size());
 		for(int i = 0; i < container.size(); i++){
-			JMenuItem TextItem = new JMenuItem(OpenFile);
-			recentFile.add(TextItem);
+			System.out.println(container.get(i));
+			TextItem[i] = new JMenuItem(new FileOpenRecAction(container.get(i), contentPane, fileMap));
+			openRecentItem.add(TextItem[i]);
 		}
-		openRecentItem.add(recentFile);
- * 
- */
+		openRecentItem.add(openRecentItem);
+		
+		
 		JMenuItem saveasItem = new JMenuItem(SaveasFile);
 		JMenuItem saveItem = new JMenuItem(SaveFile);
 		JMenuItem exitItem = new JMenuItem(ExitFile);
@@ -75,5 +76,7 @@ public class FileMenuItem {
 		fileMenu.add(saveasItem);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
+		
+		menuBar.add(fileMenu);
 	}
 }

@@ -17,7 +17,7 @@ public class FrameDesign extends JFrame {
 
 	public FrameDesign() {
 		setSize(DEAFAULT_WIDTH, DEAFAULT_HEIGHT);
-		setTitle("Weird Text && (Copyright by Siyuan_Liu)");
+		setTitle("Weird Text");
 		setLocationByPlatform(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

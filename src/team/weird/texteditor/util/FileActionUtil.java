@@ -28,11 +28,13 @@ public class FileActionUtil {
 		ArrayList<String> container = new ArrayList<String>();
 		FileReader fr = null;
 		BufferedReader br = null;
+		int count = 0;
 		try{
 			fr = new FileReader(filename);
 			br = new BufferedReader(fr);
 			String path = br.readLine();
-			while(path != null){
+			while(path != null && count < 4){
+				count++;
 				container.add(path);
 				path = br.readLine();
 			}
@@ -116,8 +118,6 @@ public class FileActionUtil {
 				if (tag == '\n' || tag == '\r') {
 					str = raf.readLine();
 					if (str != null) {
-						//  for debugging
-						//	System.out.print(str);
 						pathStack.push(str + "\n\r");
 						totalLine ++;
 					}

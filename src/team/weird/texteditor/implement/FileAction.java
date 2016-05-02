@@ -46,7 +46,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		 * 
 		 */
 	private static final long serialVersionUID = 1L;
-	private HashMap<String, FileAttribute> fileMap;
+	protected HashMap<String, FileAttribute> fileMap;
 	private JTabbedPane tab;
 	private int id;
 	private FileActionUtil util = new FileActionUtil();
@@ -63,7 +63,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("New")) {
-			newFileAction("Unname" + id);
+			newFileAction("Untitle" + id);
 		} else if (event.getActionCommand().equals("Open")) {
 			openFileAction();
 		} else if (event.getActionCommand().equals("Save")) {
@@ -140,10 +140,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 			}
 		}
 	}
-	@Override
-	public void openFileAction(String path){
-		
-	}
+
 	@Override
 	public void saveFileAction() {
 		// TODO Auto-generated method stub
@@ -184,12 +181,6 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		}
 	}
 
-	@Override
-	public void openRecentFileAction() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public void putToMap(File fr){
 		tab.setTitleAt(tab.getSelectedIndex(), fr.getName());
 		FileAttribute fa = new FileAttribute(fr.toString(),

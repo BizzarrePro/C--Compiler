@@ -7,9 +7,7 @@ import javax.swing.JTextArea;
 public interface FileMenuItemFunc {
 	JTextArea newFileAction(String name);
 	void openFileAction();
-	void openFileAction(String path);
 	void saveFileAction();
 	void saveAsFileAction();
-	void openRecentFileAction();
 	void exitFileAction();
 }

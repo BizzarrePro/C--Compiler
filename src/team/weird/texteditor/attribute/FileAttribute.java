@@ -14,4 +14,7 @@ public class FileAttribute {
 	public String getName(){
 		return name;
 	}
+	public String toString(){
+		return name+" "+path;
+	}
 }
