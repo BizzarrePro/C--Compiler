@@ -3,7 +3,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
+/**
+ * @author Siyuan_Liu
+ */
 public class FileTextAction implements DocumentListener{
 
 	public int cnt = 0;

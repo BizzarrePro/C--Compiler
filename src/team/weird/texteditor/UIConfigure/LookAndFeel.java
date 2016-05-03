@@ -1,22 +1,14 @@
 package team.weird.texteditor.UIConfigure;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import team.weird.texteditor.function.FileMenuItemFunc;
-import team.weird.texteditor.implement.EditAction;
-import team.weird.texteditor.implement.FileAction;
-import team.weird.texteditor.menu.EditMenuItem;
-import team.weird.texteditor.menu.FileMenuItem;
-
-
+/**
+ * @author Siyuan_Liu
+ * @version 1.0 
+ * @look Nimbus
+ */
 public class LookAndFeel extends JFrame {
 	/**
 	 * 

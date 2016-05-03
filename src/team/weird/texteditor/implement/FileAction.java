@@ -38,13 +38,15 @@ import team.weird.texteditor.UIConfigure.TabbedPanel;
 import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.function.FileMenuItemFunc;
 import team.weird.texteditor.util.FileActionUtil;
-
+/**
+ * @author Siyuan_Liu
+ */
 public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	/**
 		 * 
 		 */
 	private static final long serialVersionUID = 1L;
-	private HashMap<String, FileAttribute> fileMap;
+	protected HashMap<String, FileAttribute> fileMap;
 	private JTabbedPane tab;
 	private int id;
 	private FileActionUtil util = new FileActionUtil();
@@ -54,16 +56,22 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		this.tab = tab;
 		this.fileMap = fileMap;
 	}
+	
+	public FileAction(String name){
+		super(name);
+	}
 
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("New")) {
-			newFileAction("Unname" + id);
+			newFileAction("Untitle" + id);
 		} else if (event.getActionCommand().equals("Open")) {
 			openFileAction();
 		} else if (event.getActionCommand().equals("Save")) {
 			saveFileAction();
 		} else if (event.getActionCommand().equals("Save as")) {
 			saveAsFileAction();
+		} else if (event.getActionCommand().equals("Exit")) {
+			exitFileAction();
 		}
 
 	}
@@ -173,16 +181,16 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		}
 	}
 
-	@Override
-	public void openRecentFileAction() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public void putToMap(File fr){
 		tab.setTitleAt(tab.getSelectedIndex(), fr.getName());
 		FileAttribute fa = new FileAttribute(fr.toString(),
 				fr.getName());
 		fileMap.put(fr.getName(), fa);
+	}
+
+	@Override
+	public void exitFileAction() {
+		// TODO Auto-generated method stub
+		System.exit(0);
 	}
 }
