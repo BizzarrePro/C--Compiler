@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 import javax.swing.AbstractAction;
 import javax.swing.JMenu;
@@ -13,13 +12,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
-import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.implement.FileAction;
+<<<<<<< HEAD
+import team.weird.texteditor.attribute.FileAttribute;;
+=======
 import team.weird.texteditor.implement.FileOpenRecAction;
 import team.weird.texteditor.util.FileActionUtil;
 /**
  * @author Siyuan_Liu
  */
+>>>>>>> TextEditor1/master
 public class FileMenuItem {
 	private JMenuBar menuBar; 
 	private JTabbedPane contentPane;
