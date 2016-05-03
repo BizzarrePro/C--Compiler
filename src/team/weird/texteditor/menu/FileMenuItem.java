@@ -1,7 +1,6 @@
 package team.weird.texteditor.menu;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -9,9 +8,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
-import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.implement.FileAction;
-
+import team.weird.texteditor.attribute.FileAttribute;;
 public class FileMenuItem {
 	private JMenuBar menuBar; 
 	private JTabbedPane contentPane;
