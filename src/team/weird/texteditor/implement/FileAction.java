@@ -34,6 +34,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import team.weird.texteditor.UIConfigure.FrameDesign;
 import team.weird.texteditor.UIConfigure.TabbedPanel;
 import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.function.FileMenuItemFunc;
@@ -64,6 +65,8 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("New")) {
 			newFileAction("Untitle" + id);
+		} else if (event.getActionCommand().equals("New Windows")){
+			newWindowsAction();
 		} else if (event.getActionCommand().equals("Open")) {
 			openFileAction();
 		} else if (event.getActionCommand().equals("Save")) {
@@ -108,6 +111,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		tab.setTabComponentAt(EIndex, new TabbedPanel(tab));
 		DocumentListener textAction = new FileTextAction(model, text);
 		text.getDocument().addDocumentListener(textAction);
+		tab.setSelectedIndex(id);
 		id++;
 		return text;
 	}
@@ -189,8 +193,16 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	}
 
 	@Override
+	public void newWindowsAction() {
+		// TODO Auto-generated method stub
+		FrameDesign frame = new FrameDesign();
+		frame.initTabbedPane();
+	}
+	
+	@Override
 	public void exitFileAction() {
 		// TODO Auto-generated method stub
 		System.exit(0);
 	}
+
 }

@@ -13,15 +13,12 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import team.weird.texteditor.implement.FileAction;
-<<<<<<< HEAD
-import team.weird.texteditor.attribute.FileAttribute;;
-=======
+import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.implement.FileOpenRecAction;
 import team.weird.texteditor.util.FileActionUtil;
 /**
  * @author Siyuan_Liu
  */
->>>>>>> TextEditor1/master
 public class FileMenuItem {
 	private JMenuBar menuBar; 
 	private JTabbedPane contentPane;
@@ -35,12 +32,13 @@ public class FileMenuItem {
 	public void initFileMenuItem(){
 		JMenu fileMenu = new JMenu("File");
 		FileAction newTxt = new FileAction("New File", contentPane, fileMap);
+		FileAction newWin = new FileAction("New Windows", contentPane, fileMap);
 		FileAction OpenFile = new FileAction("Open File..", contentPane, fileMap);
-		FileAction OpenRecentFile = new FileAction("Open Recent", contentPane, fileMap);
 		FileAction SaveasFile = new FileAction("Save as", contentPane, fileMap);
 		FileAction SaveFile = new FileAction("Save", contentPane, fileMap);
 		FileAction ExitFile = new FileAction("Exit");
 		JMenuItem newItem = new JMenuItem(newTxt);
+		JMenuItem newWinItem = new JMenuItem(newWin);
 		JMenuItem openItem = new JMenuItem(OpenFile);
 
 		
@@ -57,17 +55,19 @@ public class FileMenuItem {
 		}
 		openRecentItem.add(openRecentItem);
 		
-		
+ 
 		JMenuItem saveasItem = new JMenuItem(SaveasFile);
 		JMenuItem saveItem = new JMenuItem(SaveFile);
 		JMenuItem exitItem = new JMenuItem(ExitFile);
 		newItem.setActionCommand("New");
+		newWinItem.setActionCommand("New Windows");
 		openItem.setActionCommand("Open");
 		openRecentItem.setActionCommand("Open Re");
 		saveasItem.setActionCommand("Save as");
 		saveItem.setActionCommand("Save");
 		exitItem.setActionCommand("Exit");
 		newItem.setAccelerator(KeyStroke.getKeyStroke("ctrl N"));
+		newWinItem.setAccelerator(KeyStroke.getKeyStroke("ctrl shift N"));
 		openItem.setAccelerator(KeyStroke.getKeyStroke("ctrl O"));
 		saveItem.setAccelerator(KeyStroke.getKeyStroke("ctrl S"));
 		fileMenu.add(newItem);
@@ -76,6 +76,8 @@ public class FileMenuItem {
 		fileMenu.addSeparator();
 		fileMenu.add(saveItem);
 		fileMenu.add(saveasItem);
+		fileMenu.addSeparator();
+		fileMenu.add(newWinItem);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
 		
