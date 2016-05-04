@@ -1,6 +1,5 @@
 package team.weird.texteditor.implement;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
@@ -23,15 +22,13 @@ import javax.swing.AbstractAction;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import team.weird.texteditor.UIConfigure.FrameDesign;
@@ -49,6 +46,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	private static final long serialVersionUID = 1L;
 	protected HashMap<String, FileAttribute> fileMap;
 	private JTabbedPane tab;
+	private JFrame pan;
 	private int id;
 	private FileActionUtil util = new FileActionUtil();
 	
@@ -58,8 +56,14 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		this.fileMap = fileMap;
 	}
 	
-	public FileAction(String name){
+	public FileAction(String name, JTabbedPane tab) {
 		super(name);
+		this.tab = tab;
+	}
+	
+	public FileAction(String name, JFrame pan){
+		super(name);
+		this.pan = pan;
 	}
 
 	public void actionPerformed(ActionEvent event) {
@@ -73,28 +77,20 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 			saveFileAction();
 		} else if (event.getActionCommand().equals("Save as")) {
 			saveAsFileAction();
+		} else if (event.getActionCommand().equals("Close File")) {
+			closeFileAction();
+		} else if (event.getActionCommand().equals("Close All File")) {
+			closeAllFileAction();
 		} else if (event.getActionCommand().equals("Exit")) {
 			exitFileAction();
 		}
 
 	}
-	public void writeToFile(File fr, FileWriter fw) {
-		try {
-			fr.createNewFile();
-			fw = new FileWriter(fr);
-			JTextArea temp = (JTextArea) ((JScrollPane) tab
-					.getSelectedComponent()).getViewport().getView();
-			String str = temp.getText();
-			fw.write(str);
-			fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	@Override
 	public JTextArea newFileAction(String name) {
 		final JTextArea text = new JTextArea();
+		if(tab.getSelectedIndex() == -1)
+			id = 0;
 		JTextArea row = new JTextArea();
 		text.setLineWrap(true);
 		text.setFont(new Font("Consolas", Font.PLAIN, 15));
@@ -111,8 +107,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		tab.setTabComponentAt(EIndex, new TabbedPanel(tab));
 		DocumentListener textAction = new FileTextAction(model, text);
 		text.getDocument().addDocumentListener(textAction);
-		tab.setSelectedIndex(id);
-		id++;
+		tab.setSelectedIndex(id++);
 		return text;
 	}
 
@@ -185,13 +180,25 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		}
 	}
 
-	public void putToMap(File fr){
-		tab.setTitleAt(tab.getSelectedIndex(), fr.getName());
-		FileAttribute fa = new FileAttribute(fr.toString(),
-				fr.getName());
-		fileMap.put(fr.getName(), fa);
+	@Override
+	public void closeFileAction() {
+		// TODO Auto-generated method stub
+		int i = tab.getSelectedIndex();
+		if(i != -1)
+			tab.remove(i);
 	}
 
+	@Override
+	public void closeAllFileAction() {
+		// TODO Auto-generated method stub
+		int i = tab.getSelectedIndex();
+		while(i != -1 ){
+			tab.remove(i);
+			i = tab.getSelectedIndex();
+		}
+		id = 0;
+	}
+	
 	@Override
 	public void newWindowsAction() {
 		// TODO Auto-generated method stub
@@ -202,7 +209,28 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 	@Override
 	public void exitFileAction() {
 		// TODO Auto-generated method stub
-		System.exit(0);
+		pan.dispose();
 	}
-
+	
+	public void writeToFile(File fr, FileWriter fw) {
+		try {
+			fr.createNewFile();
+			fw = new FileWriter(fr);
+			JTextArea temp = (JTextArea) ((JScrollPane) tab
+					.getSelectedComponent()).getViewport().getView();
+			String str = temp.getText();
+			fw.write(str);
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void putToMap(File fr){
+		tab.setTitleAt(tab.getSelectedIndex(), fr.getName());
+		FileAttribute fa = new FileAttribute(fr.toString(),
+				fr.getName());
+		fileMap.put(fr.getName(), fa);
+	}
 }

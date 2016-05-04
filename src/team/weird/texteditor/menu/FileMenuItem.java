@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.AbstractAction;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -19,15 +20,16 @@ import team.weird.texteditor.util.FileActionUtil;
 /**
  * @author Siyuan_Liu
  */
-public class FileMenuItem {
+public class FileMenuItem{
 	private JMenuBar menuBar; 
 	private JTabbedPane contentPane;
-	private ArrayList<String> container;
 	private HashMap<String, FileAttribute> fileMap;
-	public FileMenuItem(JMenuBar menuBar, JTabbedPane contentPane){
+	private JFrame pan;
+	public FileMenuItem(JMenuBar menuBar, JTabbedPane contentPane, JFrame pan){
 		this.menuBar = menuBar;
 		this.contentPane = contentPane;
 		this.fileMap = new HashMap<String, FileAttribute>();
+		this.pan = pan;
 	}
 	public void initFileMenuItem(){
 		JMenu fileMenu = new JMenu("File");
@@ -35,8 +37,10 @@ public class FileMenuItem {
 		FileAction newWin = new FileAction("New Windows", contentPane, fileMap);
 		FileAction OpenFile = new FileAction("Open File..", contentPane, fileMap);
 		FileAction SaveasFile = new FileAction("Save as", contentPane, fileMap);
+		FileAction CloseFile = new FileAction("Close File", contentPane);
+		FileAction CloseAllFile = new FileAction("Close All File", contentPane);
 		FileAction SaveFile = new FileAction("Save", contentPane, fileMap);
-		FileAction ExitFile = new FileAction("Exit");
+		FileAction ExitFile = new FileAction("Exit", pan);
 		JMenuItem newItem = new JMenuItem(newTxt);
 		JMenuItem newWinItem = new JMenuItem(newWin);
 		JMenuItem openItem = new JMenuItem(OpenFile);
@@ -44,18 +48,9 @@ public class FileMenuItem {
 		
 		JMenu openRecentItem = new JMenu("Open Recent");
 		FileActionUtil util = new FileActionUtil();
-		container = util.ExtractRecentPath("./recent/recentFile.txt");
-
-		JMenuItem[] TextItem = new JMenuItem[container.size()];
-		System.out.println(container.size());
-		for(int i = 0; i < container.size(); i++){
-			System.out.println(container.get(i));
-			TextItem[i] = new JMenuItem(new FileOpenRecAction(container.get(i), contentPane, fileMap));
-			openRecentItem.add(TextItem[i]);
-		}
-		openRecentItem.add(openRecentItem);
-		
- 
+		util.putToTwoLevelMenu(contentPane, fileMap, openRecentItem);
+		JMenuItem closeFileItem = new JMenuItem(CloseFile);
+		JMenuItem closeAllFileItem = new JMenuItem(CloseAllFile);
 		JMenuItem saveasItem = new JMenuItem(SaveasFile);
 		JMenuItem saveItem = new JMenuItem(SaveFile);
 		JMenuItem exitItem = new JMenuItem(ExitFile);
@@ -63,6 +58,8 @@ public class FileMenuItem {
 		newWinItem.setActionCommand("New Windows");
 		openItem.setActionCommand("Open");
 		openRecentItem.setActionCommand("Open Re");
+		closeFileItem.setActionCommand("Close File");
+		closeAllFileItem.setActionCommand("Close All File");
 		saveasItem.setActionCommand("Save as");
 		saveItem.setActionCommand("Save");
 		exitItem.setActionCommand("Exit");
@@ -70,6 +67,7 @@ public class FileMenuItem {
 		newWinItem.setAccelerator(KeyStroke.getKeyStroke("ctrl shift N"));
 		openItem.setAccelerator(KeyStroke.getKeyStroke("ctrl O"));
 		saveItem.setAccelerator(KeyStroke.getKeyStroke("ctrl S"));
+		closeFileItem.setAccelerator(KeyStroke.getKeyStroke("ctrl W"));
 		fileMenu.add(newItem);
 		fileMenu.add(openItem);
 		fileMenu.add(openRecentItem);
@@ -78,6 +76,8 @@ public class FileMenuItem {
 		fileMenu.add(saveasItem);
 		fileMenu.addSeparator();
 		fileMenu.add(newWinItem);
+		fileMenu.add(closeFileItem);
+		fileMenu.add(closeAllFileItem);
 		fileMenu.addSeparator();
 		fileMenu.add(exitItem);
 		

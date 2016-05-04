@@ -23,7 +23,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
  * @author CSDN
  */
 public class TabbedPanel extends JPanel {  
-    private final JTabbedPane pane;  
+    private JTabbedPane pane;  
     public TabbedPanel(final JTabbedPane pane){  
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));  
         if(pane==null) throw new NullPointerException("TabbedPane is null");  
@@ -79,7 +79,7 @@ public class TabbedPanel extends JPanel {
             addActionListener(new ActionListener() {  
                 public void actionPerformed(ActionEvent evt) {  
                     int i = pane.indexOfTabComponent(TabbedPanel.this);  
-                    if (i != -1)  pane.remove(i);  
+                    if (i != -1)  pane.remove(i); 
                 }  
             });  
         }  

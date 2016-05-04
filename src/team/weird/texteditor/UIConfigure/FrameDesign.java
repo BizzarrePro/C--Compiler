@@ -19,7 +19,7 @@ public class FrameDesign extends JFrame {
 		setSize(DEAFAULT_WIDTH, DEAFAULT_HEIGHT);
 		setTitle("Weird Text");
 		setLocationByPlatform(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	public void initTabbedPane() {
@@ -30,7 +30,7 @@ public class FrameDesign extends JFrame {
 	public void initMenuItem() {
 		JMenuBar bar = new JMenuBar();
 		setJMenuBar(bar);
-		FileMenuItem fileMenu = new FileMenuItem(bar, contentPane);
+		FileMenuItem fileMenu = new FileMenuItem(bar, contentPane, this);
 		EditMenuItem editMenu = new EditMenuItem(bar, contentPane);
 		fileMenu.initFileMenuItem();
 		editMenu.initEditMenuItem();

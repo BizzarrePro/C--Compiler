@@ -11,12 +11,19 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Stack;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JTabbedPane;
+
+import team.weird.texteditor.attribute.FileAttribute;
+import team.weird.texteditor.implement.FileOpenRecAction;
 /**
  * @author Siyuan_Liu
  */
@@ -175,5 +182,14 @@ public class FileActionUtil {
 				.getCellRenderer();
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 		return rowList;
+	}
+	
+	public void putToTwoLevelMenu(JTabbedPane contentPane, HashMap<String, FileAttribute> fileMap, JMenu openRecentItem){
+		ArrayList<String> container = ExtractRecentPath("./recent/recentFile.txt");
+		JMenuItem[] TextItem = new JMenuItem[container.size()];
+		for(int i = 0; i < container.size(); i++){
+			TextItem[i] = new JMenuItem(new FileOpenRecAction(container.get(i), contentPane, fileMap));
+			openRecentItem.add(TextItem[i]);
+		}
 	}
 }

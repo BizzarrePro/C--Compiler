@@ -29,21 +29,16 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Cut")){
-			//System.out.println(getCurrentText());
+			cutTextAction();
 			
 		}
 		if(e.getActionCommand().equals("Copy")){
-			getCurrentText();
+			copyTextAction();
 		}
 		if(e.getActionCommand().equals("Paste")){
-	
+			pasteTextAction();
 		}
-		
 	}
-	public void getCurrentText(){
-		
-	}
-	
 	@Override
 	public void cutTextAction() {
 		// TODO Auto-generated method stub
