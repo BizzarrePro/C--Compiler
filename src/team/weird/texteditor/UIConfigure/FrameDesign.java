@@ -7,7 +7,10 @@ import javax.swing.JTabbedPane;
 import team.weird.texteditor.menu.EditMenuItem;
 import team.weird.texteditor.menu.FileMenuItem;
 /**
+ * @filename FrameDesign.java
  * @author Siyuan_Liu 
+ * @description Configure core frame and add all of menu to menu bar. 
+ * @version 1.0
  */
 public class FrameDesign extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -27,6 +30,10 @@ public class FrameDesign extends JFrame {
 		add(contentPane);
 		setVisible(true);
 	}
+	
+/**
+ * @description Initialize menu.
+ */
 	public void initMenuItem() {
 		JMenuBar bar = new JMenuBar();
 		setJMenuBar(bar);

@@ -7,7 +7,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import team.weird.texteditor.implement.EditAction;
-
+/**
+ * 
+ * @author Qian_Yang
+ * @copyright All rights reserved by Qian_Yang.
+ */
 public class EditMenuItem {
 	private JMenuBar menuBar; 
 	private JTabbedPane contentPane;
