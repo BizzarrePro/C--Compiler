@@ -1,8 +1,16 @@
 package team.weird.texteditor.UIConfigure;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
 import team.weird.texteditor.menu.EditMenuItem;
 import team.weird.texteditor.menu.FileMenuItem;
@@ -37,9 +45,11 @@ public class FrameDesign extends JFrame {
 	public void initMenuItem() {
 		JMenuBar bar = new JMenuBar();
 		setJMenuBar(bar);
+		
 		FileMenuItem fileMenu = new FileMenuItem(bar, contentPane, this);
 		EditMenuItem editMenu = new EditMenuItem(bar, contentPane);
 		fileMenu.initFileMenuItem();
 		editMenu.initEditMenuItem();
+		
 	}
 }

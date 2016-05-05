@@ -1,5 +1,6 @@
 package team.weird.texteditor.implement;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -9,8 +10,8 @@ import javax.swing.event.DocumentListener;
 public class FileTextAction implements DocumentListener{
 
 	public int cnt = 0;
-	DefaultListModel<Integer> model;
-	JTextArea text;
+	private DefaultListModel<Integer> model;
+	private JTextArea text;
 	public FileTextAction(DefaultListModel<Integer> model, JTextArea text){
 		this.model = model;
 		this.text = text;

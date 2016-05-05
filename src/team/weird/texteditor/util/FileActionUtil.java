@@ -175,7 +175,7 @@ public class FileActionUtil {
 		final JList<Integer> rowList = new JList<Integer>(model);
 		rowList.setFixedCellWidth(30);
 		rowList.setBackground(new Color(80, 80, 80));
-		rowList.setFont(new Font("Consolas", Font.PLAIN, 15));
+		rowList.setFont(new Font("Consolas", Font.PLAIN, 12));
 		rowList.setForeground(new Color(248, 248, 242));
 		rowList.setAlignmentX(5);
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer) rowList

@@ -1,5 +1,8 @@
 package team.weird.texteditor.menu;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -7,9 +10,11 @@ import java.util.HashMap;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
@@ -34,6 +39,7 @@ public class FileMenuItem{
 	private JTabbedPane contentPane;
 	private HashMap<String, FileAttribute> fileMap;
 	private JFrame pan;
+	
 	public FileMenuItem(JMenuBar menuBar, JTabbedPane contentPane, JFrame pan){
 		this.menuBar = menuBar;
 		this.contentPane = contentPane;
@@ -43,12 +49,28 @@ public class FileMenuItem{
 	public void initFileMenuItem(){
 		JMenu fileMenu = new JMenu("File");
 		
+		JPanel statePanel = new JPanel();
+		statePanel.setPreferredSize(new Dimension(pan.getWidth(), 20));
+		statePanel.setBackground(pan.getBackground());
+		pan.add(statePanel, BorderLayout.SOUTH);
+		statePanel.setLayout(new FlowLayout(pan.getWidth()));
+		JLabel Line = new JLabel("Line ");
+		JLabel lineValue = new JLabel("0");
+		JLabel Column = new JLabel(" Column ");
+		JLabel columnValue = new JLabel("0");
+//		Line.setBackground(statePanel.getBackground());
+//		Column.setBackground(statePanel.getBackground());
+		statePanel.add(Line);
+		statePanel.add(lineValue);
+		statePanel.add(Column);
+		statePanel.add(columnValue);
 		/**
 		 * @description Create action for every menu item
 		 * @see FileAction: team.weird.texteditor.implement.FileAction.java
 		 */
-		FileAction newTxt = new FileAction("New File", contentPane, fileMap);
+		FileAction newTxt = new FileAction("New File", contentPane, fileMap, lineValue, columnValue);
 		FileAction newWin = new FileAction("New Windows", contentPane, fileMap);
+		FileAction closeWin = new FileAction("Close Windows", pan);
 		FileAction OpenFile = new FileAction("Open File..", contentPane, fileMap);
 		FileAction SaveasFile = new FileAction("Save as", contentPane, fileMap);
 		FileAction CloseFile = new FileAction("Close File", contentPane);
@@ -70,6 +92,7 @@ public class FileMenuItem{
 		FileActionUtil util = new FileActionUtil();
 		util.putToTwoLevelMenu(contentPane, fileMap, openRecentItem);
 		
+		JMenuItem closeWinItem = new JMenuItem(closeWin);
 		JMenuItem closeFileItem = new JMenuItem(CloseFile);
 		JMenuItem closeAllFileItem = new JMenuItem(CloseAllFile);
 		JMenuItem saveasItem = new JMenuItem(SaveasFile);
@@ -81,6 +104,7 @@ public class FileMenuItem{
 		 */
 		newItem.setActionCommand("New");
 		newWinItem.setActionCommand("New Windows");
+		closeFileItem.setActionCommand("Close Windows");
 		openItem.setActionCommand("Open");
 		openRecentItem.setActionCommand("Open Re");
 		closeFileItem.setActionCommand("Close File");
@@ -109,6 +133,8 @@ public class FileMenuItem{
 		fileMenu.add(saveasItem);
 		fileMenu.addSeparator();
 		fileMenu.add(newWinItem);
+		fileMenu.add(closeWinItem);
+		fileMenu.addSeparator();
 		fileMenu.add(closeFileItem);
 		fileMenu.add(closeAllFileItem);
 		fileMenu.addSeparator();
