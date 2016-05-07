@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.undo.UndoManager;
 
 import team.weird.texteditor.function.EditMenuItemFunc;
 public class EditAction extends AbstractAction implements EditMenuItemFunc{
@@ -21,6 +22,7 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tab;
+	private UndoManager um =new  UndoManager();
 	public EditAction(String name, JTabbedPane tab){
 		super(name);
 		this.tab = tab;
@@ -37,6 +39,15 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 		}
 		if(e.getActionCommand().equals("Paste")){
 			pasteTextAction();
+		}
+		if(e.getActionCommand().equals("Undo")){
+			 undoTextAction();
+		}
+		if(e.getActionCommand().equals("Redo")){
+			 redoTextAction();
+		}
+		if(e.getActionCommand().equals("SelectAll")){
+			selectAllAction();
 		}
 	}
 	@Override
@@ -81,5 +92,31 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 			}
 			
 		}
+	}
+
+	@Override
+	public void undoTextAction() {
+		// TODO Auto-generated method stub
+		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
+		//text.set
+		if(um.canUndo()){
+			um.undo();
+		}
+	}
+
+	@Override
+	public void redoTextAction() {
+		// TODO Auto-generated method stub
+		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
+		if(um.canRedo()){
+			um.redo();
+		}
+	}
+
+	@Override
+	public void selectAllAction() {
+		// TODO Auto-generated method stub
+		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
+		text.selectAll();
 	}
 }
