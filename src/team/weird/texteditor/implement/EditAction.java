@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.undo.UndoManager;
 
 import team.weird.texteditor.function.EditMenuItemFunc;
 public class EditAction extends AbstractAction implements EditMenuItemFunc{
