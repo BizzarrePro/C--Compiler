@@ -21,15 +21,16 @@ import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicButtonUI;
 /**
  * @author CSDN
+ * @copyright All rights reserved by CSDN.
  */
 public class TabbedPanel extends JPanel {  
-    private final JTabbedPane pane;  
+    private JTabbedPane pane;  
     public TabbedPanel(final JTabbedPane pane){  
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));  
         if(pane==null) throw new NullPointerException("TabbedPane is null");  
         this.pane=pane;  
         setOpaque(false);  
-        //tab标题  
+        //The title of tab 
         JLabel label = new JLabel() {  
             @Override  
             public String getText() {  
@@ -43,7 +44,11 @@ public class TabbedPanel extends JPanel {
         add(new TabButton());  
         setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));  
     }  
-    /** tab上的关闭按钮 */  
+   
+    /** 
+     * @author CSDN
+     * @description The exit button on the tab
+     */
     private class TabButton extends JButton {  
         public TabButton() {  
             int size = 17;  
@@ -54,9 +59,11 @@ public class TabbedPanel extends JPanel {
             setFocusable(false);  
             setBorder(BorderFactory.createEtchedBorder());  
             setBorderPainted(false);  
-            //翻转效果  
+            
+            //Roll over action
             setRolloverEnabled(true);  
-            //鼠标事件，进入时画边框，移出时取消边框  
+            
+            //Mouse event, Draw frame when mouse entered, cancel frame when mouse exited
             addMouseListener(new MouseAdapter() {  
                 @Override  
                 public void mouseEntered(MouseEvent e) {  
@@ -75,11 +82,11 @@ public class TabbedPanel extends JPanel {
                     }  
                 }  
             });  
-            //单击关闭按钮事件  
+            //Exit tab when exit button was clicked
             addActionListener(new ActionListener() {  
                 public void actionPerformed(ActionEvent evt) {  
                     int i = pane.indexOfTabComponent(TabbedPanel.this);  
-                    if (i != -1)  pane.remove(i);  
+                    if (i != -1)  pane.remove(i); 
                 }  
             });  
         }  
@@ -90,13 +97,13 @@ public class TabbedPanel extends JPanel {
         protected void paintComponent(Graphics g) {  
             super.paintComponent(g);  
             Graphics2D g2 = (Graphics2D) g.create();  
-            //鼠标按下时偏移一个坐标点  
+            //Move an point when mouse was clicked
             if (getModel().isPressed()) {  
                 g2.translate(1, 1);  
             }  
             g2.setStroke(new BasicStroke(2));  
             g2.setColor(Color.BLACK);  
-            //鼠标在按钮上时为红色  
+            //Button color change to red when mouse was on button
             if (getModel().isRollover()) {  
                 g2.setColor(Color.RED);  
             }  

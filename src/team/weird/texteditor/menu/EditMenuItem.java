@@ -7,16 +7,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import team.weird.texteditor.implement.EditAction;
-
+/**
+ * 
+ * @author Qian_Yang
+ * @copyright All rights reserved by Qian_Yang.
+ */
 public class EditMenuItem {
-	private JMenuBar menuBar; 
-	private JTabbedPane contentPane;
-	public EditMenuItem(JMenuBar menuBar, JTabbedPane contentPane){
-		this.menuBar = menuBar;
-		this.contentPane = contentPane;
-	}
-	public void initEditMenuItem(){
-		JMenu editMenu = new JMenu("Edit");
+	JMenu editMenu = new JMenu("Edit");
 		menuBar.add(editMenu);
 		EditAction undoTxt =new EditAction("Undo",contentPane);
 		EditAction redoTxt =new EditAction("Redo",contentPane);

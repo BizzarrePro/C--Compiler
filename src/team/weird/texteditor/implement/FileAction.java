@@ -2,10 +2,9 @@ package team.weird.texteditor.implement;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
-
 import java.awt.Font;
-
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,98 +16,141 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import javax.swing.AbstractAction;
-
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 
+import team.weird.texteditor.UIConfigure.FrameDesign;
 import team.weird.texteditor.UIConfigure.TabbedPanel;
 import team.weird.texteditor.attribute.FileAttribute;
 import team.weird.texteditor.function.FileMenuItemFunc;
 import team.weird.texteditor.util.FileActionUtil;
+
 /**
  * @author Siyuan_Liu
  */
-public class FileAction extends AbstractAction implements FileMenuItemFunc{
+public class FileAction extends AbstractAction implements FileMenuItemFunc {
 	/**
 		 * 
 		 */
 	private static final long serialVersionUID = 1L;
 	protected HashMap<String, FileAttribute> fileMap;
 	private JTabbedPane tab;
+	private JFrame pan;
 	private int id;
 	private FileActionUtil util = new FileActionUtil();
+	private JLabel line;
+	private JLabel column;
 	
-	public FileAction(String name, JTabbedPane tab, HashMap<String, FileAttribute> fileMap) {
+	public FileAction(String name, JTabbedPane tab,
+			HashMap<String, FileAttribute> fileMap) {
 		super(name);
 		this.tab = tab;
 		this.fileMap = fileMap;
 	}
 	
-	public FileAction(String name){
+	public FileAction(String name, JTabbedPane tab,
+			HashMap<String, FileAttribute> fileMap, JLabel line, JLabel column) {
 		super(name);
+		this.tab = tab;
+		this.fileMap = fileMap;
+		this.line = line;
+		this.column = column;
+	}
+
+	public FileAction(String name, JTabbedPane tab) {
+		super(name);
+		this.tab = tab;
+	}
+
+	public FileAction(String name, JFrame pan) {
+		super(name);
+		this.pan = pan;
 	}
 
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("New")) {
 			newFileAction("Untitle" + id);
+		} else if (event.getActionCommand().equals("New Windows")) {
+			newWindowsAction();
+		} else if (event.getActionCommand().equals("Close Windows")){
+			closeWindowsAction();
 		} else if (event.getActionCommand().equals("Open")) {
 			openFileAction();
 		} else if (event.getActionCommand().equals("Save")) {
 			saveFileAction();
 		} else if (event.getActionCommand().equals("Save as")) {
 			saveAsFileAction();
+		} else if (event.getActionCommand().equals("Close File")) {
+			closeFileAction();
+		} else if (event.getActionCommand().equals("Close All File")) {
+			closeAllFileAction();
 		} else if (event.getActionCommand().equals("Exit")) {
 			exitFileAction();
 		}
 
 	}
-	public void writeToFile(File fr, FileWriter fw) {
-		try {
-			fr.createNewFile();
-			fw = new FileWriter(fr);
-			JTextArea temp = (JTextArea) ((JScrollPane) tab
-					.getSelectedComponent()).getViewport().getView();
-			String str = temp.getText();
-			fw.write(str);
-			fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
 	@Override
 	public JTextArea newFileAction(String name) {
 		final JTextArea text = new JTextArea();
+		if (tab.getSelectedIndex() == -1)
+			id = 0;
 		JTextArea row = new JTextArea();
 		text.setLineWrap(true);
 		text.setFont(new Font("Consolas", Font.PLAIN, 15));
 		JPanel rowNum = new JPanel();
 		rowNum.add(row);
 		rowNum.setLayout(new GridLayout());
+		
 		JScrollPane scrollPane = new JScrollPane(text);
 		final DefaultListModel<Integer> model = new DefaultListModel<>();
-		scrollPane.setRowHeaderView(util.initRowList(model));
+		final JList<Integer> list = util.initRowList(model);
+		scrollPane.setRowHeaderView(list);
 		text.setBackground(new Color(40, 40, 40));
 		text.setForeground(new Color(248, 248, 242));
+		//scrollPane.setOpaque(true);
+		scrollPane.setBorder(null);
+		
+		
 		tab.addTab(name, scrollPane);
 		final int EIndex = tab.indexOfTab(name);
 		tab.setTabComponentAt(EIndex, new TabbedPanel(tab));
 		DocumentListener textAction = new FileTextAction(model, text);
 		text.getDocument().addDocumentListener(textAction);
-		id++;
+		text.addCaretListener(new CaretListener() {
+		JTextField stateField = new JTextField();	
+			@Override
+			public void caretUpdate(CaretEvent e) {
+				// TODO Auto-generated method stub
+				try {
+					int lineNum = text.getLineOfOffset(e.getDot());
+					list.setSelectedIndex(lineNum);
+					line.setText(""+lineNum);
+					column.setText(""+text.getCaretPosition());
+				} catch (BadLocationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		tab.setSelectedIndex(id++);
 		return text;
 	}
 
@@ -151,8 +193,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 			FileWriter fw = null;
 			file.delete();
 			writeToFile(file, fw);
-		}
-		else{
+		} else {
 			saveAsFileAction();
 		}
 	}
@@ -171,7 +212,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 			if (!fr.exists()) {
 				writeToFile(fr, fw);
 				putToMap(fr);
-				
+
 			} else {
 				fr.delete();
 				writeToFile(fr, fw);
@@ -181,16 +222,62 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc{
 		}
 	}
 
-	public void putToMap(File fr){
-		tab.setTitleAt(tab.getSelectedIndex(), fr.getName());
-		FileAttribute fa = new FileAttribute(fr.toString(),
-				fr.getName());
-		fileMap.put(fr.getName(), fa);
+	@Override
+	public void closeFileAction() {
+		// TODO Auto-generated method stub
+		int i = tab.getSelectedIndex();
+		if (i != -1)
+			tab.remove(i);
+	}
+
+	@Override
+	public void closeAllFileAction() {
+		// TODO Auto-generated method stub
+		int i = tab.getSelectedIndex();
+		while (i != -1) {
+			tab.remove(i);
+			i = tab.getSelectedIndex();
+		}
+		id = 0;
+	}
+
+	@Override
+	public void newWindowsAction() {
+		// TODO Auto-generated method stub
+		FrameDesign frame = new FrameDesign();
+		frame.initTabbedPane();
 	}
 
 	@Override
 	public void exitFileAction() {
 		// TODO Auto-generated method stub
-		System.exit(0);
+		pan.dispose();
+	}
+	
+	@Override
+	public void closeWindowsAction() {
+		// TODO Auto-generated method stub
+		pan.dispose();
+	}
+	
+	public void putToMap(File fr) {
+		tab.setTitleAt(tab.getSelectedIndex(), fr.getName());
+		FileAttribute fa = new FileAttribute(fr.toString(), fr.getName());
+		fileMap.put(fr.getName(), fa);
+	}
+	
+	public void writeToFile(File fr, FileWriter fw) {
+		try {
+			fr.createNewFile();
+			fw = new FileWriter(fr);
+			JTextArea temp = (JTextArea) ((JScrollPane) tab
+					.getSelectedComponent()).getViewport().getView();
+			String str = temp.getText();
+			fw.write(str);
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

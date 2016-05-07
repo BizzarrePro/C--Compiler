@@ -7,11 +7,11 @@ import javax.swing.UIManager.LookAndFeelInfo;
 /**
  * @author Siyuan_Liu
  * @version 1.0 
- * @look Nimbus
+ * @skin Nimbus
  */
 public class LookAndFeel extends JFrame {
 	/**
-	 * 
+	 * @version 1.0
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +27,9 @@ public class LookAndFeel extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * @see team.weird.texteditor.UIConfigure.FrameDesign#get
+	 */
 	public void initFrame() {
 		FrameDesign frame = new FrameDesign();
 		frame.initTabbedPane();
