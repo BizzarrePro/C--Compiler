@@ -7,4 +7,7 @@ public interface EditMenuItemFunc {
 	void undoTextAction();
 	void redoTextAction();
 	void selectAllAction();
+	void deleteAction();
+	void findAction();
+	void replaceAction();
 }
