@@ -46,8 +46,17 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 		if(e.getActionCommand().equals("Redo")){
 			 redoTextAction();
 		}
-		if(e.getActionCommand().equals("SelectAll")){
+		if(e.getActionCommand().equals("Select All")){
 			selectAllAction();
+		}
+		if(e.getActionCommand().equals("Delete")){
+			deleteAction();
+		}
+		if(e.getActionCommand().equals("Find")){
+			findAction();
+		}
+		if(e.getActionCommand().equals("Replace")){
+			replaceAction();
 		}
 	}
 	@Override
@@ -98,7 +107,9 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	public void undoTextAction() {
 		// TODO Auto-generated method stub
 		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
-		//text.set
+		//undoManager = new UndoManager();
+		//this.addUndoableEditListener(um);
+		text.getDocument().addUndoableEditListener(um);
 		if(um.canUndo()){
 			um.undo();
 		}
@@ -108,6 +119,7 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	public void redoTextAction() {
 		// TODO Auto-generated method stub
 		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
+		text.getDocument().addUndoableEditListener(um);
 		if(um.canRedo()){
 			um.redo();
 		}
@@ -118,5 +130,33 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 		// TODO Auto-generated method stub
 		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
 		text.selectAll();
+	}
+
+	@Override
+	public void deleteAction() {
+		// TODO Auto-generated method stub
+		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
+		StringBuffer tmp = new StringBuffer(text.getText());
+		int start = text.getSelectionStart();
+		int len = text.getSelectedText().length();
+		tmp.delete(start, start+len);
+		text.setText(tmp.toString());
+	
+	}
+
+	@Override
+	public void findAction() {
+		// TODO Auto-generated method stub
+		Find find =new Find();
+		 find.setVisible(true);
+	}
+
+	
+
+	@Override
+	public void replaceAction() {
+		// TODO Auto-generated method stub
+		Find find =new Find();
+		find.setVisible(true);
 	}
 }

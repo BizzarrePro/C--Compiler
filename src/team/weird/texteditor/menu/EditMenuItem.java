@@ -28,24 +28,36 @@ public class EditMenuItem {
 		EditAction copyTxt = new EditAction("Copy", contentPane);
 		EditAction pasteTxt = new EditAction("Paste", contentPane);
 		EditAction selectAll =new EditAction("Select All",contentPane);
+		EditAction delete =new EditAction("Delete",contentPane);
+		EditAction find =new EditAction("Find",contentPane);
+		EditAction replace =new EditAction("Replace",contentPane);
 		JMenuItem undoItem = new JMenuItem(undoTxt);
 		JMenuItem redoItem = new JMenuItem(redoTxt);
 		JMenuItem cutItem = new JMenuItem(cutTxt);
 		JMenuItem copyItem = new JMenuItem(copyTxt);
 		JMenuItem pasteItem = new JMenuItem(pasteTxt);
-		JMenuItem selectItem =new JMenuItem(selectAll);
+		JMenuItem selectItem = new JMenuItem(selectAll);
+		JMenuItem deleteItem = new JMenuItem(delete);
+		JMenuItem findItem = new JMenuItem(find);
+		JMenuItem replaceItem = new JMenuItem(replace);
 		undoItem.setActionCommand("Undo");
 		redoItem.setActionCommand("Redo");
 		cutItem.setActionCommand("Cut");
 		copyItem.setActionCommand("Copy");
 		pasteItem.setActionCommand("Paste");
 		selectItem.setActionCommand("Select All");
+		deleteItem.setActionCommand("Delete");
+		findItem.setActionCommand("Find");
+		replaceItem.setActionCommand("Replace");
 		undoItem.setAccelerator(KeyStroke.getKeyStroke("ctrl Z"));
 		redoItem.setAccelerator(KeyStroke.getKeyStroke("ctrl Y"));
 		cutItem.setAccelerator(KeyStroke.getKeyStroke("ctrl X"));
 		copyItem.setAccelerator(KeyStroke.getKeyStroke("ctrl C"));
 		pasteItem.setAccelerator(KeyStroke.getKeyStroke("ctrl V"));
 		selectItem.setAccelerator(KeyStroke.getKeyStroke("ctrl A"));
+		deleteItem.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
+		findItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F"));
+		replaceItem.setAccelerator(KeyStroke.getKeyStroke("ctrl R"));
 		editMenu.add(undoItem);
 		editMenu.add(redoItem);
 		editMenu.addSeparator();
@@ -54,5 +66,8 @@ public class EditMenuItem {
 		editMenu.add(pasteItem);
 		editMenu.addSeparator();
 		editMenu.add(selectItem);
+		editMenu.add(deleteItem);
+		editMenu.add(findItem);
+		editMenu.add(replaceItem);
 	}
 }

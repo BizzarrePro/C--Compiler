@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -13,16 +14,20 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import team.weird.texteditor.parser.Symbol.RightProduction;
 
-
 class Symbol {
 	private String unteminatedSymbol = null;
 	public ArrayList<RightProduction> rightList = new ArrayList<RightProduction>();
-
+	private LinkedList<Symbol> reversedList = new LinkedList<Symbol>();
+	private LinkedList<Symbol> previousList = new LinkedList<Symbol>();
+	public boolean preFlag = false;
+	public boolean revFlag = false;
+	public int classification = 0;
 	class RightProduction {
 		private LinkedList<String> SymbolList;
 
@@ -42,7 +47,7 @@ class Symbol {
 	public Symbol(String unteminatedSymbol) {
 		this.unteminatedSymbol = unteminatedSymbol;
 	}
-
+	
 	public void putToList(String entry) {
 		LinkedList<String> SymbolList = new LinkedList<String>();
 		String[] symbol = entry.split(" ");
@@ -54,7 +59,10 @@ class Symbol {
 	public String getUnterminatingString() {
 		return unteminatedSymbol;
 	}
-
+	
+//	public int getClassification(){
+//		return classification;
+//	}
 	public void putNewTermToRightList(LinkedList<String> betaList) {
 		this.rightList.add(new RightProduction(betaList));
 	}
@@ -64,17 +72,153 @@ class Symbol {
 		for (int i = 0; i < count; i++)
 			rightList.add(new RightProduction(betaList[i]));
 	}
+	
+	public void putToReversedList(Symbol symbol){
+		reversedList.add(symbol);
+	}
+	
+	public void putToPreviousList(Symbol symbol){
+		previousList.add(symbol);
+	}
+	
+	public LinkedList<Symbol> getPreList(){
+		return previousList;
+	}
+	
+	public LinkedList<Symbol> getRevList(){
+		return reversedList;
+	}
+	
+	public boolean hasThisSymbolInReversedList(Symbol symbol){
+		if(reversedList.contains(symbol))
+			return true;
+		else
+			return false;	
+	}
+	
+	public boolean hasThisSymbolInPreviousList(Symbol symbol){
+		if(previousList.contains(symbol))
+			return true;
+		else
+			return false;	
+	}
+	
+	@Override
+	public int hashCode(){
+		return unteminatedSymbol.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(this == o)	return true;
+		if(o == null)	return false;
+		if(getClass() != o.getClass())	 return false;
+		Symbol other = (Symbol)o;
+		if(this.unteminatedSymbol.equals(other.unteminatedSymbol))
+			return true;
+		return false;
+	}
+	
 }
 
-public class Parser {
+public class EliminationOfLeftRecursion {
 	private HashMap<String, Symbol> UnterminatingSymbolTable = new HashMap<String, Symbol>();
-
-	public Parser() {
+	private Stack<Symbol> reversedStack = new Stack<Symbol>();
+	private static int count = 1;
+	public EliminationOfLeftRecursion() {
 		extractSymbolFromFile();
 		eliminateImmediateLeftRecursion();
-		displayAfterElimination();
+		//reduceIndirectLeftRecursionToImmediateLeftRecursion();
+		//displayAfterElimination();
+		//displayBeforeDepthFirstOrder();
 	}
-
+	
+	private void reduceIndirectLeftRecursionToImmediateLeftRecursion() {
+		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
+		
+		while(it.hasNext()){
+			Map.Entry<String, Symbol> entry = it.next();
+			Symbol temp = entry.getValue();
+			if(!temp.revFlag){
+				depthFirstOrder(temp);
+			}
+		}
+		//System.out.println(reversedStack.size());
+		//it = UnterminatingSymbolTable.entrySet().iterator()
+		while(!reversedStack.isEmpty()){
+			Symbol temp = reversedStack.pop();
+			if(!temp.preFlag){
+				depthFirstOrderPreviously(temp);	
+			}
+			count++;
+		}
+	}
+	
+	private void depthFirstOrder(Symbol temp) {
+		temp.revFlag = true;
+		for(int i = 0; i < temp.getRevList().size(); i++)
+			if(!temp.getRevList().get(i).revFlag)
+				depthFirstOrder(temp.getRevList().get(i));	
+		reversedStack.push(temp);
+	}
+	
+	private void depthFirstOrderPreviously(Symbol temp){
+		temp.preFlag = true;
+		temp.classification = count;
+		for(int i = 0; i < temp.getPreList().size(); i++)
+			if(!temp.getPreList().get(i).preFlag)
+				depthFirstOrderPreviously(temp.getPreList().get(i));	
+	}
+	private void displayBeforeDepthFirstOrder(){
+		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
+		System.out.println("-------------------------Previous List-------------------------");
+		while(it.hasNext()){
+			Map.Entry<String, Symbol> entry = it.next();
+			Symbol temp = entry.getValue();
+			Iterator<Symbol> iterPre = temp.getPreList().iterator();
+			if(temp.getPreList().size() > 0)
+			System.out.print("<"+temp.getUnterminatingString()+"> ::");
+			while(iterPre.hasNext()){
+				System.out.print(iterPre.next().getUnterminatingString()+" ");
+			}
+			if(temp.getPreList().size() > 0)
+				System.out.println();
+		}
+		System.out.println("+++++++++++++++++++++++++Reversed List+++++++++++++++++++++++++");
+		it = UnterminatingSymbolTable.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Symbol> entry = it.next();
+			Symbol temp = entry.getValue();
+			Iterator<Symbol> iterRev = temp.getRevList().iterator();
+			if(temp.getRevList().size() > 0)
+				System.out.print("<"+temp.getUnterminatingString()+"> ::");
+			while(iterRev.hasNext()){
+				System.out.print(iterRev.next().getUnterminatingString()+" ");
+			}
+			if(temp.getRevList().size() > 0)
+				System.out.println();
+		}
+		it = UnterminatingSymbolTable.entrySet().iterator();
+		int[] classific = new int[UnterminatingSymbolTable.size()];
+		int index = 0;
+		while(it.hasNext()){
+			Map.Entry<String, Symbol> entry = it.next();
+			classific[index] = entry.getValue().classification;
+			index++;
+			if(entry.getValue().classification != 0)
+				System.out.println("Entry: "+entry.getValue().getUnterminatingString()+" ID: "+ entry.getValue().classification);
+		}
+		Arrays.sort(classific);
+		for(int a : classific)
+			System.out.println(a);
+		//For debugging
+//		System.out.println(reversedStack.size());
+//		Iterator<Symbol> stackIter = reversedStack.iterator();
+//		while(stackIter.hasNext()){
+//			System.out.println(stackIter.next().getUnterminatingString());
+//		}
+	}
+	
 	private void displayAfterElimination() {
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
 		while(it.hasNext()){
@@ -90,18 +234,8 @@ public class Parser {
 		    		System.out.print(str+" ");
 		    	}
 		    	System.out.println();
-		    }
-//		    while(iter.hasNext()){
-//		    	Iterator<String> iterator = iter.next().getRightSymbolList().iterator();
-//		    	System.out.print(entry.getValue().getUnterminatingString()+" ::= ");
-//		    	while(iterator.hasNext()){
-//		    		String str = iterator.next();
-//		    		System.out.print(str+" ");
-//		    		}
-//		    }	
+		    }	
 		}
-	
-		    
 		
 	}
 
@@ -109,7 +243,7 @@ public class Parser {
 		FileReader fr;
 		BufferedReader br;
 		try {
-			fr = new FileReader(new File("production.txt"));
+			fr = new FileReader(new File("productionTest.txt"));
 			br = new BufferedReader(fr);
 			Pattern pattern = Pattern.compile("(\\-|\\w)+(?=\\:)");
 			String line = br.readLine();
@@ -149,10 +283,17 @@ public class Parser {
 			boolean hasLeftRecursion = false;
 			while (iter.hasNext()) {
 				RightProduction rightFirst = iter.next();
-				if (rightFirst.getFirstRightSymbol().equals(
-						temp.getUnterminatingString())) {
+				String rightFirstStr = rightFirst.getFirstRightSymbol();
+				if (rightFirstStr.equals(temp.getUnterminatingString())) {
 					hasLeftRecursion = true;
 					break;
+				}
+				else if (UnterminatingSymbolTable.containsKey(rightFirst.getFirstRightSymbol())){
+					Symbol adjacentNode = UnterminatingSymbolTable.get(rightFirstStr);
+					if(!temp.hasThisSymbolInPreviousList(adjacentNode))
+						temp.putToPreviousList(adjacentNode);
+					if(!adjacentNode.hasThisSymbolInReversedList(temp))
+						adjacentNode.putToReversedList(temp);
 				}
 			}
 			if (hasLeftRecursion) {
@@ -199,5 +340,9 @@ public class Parser {
 		}
 		UnterminatingSymbolTable.putAll(tempMap);
 		//System.out.println(UnterminatingSymbolTable.size());
+	}
+	
+	public HashMap<String, Symbol> getSymbolMap(){
+		return UnterminatingSymbolTable;
 	}
 }
