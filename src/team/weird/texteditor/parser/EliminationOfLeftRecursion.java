@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -23,10 +24,12 @@ import team.weird.texteditor.parser.Symbol.RightProduction;
 class Symbol {
 	private String unteminatedSymbol = null;
 	public ArrayList<RightProduction> rightList = new ArrayList<RightProduction>();
+	public Set<String> firstSet = new HashSet<String>();
 	private LinkedList<Symbol> reversedList = new LinkedList<Symbol>();
 	private LinkedList<Symbol> previousList = new LinkedList<Symbol>();
 	public boolean preFlag = false;
 	public boolean revFlag = false;
+	public boolean hasEpsilon = false;
 	public int classification = 0;
 	class RightProduction {
 		private LinkedList<String> SymbolList;
@@ -127,10 +130,12 @@ public class EliminationOfLeftRecursion {
 	private static int count = 1;
 	public EliminationOfLeftRecursion() {
 		extractSymbolFromFile();
+		findIndirectLeftRecursion();
 		eliminateImmediateLeftRecursion();
-		//reduceIndirectLeftRecursionToImmediateLeftRecursion();
-		//displayAfterElimination();
-		//displayBeforeDepthFirstOrder();
+		markEpsilonEntry();
+		reduceIndirectLeftRecursionToImmediateLeftRecursion();
+		displayAfterElimination();
+		displayBeforeDepthFirstOrder();
 	}
 	
 	private void reduceIndirectLeftRecursionToImmediateLeftRecursion() {
@@ -208,7 +213,7 @@ public class EliminationOfLeftRecursion {
 			if(entry.getValue().classification != 0)
 				System.out.println("Entry: "+entry.getValue().getUnterminatingString()+" ID: "+ entry.getValue().classification);
 		}
-		Arrays.sort(classific);
+		//Arrays.sort(classific);
 		for(int a : classific)
 			System.out.println(a);
 		//For debugging
@@ -225,7 +230,8 @@ public class EliminationOfLeftRecursion {
 			Map.Entry<String, Symbol> entry = it.next();
 			//System.out.println(entry.getKey());
 		    Symbol temp = entry.getValue();
-		    Iterator<RightProduction> iter = temp.rightList.iterator();
+		    System.out.println(temp.getUnterminatingString()+" "+temp.hasEpsilon);
+		  /*  Iterator<RightProduction> iter = temp.rightList.iterator();
 		    while(iter.hasNext()){
 		    	Iterator<String> iterator = iter.next().getRightSymbolList().iterator();
 		    	System.out.print(entry.getValue().getUnterminatingString()+" ::= ");
@@ -234,18 +240,35 @@ public class EliminationOfLeftRecursion {
 		    		System.out.print(str+" ");
 		    	}
 		    	System.out.println();
+		    }*/	
+		}
+		
+	}
+	
+	private void markEpsilonEntry() {
+		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Symbol> entry = it.next();
+			//System.out.println(entry.getKey());
+		    Symbol temp = entry.getValue();
+		    Iterator<RightProduction> iter = temp.rightList.iterator();
+		    while(iter.hasNext()){
+		    	if(iter.next().getRightSymbolList().getFirst().equals("empty"))
+		    		temp.hasEpsilon = true;
 		    }	
 		}
 		
 	}
-
+	
 	public void extractSymbolFromFile() {
 		FileReader fr;
 		BufferedReader br;
 		try {
-			fr = new FileReader(new File("productionTest.txt"));
+			//productionUsed.txt
+			fr = new FileReader(new File("productionUsed.txt"));
 			br = new BufferedReader(fr);
 			Pattern pattern = Pattern.compile("(\\-|\\w)+(?=\\:)");
+			//Pattern epsilonPattern = Pattern.compile("(\\ *)^empty$");
 			String line = br.readLine();
 			while (line != null) {
 				Matcher match = pattern.matcher(line);
@@ -255,8 +278,12 @@ public class EliminationOfLeftRecursion {
 					UnterminatingSymbolTable.put(temp, new Symbol(temp));
 					index = match.end(0);
 					String[] child = line.substring(index + 1).split("\\|");
-					for (int i = 0; i < child.length; i++)
+					for (int i = 0; i < child.length; i++){
 						UnterminatingSymbolTable.get(temp).putToList(child[i]);
+//						Matcher epsilonMatch = epsilonPattern.matcher(child[i]);
+//						if(epsilonMatch.matches())
+//							UnterminatingSymbolTable.get(temp).hasEpsilon = true;
+					}
 				}
 				line = br.readLine();
 			}
@@ -270,11 +297,76 @@ public class EliminationOfLeftRecursion {
 
 	}
 
+	public void findIndirectLeftRecursion() {
+		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
+				.entrySet().iterator();
+//		Map<String, Symbol> tempMap = new HashMap<String, Symbol>();
+		while (it.hasNext()) {
+			Map.Entry<String, Symbol> entry = it.next();
+			Symbol temp = entry.getValue();
+			Iterator<RightProduction> iter = temp.rightList.iterator();
+			while (iter.hasNext()) {
+				RightProduction rightFirst = iter.next();
+				String rightFirstStr = rightFirst.getFirstRightSymbol();
+				if (UnterminatingSymbolTable.containsKey(rightFirst.getFirstRightSymbol())
+						&& !rightFirstStr.equals(temp.getUnterminatingString())) {
+					Symbol adjacentNode = UnterminatingSymbolTable.get(rightFirstStr);
+					if(!temp.hasThisSymbolInPreviousList(adjacentNode))
+						temp.putToPreviousList(adjacentNode);
+					if(!adjacentNode.hasThisSymbolInReversedList(temp))
+						adjacentNode.putToReversedList(temp);
+				}
+
+			}
+		}
+	}
+	
+	public void eliminateIndirectLeftRecursion(){
+		Iterator<Map.Entry<String, Symbol>> outerLevelIter = UnterminatingSymbolTable
+					.entrySet().iterator();
+		Iterator<Map.Entry<String, Symbol>> innerLevelIter = UnterminatingSymbolTable
+				.entrySet().iterator();
+		LinkedList<Symbol> tempList = new LinkedList<Symbol>();
+		while(outerLevelIter.hasNext()){
+			Map.Entry<String, Symbol> hostEntry = outerLevelIter.next();
+			Symbol hostTemp =hostEntry.getValue();
+			tempList.add(hostTemp);
+			while(innerLevelIter.hasNext()){
+				Map.Entry<String, Symbol> entry = innerLevelIter.next();
+				Symbol temp = entry.getValue();
+				if(temp != hostTemp && temp.classification == hostTemp.classification)
+					tempList.add(temp);
+			}
+			if(tempList.size() > 1){
+				Symbol temp = tempList.remove();
+				while(tempList.size() != 1){
+					Iterator<Symbol> listIter = tempList.iterator();
+					while(listIter.hasNext()){
+						Symbol listElement = listIter.next();
+						Iterator<RightProduction> rightIter = temp.rightList.iterator();
+						while(rightIter.hasNext()){
+							LinkedList<String> ref = rightIter.next().getRightSymbolList();
+							String rem = temp.getUnterminatingString();
+							if(ref.contains(rem)){
+								int index = ref.indexOf(rem);
+								//ref.add(index, )
+							}
+//							ref.remove(temp.getUnterminatingString());
+//							ref.addAll(temp.rightList.)
+							
+						}
+					}
+					temp = tempList.remove();
+				}
+			}
+			else
+				tempList.clear();
+		}
+	}
 	public void eliminateImmediateLeftRecursion() {
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
 				.entrySet().iterator();
 		Map<String, Symbol> tempMap = new HashMap<String, Symbol>();
-		int cnt = 0;
 		while (it.hasNext()) {
 			//System.out.println((cnt++)+" "+UnterminatingSymbolTable.size() );
 			Map.Entry<String, Symbol> entry = it.next();
@@ -287,13 +379,6 @@ public class EliminationOfLeftRecursion {
 				if (rightFirstStr.equals(temp.getUnterminatingString())) {
 					hasLeftRecursion = true;
 					break;
-				}
-				else if (UnterminatingSymbolTable.containsKey(rightFirst.getFirstRightSymbol())){
-					Symbol adjacentNode = UnterminatingSymbolTable.get(rightFirstStr);
-					if(!temp.hasThisSymbolInPreviousList(adjacentNode))
-						temp.putToPreviousList(adjacentNode);
-					if(!adjacentNode.hasThisSymbolInReversedList(temp))
-						adjacentNode.putToReversedList(temp);
 				}
 			}
 			if (hasLeftRecursion) {
@@ -323,6 +408,10 @@ public class EliminationOfLeftRecursion {
 						}
 						alphaList.add(newUnterminatingStr);
 						newUnterminatingSymbol.putNewTermToRightList(alphaList);
+						LinkedList<String> epsilonList = new LinkedList<String>();
+						epsilonList.add("empty");
+						//newUnterminatingSymbol.hasEpsilon = true;
+						newUnterminatingSymbol.putNewTermToRightList(epsilonList);
 					} else {
 						Iterator<String> betaIter = rightFirst
 								.getRightSymbolList().iterator();
