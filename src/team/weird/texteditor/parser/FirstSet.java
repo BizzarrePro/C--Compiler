@@ -9,7 +9,7 @@ import java.util.Set;
 import team.weird.texteditor.parser.Symbol.RightProduction;
 
 public class FirstSet {
-	HashMap<String, Symbol> symbolMap;
+	public HashMap<String, Symbol> symbolMap;
 	public FirstSet(){
 		EliminationOfLeftRecursion syntax = new EliminationOfLeftRecursion();
 		symbolMap = syntax.getSymbolMap();
@@ -28,19 +28,20 @@ public class FirstSet {
 				}
 				else{
 					if(!temp.firstSet.isEmpty())
-						disposeOfEpsilon(temp.firstSet, temp.getUnterminatingString());
+						disposeOfFirstSet(temp.firstSet, temp.getUnterminatingString());
 					Iterator<String> proEpsilonIter = list.iterator();
 					//String epsilonStr = new String(firstSymStr);
 					String noEpsilonSymbol;
 					while(proEpsilonIter.hasNext()){
 						noEpsilonSymbol = proEpsilonIter.next();
+						//System.out.println(noEpsilonSymbol);
 						if(symbolMap.containsKey(noEpsilonSymbol) && symbolMap.get(noEpsilonSymbol).hasEpsilon);
 						else if(symbolMap.containsKey(noEpsilonSymbol) && !symbolMap.get(noEpsilonSymbol).firstSet.isEmpty()){
 							temp.firstSet.addAll(symbolMap.get(noEpsilonSymbol).firstSet);
 							break;
 						}
 						else if(symbolMap.containsKey(noEpsilonSymbol) && symbolMap.get(noEpsilonSymbol).firstSet.isEmpty()){
-							disposeOfEpsilon(temp.firstSet, noEpsilonSymbol);
+							disposeOfFirstSet(temp.firstSet, noEpsilonSymbol);
 							break;
 						}
 						else {
@@ -56,7 +57,7 @@ public class FirstSet {
 			}
 		}
 	}
-	public void disposeOfEpsilon(Set<String> set, String untermination){
+	public void disposeOfFirstSet(Set<String> set, String untermination){
 		if(!symbolMap.containsKey(untermination) && !untermination.equals("empty")){
 			set.add(untermination);
 			return;
@@ -67,11 +68,12 @@ public class FirstSet {
 		for(int i = 0; i < temp.rightList.size(); i++){
 			RightProduction proTemp = temp.rightList.get(i);
 			if(proTemp.getRightSymbolList().size() > 0 )
-				disposeOfEpsilon(temp.firstSet, proTemp.getFirstRightSymbol());	
+				disposeOfFirstSet(temp.firstSet, proTemp.getFirstRightSymbol());	
 		}
 		set.addAll(temp.firstSet);
 	}
 	public void display(){
+		System.out.println("-------------------------First Set-------------------------");
 		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
 		while(symIter.hasNext()){
 			Entry<String, Symbol> entry = symIter.next();
