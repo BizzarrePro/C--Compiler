@@ -8,11 +8,11 @@ import java.util.Set;
 
 import team.weird.texteditor.parser.Symbol.RightProduction;
 
-public class FirstSet {
+public class FirstSet extends EliminationOfLeftRecursion{
 	public HashMap<String, Symbol> symbolMap;
 	public FirstSet(){
-		EliminationOfLeftRecursion syntax = new EliminationOfLeftRecursion();
-		symbolMap = syntax.getSymbolMap();
+		super();
+		symbolMap = super.getSymbolMap();
 	}
 	public void createFirstSet(){
 		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();

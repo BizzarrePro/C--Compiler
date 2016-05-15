@@ -6,15 +6,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ExtractProduction {
 	protected static HashMap<String, Symbol> UnterminatingSymbolTable = new HashMap<String, Symbol>();
-	protected static HashMap<String, Symbol> TerminatingSymbolTable =  new HashMap<String, Symbol>();
+	protected static HashSet<String> TerminatingSymbolTable =  new HashSet<String>();
 	protected Stack<Symbol> reversedStack = new Stack<Symbol>();
 	public ExtractProduction(){
 		extractSymbolFromFile();
@@ -23,9 +25,9 @@ public class ExtractProduction {
 	
 	private void display() {
 		// TODO Auto-generated method stub
-		Iterator<Map.Entry<String, Symbol>> it = TerminatingSymbolTable.entrySet().iterator();
+		Iterator<String> it = TerminatingSymbolTable.iterator();
 		while(it.hasNext()){
-			System.out.println(it.next().getKey());
+			System.out.println(it.next());
 		}
 	}
 

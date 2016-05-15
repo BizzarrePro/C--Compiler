@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 
 public class Symbol {
@@ -11,8 +12,10 @@ public class Symbol {
 	public ArrayList<RightProduction> rightList = new ArrayList<RightProduction>();
 	public Set<String> firstSet = new HashSet<String>();
 	public Set<String> followSet = new HashSet<String>();
+	public Set<String> selectSet = new HashSet<String>();
 	private LinkedList<Symbol> reversedList = new LinkedList<Symbol>();
 	private LinkedList<Symbol> previousList = new LinkedList<Symbol>();
+	public Map<String, LinkedList<String>> predictiveMap = new HashMap<String, LinkedList<String>>();
 	public boolean preFlag = false;
 	public boolean revFlag = false;
 	public boolean hasEpsilon = false;
@@ -39,13 +42,13 @@ public class Symbol {
 	}
 
 	public void putToList(String entry, HashMap<String, Symbol> untermMap,
-			HashMap<String, Symbol> termMap) {
+			Set<String> termMap) {
 		LinkedList<String> SymbolList = new LinkedList<String>();
 		String[] symbol = entry.split(" ");
 		for (String a : symbol) {
 			SymbolList.add(a);
 			if (!untermMap.containsKey(a) && !a.equals("empty"))
-				termMap.put(a, new Symbol(a));
+				termMap.add(a);
 		}
 		rightList.add(new RightProduction(SymbolList));
 	}
