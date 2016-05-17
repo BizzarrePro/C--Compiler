@@ -3,18 +3,16 @@ package team.weird.texteditor.parser;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import team.weird.texteditor.parser.Symbol.RightProduction;
 
 public class SelectSet {
 	HashMap<String, Symbol> symbolMap;
-	HashSet<String> untermMap;
-	public SelectSet(HashMap<String, Symbol> symbolMap, HashSet<String> untermMap){
+	HashSet<String> termMap;
+	public SelectSet(HashMap<String, Symbol> symbolMap, HashSet<String> termMap){
 		this.symbolMap = symbolMap;
-		this.untermMap = untermMap;
+		this.termMap = termMap;
 	}
 	public void createSelectSet(){
 		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
@@ -24,8 +22,9 @@ public class SelectSet {
 			Iterator<RightProduction> proIter = temp.rightList.iterator();
 			while(proIter.hasNext()){
 				String firstSymbol = proIter.next().getFirstRightSymbol();
-				if(untermMap.contains(firstSymbol))
+				if(termMap.contains(firstSymbol))
 					temp.selectSet.add(firstSymbol);
+				else if(firstSymbol.equals("empty"));
 				else{
 					temp.selectSet.addAll(temp.firstSet);
 					temp.selectSet.remove("empty");

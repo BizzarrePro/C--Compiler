@@ -19,6 +19,7 @@ public class Symbol {
 	public boolean preFlag = false;
 	public boolean revFlag = false;
 	public boolean hasEpsilon = false;
+	public boolean hasRecursion = false;
 	public int classification = 0;
 
 	class RightProduction {
@@ -31,9 +32,19 @@ public class Symbol {
 		public LinkedList<String> getRightSymbolList() {
 			return SymbolList;
 		}
-
+		
+		public String getSymbolByIndex(int index){
+			if(index < SymbolList.size())
+				return SymbolList.get(index);
+			return null;
+		}
 		public String getFirstRightSymbol() {
-			return SymbolList.get(0);
+			if(SymbolList.size() > 0)
+				return SymbolList.get(0);
+			return null;
+		}
+		public void putToList(String str){
+			SymbolList.add(str);
 		}
 	}
 
@@ -41,15 +52,11 @@ public class Symbol {
 		this.unteminatedSymbol = unteminatedSymbol;
 	}
 
-	public void putToList(String entry, HashMap<String, Symbol> untermMap,
-			Set<String> termMap) {
+	public void putToList(String entry, HashMap<String, Symbol> untermMap) {
 		LinkedList<String> SymbolList = new LinkedList<String>();
 		String[] symbol = entry.split(" ");
-		for (String a : symbol) {
+		for (String a : symbol) 
 			SymbolList.add(a);
-			if (!untermMap.containsKey(a) && !a.equals("empty"))
-				termMap.add(a);
-		}
 		rightList.add(new RightProduction(SymbolList));
 	}
 

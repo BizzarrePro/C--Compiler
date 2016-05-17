@@ -16,106 +16,123 @@ import java.util.Map;
 
 import team.weird.texteditor.parser.Symbol.RightProduction;
 
+public class EliminationOfLeftRecursion extends ExtractProduction {
 
-public class EliminationOfLeftRecursion extends ExtractProduction{
-	
 	private static int count = 1;
+
 	public EliminationOfLeftRecursion() {
-		
+		super();
 		findIndirectLeftRecursion();
 		eliminateImmediateLeftRecursion();
 		markEpsilonEntry();
-		reduceIndirectLeftRecursionToImmediateLeftRecursion();
-		//displayAfterElimination();
-		//displayBeforeDepthFirstOrder();
+		//reduceIndirectLeftRecursionToImmediateLeftRecursion();
+		createTerminatingSymbolTable();
+
+		displayAfterElimination();
+		// displayBeforeDepthFirstOrder();
 	}
-	
+
 	private void reduceIndirectLeftRecursionToImmediateLeftRecursion() {
-		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
-		
-		while(it.hasNext()){
+		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
+				.entrySet().iterator();
+
+		while (it.hasNext()) {
 			Map.Entry<String, Symbol> entry = it.next();
 			Symbol temp = entry.getValue();
-			if(!temp.revFlag){
+			if (!temp.revFlag) {
 				depthFirstOrder(temp);
 			}
 		}
-		//System.out.println(reversedStack.size());
-		//it = UnterminatingSymbolTable.entrySet().iterator()
-		while(!reversedStack.isEmpty()){
+		while (!reversedStack.isEmpty()) {
 			Symbol temp = reversedStack.pop();
-			if(!temp.preFlag){
-				depthFirstOrderPreviously(temp);	
+			if (!temp.preFlag) {
+				depthFirstOrderPreviously(temp);
 			}
 			count++;
 		}
+		Iterator<Map.Entry<String, Symbol>> iter = UnterminatingSymbolTable
+				.entrySet().iterator();
+		int[] array = new int[UnterminatingSymbolTable.size()];
+		int count = 0;
+		while(iter.hasNext()){
+			array[count++] = iter.next().getValue().classification;
+		}
+		Arrays.sort(array);
+		for(int a : array)
+			System.out.println(a);
 	}
-	
+
 	private void depthFirstOrder(Symbol temp) {
 		temp.revFlag = true;
-		for(int i = 0; i < temp.getRevList().size(); i++)
-			if(!temp.getRevList().get(i).revFlag)
-				depthFirstOrder(temp.getRevList().get(i));	
+		for (int i = 0; i < temp.getRevList().size(); i++)
+			if (!temp.getRevList().get(i).revFlag)
+				depthFirstOrder(temp.getRevList().get(i));
 		reversedStack.push(temp);
 	}
-	
-	private void depthFirstOrderPreviously(Symbol temp){
+
+	private void depthFirstOrderPreviously(Symbol temp) {
 		temp.preFlag = true;
 		temp.classification = count;
-		for(int i = 0; i < temp.getPreList().size(); i++)
-			if(!temp.getPreList().get(i).preFlag)
-				depthFirstOrderPreviously(temp.getPreList().get(i));	
+		for (int i = 0; i < temp.getPreList().size(); i++)
+			if (!temp.getPreList().get(i).preFlag)
+				depthFirstOrderPreviously(temp.getPreList().get(i));
 	}
-	private void displayBeforeDepthFirstOrder(){
-		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
-		System.out.println("-------------------------Previous List-------------------------");
-		while(it.hasNext()){
+
+	private void displayBeforeDepthFirstOrder() {
+		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
+				.entrySet().iterator();
+		System.out
+				.println("-------------------------Previous List-------------------------");
+		while (it.hasNext()) {
 			Map.Entry<String, Symbol> entry = it.next();
 			Symbol temp = entry.getValue();
 			Iterator<Symbol> iterPre = temp.getPreList().iterator();
-			if(temp.getPreList().size() > 0)
-			System.out.print("<"+temp.getUnterminatingString()+"> ::");
-			while(iterPre.hasNext()){
-				System.out.print(iterPre.next().getUnterminatingString()+" ");
+			if (temp.getPreList().size() > 0)
+				System.out.print("<" + temp.getUnterminatingString() + "> ::");
+			while (iterPre.hasNext()) {
+				System.out.print(iterPre.next().getUnterminatingString() + " ");
 			}
-			if(temp.getPreList().size() > 0)
+			if (temp.getPreList().size() > 0)
 				System.out.println();
 		}
-		System.out.println("+++++++++++++++++++++++++Reversed List+++++++++++++++++++++++++");
+		System.out
+				.println("+++++++++++++++++++++++++Reversed List+++++++++++++++++++++++++");
 		it = UnterminatingSymbolTable.entrySet().iterator();
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Map.Entry<String, Symbol> entry = it.next();
 			Symbol temp = entry.getValue();
 			Iterator<Symbol> iterRev = temp.getRevList().iterator();
-			if(temp.getRevList().size() > 0)
-				System.out.print("<"+temp.getUnterminatingString()+"> ::");
-			while(iterRev.hasNext()){
-				System.out.print(iterRev.next().getUnterminatingString()+" ");
+			if (temp.getRevList().size() > 0)
+				System.out.print("<" + temp.getUnterminatingString() + "> ::");
+			while (iterRev.hasNext()) {
+				System.out.print(iterRev.next().getUnterminatingString() + " ");
 			}
-			if(temp.getRevList().size() > 0)
+			if (temp.getRevList().size() > 0)
 				System.out.println();
 		}
 		it = UnterminatingSymbolTable.entrySet().iterator();
 		int[] classific = new int[UnterminatingSymbolTable.size()];
 		int index = 0;
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			Map.Entry<String, Symbol> entry = it.next();
 			classific[index] = entry.getValue().classification;
 			index++;
-			if(entry.getValue().classification != 0)
-				System.out.println("Entry: "+entry.getValue().getUnterminatingString()+" ID: "+ entry.getValue().classification);
+			if (entry.getValue().classification != 0)
+				System.out.println("Entry: "
+						+ entry.getValue().getUnterminatingString() + " ID: "
+						+ entry.getValue().classification);
 		}
-		//Arrays.sort(classific);
-		for(int a : classific)
+		// Arrays.sort(classific);
+		for (int a : classific)
 			System.out.println(a);
-		//For debugging
-//		System.out.println(reversedStack.size());
-//		Iterator<Symbol> stackIter = reversedStack.iterator();
-//		while(stackIter.hasNext()){
-//			System.out.println(stackIter.next().getUnterminatingString());
-//		}
+		// For debugging
+		// System.out.println(reversedStack.size());
+		// Iterator<Symbol> stackIter = reversedStack.iterator();
+		// while(stackIter.hasNext()){
+		// System.out.println(stackIter.next().getUnterminatingString());
+		// }
 	}
-	
+
 	public void displayAfterElimination() {
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
 		while(it.hasNext()){
@@ -136,26 +153,27 @@ public class EliminationOfLeftRecursion extends ExtractProduction{
 		}
 		
 	}
-	
+
 	private void markEpsilonEntry() {
-		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
-		while(it.hasNext()){
+		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
+				.entrySet().iterator();
+		while (it.hasNext()) {
 			Map.Entry<String, Symbol> entry = it.next();
-			//System.out.println(entry.getKey());
-		    Symbol temp = entry.getValue();
-		    Iterator<RightProduction> iter = temp.rightList.iterator();
-		    while(iter.hasNext()){
-		    	if(iter.next().getRightSymbolList().getFirst().equals("empty"))
-		    		temp.hasEpsilon = true;
-		    }	
+			// System.out.println(entry.getKey());
+			Symbol temp = entry.getValue();
+			Iterator<RightProduction> iter = temp.rightList.iterator();
+			while (iter.hasNext()) {
+				if (iter.next().getRightSymbolList().getFirst().equals("empty"))
+					temp.hasEpsilon = true;
+			}
 		}
-		
+
 	}
-	
+
 	public void findIndirectLeftRecursion() {
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
 				.entrySet().iterator();
-//		Map<String, Symbol> tempMap = new HashMap<String, Symbol>();
+		// Map<String, Symbol> tempMap = new HashMap<String, Symbol>();
 		while (it.hasNext()) {
 			Map.Entry<String, Symbol> entry = it.next();
 			Symbol temp = entry.getValue();
@@ -163,67 +181,73 @@ public class EliminationOfLeftRecursion extends ExtractProduction{
 			while (iter.hasNext()) {
 				RightProduction rightFirst = iter.next();
 				String rightFirstStr = rightFirst.getFirstRightSymbol();
-				if (UnterminatingSymbolTable.containsKey(rightFirst.getFirstRightSymbol())
+				if (UnterminatingSymbolTable.containsKey(rightFirst
+						.getFirstRightSymbol())
 						&& !rightFirstStr.equals(temp.getUnterminatingString())) {
-					Symbol adjacentNode = UnterminatingSymbolTable.get(rightFirstStr);
-					if(!temp.hasThisSymbolInPreviousList(adjacentNode))
+					Symbol adjacentNode = UnterminatingSymbolTable
+							.get(rightFirstStr);
+					if (!temp.hasThisSymbolInPreviousList(adjacentNode))
 						temp.putToPreviousList(adjacentNode);
-					if(!adjacentNode.hasThisSymbolInReversedList(temp))
+					if (!adjacentNode.hasThisSymbolInReversedList(temp))
 						adjacentNode.putToReversedList(temp);
 				}
 
 			}
 		}
 	}
-	//Unfinished
-	public void eliminateIndirectLeftRecursion(){
+
+	// Unfinished
+	public void eliminateIndirectLeftRecursion() {
 		Iterator<Map.Entry<String, Symbol>> outerLevelIter = UnterminatingSymbolTable
-					.entrySet().iterator();
+				.entrySet().iterator();
 		Iterator<Map.Entry<String, Symbol>> innerLevelIter = UnterminatingSymbolTable
 				.entrySet().iterator();
 		LinkedList<Symbol> tempList = new LinkedList<Symbol>();
-		while(outerLevelIter.hasNext()){
+		while (outerLevelIter.hasNext()) {
 			Map.Entry<String, Symbol> hostEntry = outerLevelIter.next();
-			Symbol hostTemp =hostEntry.getValue();
+			Symbol hostTemp = hostEntry.getValue();
 			tempList.add(hostTemp);
-			while(innerLevelIter.hasNext()){
+			while (innerLevelIter.hasNext()) {
 				Map.Entry<String, Symbol> entry = innerLevelIter.next();
 				Symbol temp = entry.getValue();
-				if(temp != hostTemp && temp.classification == hostTemp.classification)
+				if (temp != hostTemp
+						&& temp.classification == hostTemp.classification)
 					tempList.add(temp);
 			}
-			if(tempList.size() > 1){
+			if (tempList.size() > 1) {
 				Symbol temp = tempList.remove();
-				while(tempList.size() != 1){
+				while (tempList.size() != 1) {
 					Iterator<Symbol> listIter = tempList.iterator();
-					while(listIter.hasNext()){
+					while (listIter.hasNext()) {
 						Symbol listElement = listIter.next();
-						Iterator<RightProduction> rightIter = temp.rightList.iterator();
-						while(rightIter.hasNext()){
-							LinkedList<String> ref = rightIter.next().getRightSymbolList();
+						Iterator<RightProduction> rightIter = temp.rightList
+								.iterator();
+						while (rightIter.hasNext()) {
+							LinkedList<String> ref = rightIter.next()
+									.getRightSymbolList();
 							String rem = temp.getUnterminatingString();
-							if(ref.contains(rem)){
+							if (ref.contains(rem)) {
 								int index = ref.indexOf(rem);
-								//ref.add(index, )
+								// ref.add(index, )
 							}
-//							ref.remove(temp.getUnterminatingString());
-//							ref.addAll(temp.rightList.)
-							
+							// ref.remove(temp.getUnterminatingString());
+							// ref.addAll(temp.rightList.)
+
 						}
 					}
 					temp = tempList.remove();
 				}
-			}
-			else
+			} else
 				tempList.clear();
 		}
 	}
+
 	public void eliminateImmediateLeftRecursion() {
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
 				.entrySet().iterator();
 		Map<String, Symbol> tempMap = new HashMap<String, Symbol>();
 		while (it.hasNext()) {
-			//System.out.println((cnt++)+" "+UnterminatingSymbolTable.size() );
+			// System.out.println((cnt++)+" "+UnterminatingSymbolTable.size() );
 			Map.Entry<String, Symbol> entry = it.next();
 			Symbol temp = entry.getValue();
 			Iterator<RightProduction> iter = temp.rightList.iterator();
@@ -265,16 +289,17 @@ public class EliminationOfLeftRecursion extends ExtractProduction{
 						newUnterminatingSymbol.putNewTermToRightList(alphaList);
 						LinkedList<String> epsilonList = new LinkedList<String>();
 						epsilonList.add("empty");
-						//newUnterminatingSymbol.hasEpsilon = true;
-						newUnterminatingSymbol.putNewTermToRightList(epsilonList);
+						// newUnterminatingSymbol.hasEpsilon = true;
+						newUnterminatingSymbol
+								.putNewTermToRightList(epsilonList);
 					} else {
 						Iterator<String> betaIter = rightFirst
 								.getRightSymbolList().iterator();
 						while (betaIter.hasNext()) {
 							String beta = betaIter.next();
-							if(!beta.equals("empty"))
+							if (!beta.equals("empty"))
 								betaList[count].add(beta);
-							
+
 						}
 						betaList[count].add(newUnterminatingStr);
 						count++;
@@ -282,14 +307,35 @@ public class EliminationOfLeftRecursion extends ExtractProduction{
 				}
 				temp.replaceRightList(betaList, count);
 			}
-			
+
 			hasLeftRecursion = false;
 		}
 		UnterminatingSymbolTable.putAll(tempMap);
-		//System.out.println(UnterminatingSymbolTable.size());
+		// System.out.println(UnterminatingSymbolTable.size());
 	}
-	
-	public HashMap<String, Symbol> getSymbolMap(){
+
+	public void createTerminatingSymbolTable() {
+		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
+				.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<String, Symbol> entry = it.next();
+			Symbol temp = entry.getValue();
+			Iterator<RightProduction> iter = temp.rightList.iterator();
+			while (iter.hasNext()) {
+				Iterator<String> iterator = iter.next().getRightSymbolList()
+						.iterator();
+				while (iterator.hasNext()) {
+					String str = iterator.next();
+					if (!UnterminatingSymbolTable.containsKey(str)
+							&& !str.equals("empty"))
+						TerminatingSymbolTable.add(str);
+				}
+			}
+		}
+
+	}
+
+	public HashMap<String, Symbol> getSymbolMap() {
 		return UnterminatingSymbolTable;
 	}
 }

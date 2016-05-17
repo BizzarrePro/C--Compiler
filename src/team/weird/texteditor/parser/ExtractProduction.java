@@ -15,15 +15,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ExtractProduction {
-	protected static HashMap<String, Symbol> UnterminatingSymbolTable = new HashMap<String, Symbol>();
-	protected static HashSet<String> TerminatingSymbolTable =  new HashSet<String>();
+	public static HashMap<String, Symbol> UnterminatingSymbolTable = new HashMap<String, Symbol>();
+	public static HashSet<String> TerminatingSymbolTable =  new HashSet<String>();
+	public static String entrance ;
+	private boolean hasGotten = false;
 	protected Stack<Symbol> reversedStack = new Stack<Symbol>();
 	public ExtractProduction(){
 		extractSymbolFromFile();
-		display();
+		displayTerminatingSymbol();
+		ExtractLeftCommonFactoring removeAmbiguity = new ExtractLeftCommonFactoring(
+				UnterminatingSymbolTable);
+		removeAmbiguity.excuteExtractionOfCommonFactoring();
 	}
 	
-	private void display() {
+	private void displayTerminatingSymbol() {
 		// TODO Auto-generated method stub
 		Iterator<String> it = TerminatingSymbolTable.iterator();
 		while(it.hasNext()){
@@ -36,7 +41,7 @@ public class ExtractProduction {
 		BufferedReader br;
 		try {
 			//productionUsed.txt
-			fr = new FileReader(new File("pro.txt"));
+			fr = new FileReader(new File("productionUsed.txt"));
 			br = new BufferedReader(fr);
 			Pattern pattern = Pattern.compile("(\\-|\\w)+(?=\\:)");
 			//Pattern epsilonPattern = Pattern.compile("(\\ *)^empty$");
@@ -46,11 +51,15 @@ public class ExtractProduction {
 				int index;
 				if (match.find()) {
 					String temp = match.group(0);
+					if(!hasGotten){
+						entrance = new String(temp);
+						hasGotten = true;
+					}
 					UnterminatingSymbolTable.put(temp, new Symbol(temp));
 					index = match.end(0);
 					String[] child = line.substring(index + 1).split("\\|");
 					for (int i = 0; i < child.length; i++){
-						UnterminatingSymbolTable.get(temp).putToList(child[i],UnterminatingSymbolTable, TerminatingSymbolTable);
+						UnterminatingSymbolTable.get(temp).putToList(child[i],UnterminatingSymbolTable);
 //						Matcher epsilonMatch = epsilonPattern.matcher(child[i]);
 //						if(epsilonMatch.matches())
 //							UnterminatingSymbolTable.get(temp).hasEpsilon = true;

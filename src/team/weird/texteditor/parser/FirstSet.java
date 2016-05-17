@@ -8,11 +8,10 @@ import java.util.Set;
 
 import team.weird.texteditor.parser.Symbol.RightProduction;
 
-public class FirstSet extends EliminationOfLeftRecursion{
+public class FirstSet{
 	public HashMap<String, Symbol> symbolMap;
-	public FirstSet(){
-		super();
-		symbolMap = super.getSymbolMap();
+	public FirstSet(HashMap<String, Symbol> symbolMap){
+		this.symbolMap = symbolMap;
 	}
 	public void createFirstSet(){
 		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
@@ -73,7 +72,9 @@ public class FirstSet extends EliminationOfLeftRecursion{
 		set.addAll(temp.firstSet);
 	}
 	public void display(){
+		System.out.println();
 		System.out.println("-------------------------First Set-------------------------");
+		System.out.println();
 		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
 		while(symIter.hasNext()){
 			Entry<String, Symbol> entry = symIter.next();
