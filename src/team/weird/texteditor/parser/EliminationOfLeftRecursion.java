@@ -22,6 +22,7 @@ public class EliminationOfLeftRecursion extends ExtractProduction {
 
 	public EliminationOfLeftRecursion() {
 		super();
+		markEpsilonEntry();
 		findIndirectLeftRecursion();
 		eliminateImmediateLeftRecursion();
 		markEpsilonEntry();

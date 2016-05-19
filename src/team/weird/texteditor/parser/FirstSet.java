@@ -1,3 +1,4 @@
+
 package team.weird.texteditor.parser;
 
 import java.util.HashMap;

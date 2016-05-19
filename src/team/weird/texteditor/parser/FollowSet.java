@@ -3,6 +3,7 @@ package team.weird.texteditor.parser;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -12,84 +13,131 @@ public class FollowSet {
 	public HashMap<String, Symbol> symbolMap;
 	public static int cnt1 = 0;
 	public static int cnt2 = 0;
-	public FollowSet(HashMap<String, Symbol> symbolMap){
+
+	public FollowSet(HashMap<String, Symbol> symbolMap) {
 		this.symbolMap = symbolMap;
 	}
+
 	public int cnt = 1;
-	public void createFollowSet(){
-		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
-		while(symIter.hasNext()){
+
+	public void createFollowSet() {
+		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet()
+				.iterator();
+		while (symIter.hasNext()) {
 			Entry<String, Symbol> entry = symIter.next();
 			Symbol temp = entry.getValue();
 			temp.followSet.add("$");
-			if(!temp.hasRecursion)
-				disposeOfFollowSet(temp.followSet, temp.getUnterminatingString());
+			if (!temp.hasRecursion)
+				disposeOfFollowSet(temp.followSet,
+						temp.getUnterminatingString());
 		}
 	}
-	public void disposeOfFollowSet(Set<String> followSet, String symbol){
+
+	public void disposeOfFollowSet(Set<String> followSet, String symbol) {
+		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet()
+				.iterator();
 		symbolMap.get(symbol).hasRecursion = true;
-		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
-		while(symIter.hasNext()){
-			
+		// if(symbolMap.get(symbol).hasEpsilon){
+		Iterator<RightProduction> productionIter = symbolMap.get(symbol).rightList
+				.iterator();
+		while (productionIter.hasNext()) {
+			LinkedList<String> list = productionIter.next()
+					.getRightSymbolList();
+			String key = list.get(list.size() - 1);
+			if (!symbolMap.containsKey(key))
+				;
+			else {
+				if (symbolMap.get(key).hasRecursion)
+					followSet.addAll(symbolMap.get(key).followSet);
+				else {
+					disposeOfFollowSet(symbolMap.get(key).followSet, symbolMap
+							.get(key).getUnterminatingString());
+					followSet.addAll(symbolMap.get(key).followSet);
+				}
+			}
+		}
+		while (symIter.hasNext()) {
+
 			Entry<String, Symbol> entry = symIter.next();
 			Symbol temp = entry.getValue();
 			Iterator<RightProduction> proIter = temp.rightList.iterator();
-			while(proIter.hasNext()){
-				
+			while (proIter.hasNext()) {
+
 				LinkedList<String> list = proIter.next().getRightSymbolList();
 				Iterator<String> listIter = list.iterator();
-				String tempSym ;
-				while(listIter.hasNext()){
+				String tempSym;
+				while (listIter.hasNext()) {
 					tempSym = listIter.next();
 					
-					if(symbolMap.containsKey(tempSym) && tempSym.equals(symbol)){
-						//System.out.println("Left: "+temp.getUnterminatingString()+" Right: "+tempSym + "Symbol: "+symbol);
-						if(listIter.hasNext()){
+					if (symbolMap.containsKey(tempSym)
+							&& tempSym.equals(symbol)) {
+						if (listIter.hasNext()) {
 							String followSymbol = listIter.next();
-							if(symbolMap.containsKey(followSymbol) && symbolMap.get(followSymbol).hasEpsilon && !temp.hasRecursion){
-								System.out.println(symbol+" "+tempSym+" "+followSymbol);
-								if(cnt++ > 100)
-									System.exit(0);
+							//System.out.println(followSymbol);
+							if (symbolMap.containsKey(followSymbol)
+									&& symbolMap.get(followSymbol).hasEpsilon
+									&& !temp.hasRecursion) {
 								Symbol elementSym = symbolMap.get(followSymbol);
-								//System.out.println("'"+(cnt2++)+"'");
-								disposeOfFollowSet(elementSym.followSet, followSymbol);
+								// System.out.println("'"+(cnt2++)+"'");
+								disposeOfFollowSet(elementSym.followSet,
+										followSymbol);
 								followSet.addAll(elementSym.followSet);
 								followSet.addAll(elementSym.firstSet);
 								followSet.remove("empty");
-							}
-							else if(symbolMap.containsKey(followSymbol) && !symbolMap.get(followSymbol).hasEpsilon){
-								followSet.addAll(symbolMap.get(followSymbol).firstSet);
-							}
-							else if(!symbolMap.containsKey(followSymbol))
+							} else if (symbolMap.containsKey(followSymbol)) {
+								followSet
+										.addAll(symbolMap.get(followSymbol).firstSet);
+								followSet.remove("empty");
+								if(symbolMap.get(followSymbol).hasEpsilon && symbolMap.get(followSymbol).hasRecursion)
+									followSet
+									.addAll(symbolMap.get(followSymbol).followSet);
+								else if(symbolMap.get(followSymbol).hasEpsilon && !symbolMap.get(followSymbol).hasRecursion){
+									disposeOfFollowSet(symbolMap.get(followSymbol).followSet,
+											followSymbol);
+									followSet
+									.addAll(symbolMap.get(followSymbol).followSet);
+								}
+							} else if (!symbolMap.containsKey(followSymbol))
 								followSet.add(followSymbol);
-						}
-						else if(!temp.getUnterminatingString().equals(tempSym) && !temp.hasRecursion){
-							disposeOfFollowSet(temp.followSet, temp.getUnterminatingString());
+						} else if (!temp.getUnterminatingString().equals(
+								tempSym)
+								&& !temp.hasRecursion) {
+							disposeOfFollowSet(temp.followSet,
+									temp.getUnterminatingString());
 							followSet.addAll(temp.followSet);
 						}
-						else
+						else if (!temp.getUnterminatingString()
+								.equals(tempSym))
 							followSet.addAll(temp.followSet);
+						else if (temp.getUnterminatingString()
+								.equals(tempSym) && temp.hasEpsilon){
+							followSet.addAll(temp.firstSet);
+							followSet.remove("empty");
+						}
 					}
 				}
 			}
 		}
 		cnt = 1;
 	}
-	
-	public void display(){
+
+	public void display() {
 		System.out.println();
-		System.out.println("-------------------------Follow Set-------------------------");
+		System.out
+				.println("-------------------------Follow Set-------------------------");
 		System.out.println();
-		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
-		while(symIter.hasNext()){
+		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet()
+				.iterator();
+		while (symIter.hasNext()) {
 			Entry<String, Symbol> entry = symIter.next();
 			Symbol temp = entry.getValue();
 			Iterator<String> setIter = temp.followSet.iterator();
-			System.out.print(temp.getUnterminatingString()+" Size: "+temp.followSet.size()+" $$ {");
-			while(setIter.hasNext()){
+			System.out.print(temp.getUnterminatingString() + " Size: "
+					+ temp.followSet.size() + " $$ {");
+			while (setIter.hasNext()) {
 				String print = setIter.next();
 				System.out.print(print);
-				if(setIter.hasNext())
+				if (setIter.hasNext())
 					System.out.print(" ");
 			}
 			System.out.print("}");

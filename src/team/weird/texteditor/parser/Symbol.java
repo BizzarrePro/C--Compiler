@@ -1,3 +1,4 @@
+
 package team.weird.texteditor.parser;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Symbol {
 	public Set<String> selectSet = new HashSet<String>();
 	private LinkedList<Symbol> reversedList = new LinkedList<Symbol>();
 	private LinkedList<Symbol> previousList = new LinkedList<Symbol>();
+	public Map<String, Integer> predictiveMapHasEpsilon = new HashMap<String, Integer>();
 	public Map<String, LinkedList<String>> predictiveMap = new HashMap<String, LinkedList<String>>();
 	public boolean preFlag = false;
 	public boolean revFlag = false;

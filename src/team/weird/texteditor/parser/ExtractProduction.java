@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+//int abc(int a, int b)
 public class ExtractProduction {
 	public static HashMap<String, Symbol> UnterminatingSymbolTable = new HashMap<String, Symbol>();
 	public static HashSet<String> TerminatingSymbolTable =  new HashSet<String>();
@@ -23,9 +23,9 @@ public class ExtractProduction {
 	public ExtractProduction(){
 		extractSymbolFromFile();
 		displayTerminatingSymbol();
-		ExtractLeftCommonFactoring removeAmbiguity = new ExtractLeftCommonFactoring(
-				UnterminatingSymbolTable);
-		removeAmbiguity.excuteExtractionOfCommonFactoring();
+//		ExtractLeftCommonFactoring removeAmbiguity = new ExtractLeftCommonFactoring(
+//				UnterminatingSymbolTable);
+//		removeAmbiguity.excuteExtractionOfCommonFactoring();
 	}
 	
 	private void displayTerminatingSymbol() {

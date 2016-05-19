@@ -1,1 +1,1 @@
-A text editor with lexer and parsing.
+A C- language compiler with simple but beautiful user interface, which models the style of Sublime Text.

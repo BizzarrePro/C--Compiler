@@ -26,9 +26,15 @@ public class PredictiveAnalytics extends PredictAnalyticalTable{
 		SyntaxTreeNode root = new SyntaxTreeNode(entrance);
 		stack.push(root);
 		while(!stack.isEmpty() && index < token.length){
+			System.out.println("---Stack Start---");
+			for(SyntaxTreeNode a : stack)
+				System.out.println(a.getSymbol());
+			System.out.println();
+			System.out.println();
 			String peek = stack.peek().getSymbol();
-			System.out.println("index: "+index);
+//			System.out.println("index: "+index);
 			System.out.println(peek+" "+token[index].toString());
+
 			if(peek.equals(token[index].toString())){
 				stack.pop();
 				index++;
@@ -44,12 +50,14 @@ public class PredictiveAnalytics extends PredictAnalyticalTable{
 			else if(UntermSymbolMap.get(peek).predictiveMap.get(token[index].toString()).get(0).equals("empty"))
 				stack.pop();
 			else{
+				if(stack.peek().equals("declaration-list`"))
+					System.out.println("HAHA");
 				SyntaxTreeNode peekElement = stack.pop();
 				LinkedList<String> production = UntermSymbolMap.get(peek).predictiveMap.get(token[index].toString());
-				System.out.println(production.size());
+				//System.out.println(production.size());
 				ListIterator<String> productionIter = production.listIterator(production.size());
 				while(productionIter.hasPrevious()){
-					System.out.println(peekElement.getSymbol()+" "+productionIter.hasPrevious()+" "+productionIter.previousIndex());
+					//System.out.println(peekElement.getSymbol()+" "+productionIter.hasPrevious()+" "+productionIter.previousIndex());
 					String temp = productionIter.previous();
 					SyntaxTreeNode childNode = new SyntaxTreeNode(temp);
 					peekElement.addNewNode(childNode);
