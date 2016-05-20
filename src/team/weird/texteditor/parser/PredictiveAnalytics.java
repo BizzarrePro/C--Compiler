@@ -7,7 +7,7 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
 
-import team.weird.texteditor.lexer.Token;
+import pers.siyuan.compilers.lexer.Token;
 
 public class PredictiveAnalytics extends PredictAnalyticalTable{
 	private Stack<SyntaxTreeNode> stack = new Stack<SyntaxTreeNode>();
@@ -36,6 +36,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable{
 			System.out.println(peek+" "+token[index].toString());
 
 			if(peek.equals(token[index].toString())){
+				System.out.println(peek+" "+token[index].toString());
 				stack.pop();
 				index++;
 			}

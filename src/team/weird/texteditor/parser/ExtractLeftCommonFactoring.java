@@ -7,7 +7,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import team.weird.texteditor.parser.Symbol.RightProduction;
+import pers.siyuan.compilers.paser.Symbol.RightProduction;
 
 public class ExtractLeftCommonFactoring {
 	public HashMap<String, Symbol> symbolMap;
@@ -15,7 +15,7 @@ public class ExtractLeftCommonFactoring {
 	public ExtractLeftCommonFactoring(HashMap<String, Symbol> symbolMap) {
 		this.symbolMap = symbolMap;
 		excuteExtractionOfCommonFactoring();
-		//displayAfterElimination();
+//		displayAfterElimination();
 	}
 
 	public void excuteExtractionOfCommonFactoring() {

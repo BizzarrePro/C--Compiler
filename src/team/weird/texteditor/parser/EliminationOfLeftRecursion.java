@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
-import team.weird.texteditor.parser.Symbol.RightProduction;
+import pers.siyuan.compilers.paser.Symbol.RightProduction;
 
 public class EliminationOfLeftRecursion extends ExtractProduction {
 

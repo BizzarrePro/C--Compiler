@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import team.weird.texteditor.parser.Symbol.RightProduction;
+import pers.siyuan.compilers.paser.Symbol.RightProduction;
 
 public class PredictAnalyticalTable {
 	public HashMap<String, Symbol> UntermSymbolMap;
@@ -32,50 +32,85 @@ public class PredictAnalyticalTable {
 			Entry<String, Symbol> entry = symIter.next();
 			Symbol temp = entry.getValue();
 			Iterator<RightProduction> proIter = temp.rightList.iterator();
-			
-			while (proIter.hasNext()) {
+			while(proIter.hasNext()) {
 				RightProduction proTemp = proIter.next();
 				String firstRightSymbol = proTemp.getFirstRightSymbol();
-				if(temp.getUnterminatingString().equals("declaration-list`"))
-					System.out.println("++++++++"+proTemp.getRightSymbolList());
-				if ((UntermSymbolMap.containsKey(firstRightSymbol) && UntermSymbolMap
-						.get(firstRightSymbol).firstSet.contains("empty"))) {
-					Iterator<String> followSymbolIter = temp.followSet
-							.iterator();
-					while (followSymbolIter.hasNext()) {
-						String key = followSymbolIter.next();
-						if(temp.predictiveMap.get(key) == null || temp.predictiveMap.get(key).equals("empty"))
-						temp.predictiveMap.put(key,
+				if(TermSymbolSet.contains(firstRightSymbol))
+					temp.predictiveMap.put(firstRightSymbol,
 							proTemp.getRightSymbolList());
-					}
-
-				} else if (UntermSymbolMap.containsKey(firstRightSymbol)) {
-					Iterator<String> selectSymbolIter = UntermSymbolMap
-							.get(firstRightSymbol).selectSet.iterator();
-					while (selectSymbolIter.hasNext()) {
-						String key = selectSymbolIter.next();
-						// if(temp.predictiveMap.get(key) != null)
-						// throw new OverlappedSyntaxException();
-						if(temp.predictiveMap.get(key) == null || temp.predictiveMap.get(key).equals("empty"))
+				else if(firstRightSymbol.equals("empty")){
+					Iterator<String> followSymbolIter = temp.followSet.iterator();
+					while(followSymbolIter.hasNext()){
+						String key = followSymbolIter.next();
 						temp.predictiveMap.put(key,
 								proTemp.getRightSymbolList());
-
 					}
-				} else if (firstRightSymbol.equals("empty")) {
-					Iterator<String> followIter = temp.followSet.iterator();
-					while (followIter.hasNext()) {
-						String str = followIter.next();
-						if(temp.predictiveMap.get(str) == null || temp.predictiveMap.get(str).equals("empty"))
-							temp.predictiveMap.put(str,
-									proTemp.getRightSymbolList());
-
+				}
+				else{
+					Iterator<String> firstSymbolIter = UntermSymbolMap.get(firstRightSymbol).selectSet.iterator();
+					while(firstSymbolIter.hasNext()){
+						String key = firstSymbolIter.next();
+						temp.predictiveMap.put(key,
+								proTemp.getRightSymbolList());
 					}
 					
-				} else{
-						temp.predictiveMap.put(firstRightSymbol,
-							proTemp.getRightSymbolList());
+					if(UntermSymbolMap.get(firstRightSymbol).firstSet.contains("empty")){
+						Iterator<String> followSymbolIter = temp.followSet.iterator();
+						while(followSymbolIter.hasNext()){
+							String key = followSymbolIter.next();
+							temp.predictiveMap.put(key,
+									proTemp.getRightSymbolList());
+						}
+					}
+						
+						
 				}
 			}
+			
+//			while (proIter.hasNext()) {
+//				RightProduction proTemp = proIter.next();
+//				String firstRightSymbol = proTemp.getFirstRightSymbol();
+//				
+//				if ((UntermSymbolMap.containsKey(firstRightSymbol) && UntermSymbolMap
+//						.get(firstRightSymbol).firstSet.contains("empty"))) {
+//					if(temp.getUnterminatingString().equals("local-declarations`"))
+//						System.out.println("++++++++"+proTemp.getRightSymbolList());
+//					Iterator<String> followSymbolIter = temp.followSet
+//							.iterator();
+//					while (followSymbolIter.hasNext()) {
+//						String key = followSymbolIter.next();
+//						if(temp.predictiveMap.get(key) == null || temp.predictiveMap.get(key).equals("empty"))
+//						temp.predictiveMap.put(key,
+//							proTemp.getRightSymbolList());
+//					}
+//
+//				} else if (UntermSymbolMap.containsKey(firstRightSymbol)) {
+//					Iterator<String> selectSymbolIter = UntermSymbolMap
+//							.get(firstRightSymbol).selectSet.iterator();
+//					while (selectSymbolIter.hasNext()) {
+//						String key = selectSymbolIter.next();
+//						// if(temp.predictiveMap.get(key) != null)
+//						// throw new OverlappedSyntaxException();
+//						if(temp.predictiveMap.get(key) == null || temp.predictiveMap.get(key).equals("empty"))
+//						temp.predictiveMap.put(key,
+//								proTemp.getRightSymbolList());
+//
+//					}
+//				} else if (firstRightSymbol.equals("empty")) {
+//					Iterator<String> followIter = temp.followSet.iterator();
+//					while (followIter.hasNext()) {
+//						String str = followIter.next();
+//						if(temp.predictiveMap.get(str) == null || temp.predictiveMap.get(str).equals("empty"))
+//							temp.predictiveMap.put(str,
+//									proTemp.getRightSymbolList());
+//
+//					}
+//					
+//				} else{
+//						temp.predictiveMap.put(firstRightSymbol,
+//							proTemp.getRightSymbolList());
+//				}
+//			}
 		}
 	}
 

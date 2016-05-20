@@ -7,7 +7,7 @@ import java.util.ListIterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import team.weird.texteditor.parser.Symbol.RightProduction;
+import pers.siyuan.compilers.paser.Symbol.RightProduction;
 
 public class FollowSet {
 	public HashMap<String, Symbol> symbolMap;
@@ -37,25 +37,6 @@ public class FollowSet {
 		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet()
 				.iterator();
 		symbolMap.get(symbol).hasRecursion = true;
-		// if(symbolMap.get(symbol).hasEpsilon){
-		Iterator<RightProduction> productionIter = symbolMap.get(symbol).rightList
-				.iterator();
-		while (productionIter.hasNext()) {
-			LinkedList<String> list = productionIter.next()
-					.getRightSymbolList();
-			String key = list.get(list.size() - 1);
-			if (!symbolMap.containsKey(key))
-				;
-			else {
-				if (symbolMap.get(key).hasRecursion)
-					followSet.addAll(symbolMap.get(key).followSet);
-				else {
-					disposeOfFollowSet(symbolMap.get(key).followSet, symbolMap
-							.get(key).getUnterminatingString());
-					followSet.addAll(symbolMap.get(key).followSet);
-				}
-			}
-		}
 		while (symIter.hasNext()) {
 
 			Entry<String, Symbol> entry = symIter.next();
@@ -66,54 +47,54 @@ public class FollowSet {
 				LinkedList<String> list = proIter.next().getRightSymbolList();
 				Iterator<String> listIter = list.iterator();
 				String tempSym;
+
 				while (listIter.hasNext()) {
 					tempSym = listIter.next();
 					
 					if (symbolMap.containsKey(tempSym)
 							&& tempSym.equals(symbol)) {
+						if (symbol.equals("local-declarations"))
+								System.out.println(tempSym+ " " + temp.getUnterminatingString());
 						if (listIter.hasNext()) {
+							
 							String followSymbol = listIter.next();
-							//System.out.println(followSymbol);
-							if (symbolMap.containsKey(followSymbol)
-									&& symbolMap.get(followSymbol).hasEpsilon
-									&& !temp.hasRecursion) {
-								Symbol elementSym = symbolMap.get(followSymbol);
-								// System.out.println("'"+(cnt2++)+"'");
-								disposeOfFollowSet(elementSym.followSet,
-										followSymbol);
-								followSet.addAll(elementSym.followSet);
-								followSet.addAll(elementSym.firstSet);
-								followSet.remove("empty");
-							} else if (symbolMap.containsKey(followSymbol)) {
-								followSet
-										.addAll(symbolMap.get(followSymbol).firstSet);
-								followSet.remove("empty");
-								if(symbolMap.get(followSymbol).hasEpsilon && symbolMap.get(followSymbol).hasRecursion)
-									followSet
-									.addAll(symbolMap.get(followSymbol).followSet);
-								else if(symbolMap.get(followSymbol).hasEpsilon && !symbolMap.get(followSymbol).hasRecursion){
-									disposeOfFollowSet(symbolMap.get(followSymbol).followSet,
-											followSymbol);
-									followSet
-									.addAll(symbolMap.get(followSymbol).followSet);
+							// System.out.println(followSymbol);
+							if (symbolMap.containsKey(followSymbol)) {
+								if (symbolMap.get(followSymbol).hasEpsilon) {
+									Symbol elementSym = symbolMap
+											.get(followSymbol);
+									followSet.addAll(elementSym.firstSet);
+									if (symbolMap.get(followSymbol).hasRecursion)
+										followSet.addAll(elementSym.followSet);
+									else {
+										disposeOfFollowSet(
+												elementSym.followSet,
+												followSymbol);
+										followSet.addAll(elementSym.followSet);
+									}
+									followSet.remove("empty");
+								} else {
+									followSet.addAll(symbolMap
+											.get(followSymbol).firstSet);
+									followSet.remove("empty");
 								}
-							} else if (!symbolMap.containsKey(followSymbol))
+
+							} else if (!symbolMap.containsKey(followSymbol)
+									&& !followSymbol.equals("empty"))
 								followSet.add(followSymbol);
 						} else if (!temp.getUnterminatingString().equals(
-								tempSym)
-								&& !temp.hasRecursion) {
-							disposeOfFollowSet(temp.followSet,
-									temp.getUnterminatingString());
-							followSet.addAll(temp.followSet);
-						}
-						else if (!temp.getUnterminatingString()
-								.equals(tempSym))
-							followSet.addAll(temp.followSet);
-						else if (temp.getUnterminatingString()
-								.equals(tempSym) && temp.hasEpsilon){
-							followSet.addAll(temp.firstSet);
-							followSet.remove("empty");
-						}
+								tempSym)){
+							if(!temp.hasRecursion){
+								disposeOfFollowSet(temp.followSet,
+										temp.getUnterminatingString());
+								followSet.addAll(temp.followSet);
+							} else {
+								followSet.addAll(temp.followSet);
+							}
+						} 
+//						else if (temp.getUnterminatingString().equals(
+//								tempSym))
+//								followSet.addAll(temp.firstSet);
 					}
 				}
 			}
@@ -145,3 +126,54 @@ public class FollowSet {
 		}
 	}
 }
+/*
+ * left equals right 
+ */
+// if(symbolMap.get(symbol).hasEpsilon){
+// Iterator<RightProduction> productionIter =
+// symbolMap.get(symbol).rightList
+// .iterator();
+// while (productionIter.hasNext()) {
+// LinkedList<String> list = productionIter.next()
+// .getRightSymbolList();
+// String key = list.get(list.size() - 1);
+// if (!symbolMap.containsKey(key))
+// ;
+// else {
+// if (symbolMap.get(key).hasRecursion)
+// followSet.addAll(symbolMap.get(key).followSet);
+// else {
+// disposeOfFollowSet(symbolMap.get(key).followSet, symbolMap
+// .get(key).getUnterminatingString());
+// followSet.addAll(symbolMap.get(key).followSet);
+// }
+// }
+// }
+
+
+// if (symbolMap.containsKey(followSymbol)
+// && symbolMap.get(followSymbol).hasEpsilon
+// && symbolMap.get(followSymbol).hasRecursion) {
+// Symbol elementSym = symbolMap.get(followSymbol);
+// // System.out.println("'"+(cnt2++)+"'");
+// disposeOfFollowSet(elementSym.followSet,
+// followSymbol);
+// followSet.addAll(elementSym.followSet);
+// followSet.addAll(elementSym.firstSet);
+// followSet.remove("empty");
+// } else if (symbolMap.containsKey(followSymbol)) {
+// followSet
+// .addAll(symbolMap.get(followSymbol).firstSet);
+//
+// if(symbolMap.get(followSymbol).hasEpsilon &&
+// symbolMap.get(followSymbol).hasRecursion)
+// followSet
+// .addAll(symbolMap.get(followSymbol).followSet);
+// else if(symbolMap.get(followSymbol).hasEpsilon &&
+// !symbolMap.get(followSymbol).hasRecursion){
+// disposeOfFollowSet(symbolMap.get(followSymbol).followSet,
+// followSymbol);
+// followSet
+// .addAll(symbolMap.get(followSymbol).followSet);
+// }
+// followSet.remove("empty");

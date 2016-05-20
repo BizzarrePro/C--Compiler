@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import team.weird.texteditor.parser.Symbol.RightProduction;
+import pers.siyuan.compilers.paser.Symbol.RightProduction;
 
 public class FirstSet{
 	public HashMap<String, Symbol> symbolMap;
@@ -20,6 +20,8 @@ public class FirstSet{
 			Entry<String, Symbol> entry = symIter.next();
 			Symbol temp = entry.getValue();
 			Iterator<RightProduction> proIter = temp.rightList.iterator();
+			if(temp.getUnterminatingString().equals("local-declarations"))
+				System.out.println();
 			while(proIter.hasNext()){
 				LinkedList<String> list = proIter.next().getRightSymbolList();
 				String firstSymStr =list.getFirst();
@@ -27,7 +29,7 @@ public class FirstSet{
 					temp.firstSet.add(firstSymStr);
 				}
 				else{
-					if(!temp.firstSet.isEmpty())
+					if(temp.firstSet.isEmpty())
 						disposeOfFirstSet(temp.firstSet, temp.getUnterminatingString());
 					Iterator<String> proEpsilonIter = list.iterator();
 					//String epsilonStr = new String(firstSymStr);
@@ -48,8 +50,8 @@ public class FirstSet{
 							temp.firstSet.add(noEpsilonSymbol);
 							break;
 						}
-						if(!proEpsilonIter.hasNext())
-							temp.firstSet.add("empty");
+//						if(!proEpsilonIter.hasNext())
+//							temp.firstSet.add("empty");
 							
 						
 					}
