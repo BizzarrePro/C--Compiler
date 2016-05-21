@@ -14,4 +14,10 @@ public class SyntaxTreeNode{
 	public void addNewNode(SyntaxTreeNode node){
 		childNode.add(node);
 	}
+	public ArrayList<SyntaxTreeNode> getChildList(){
+		return childNode;
+	}
+	public String toString(){
+		return "<ROOT>: "+symbol;
+	}
 }

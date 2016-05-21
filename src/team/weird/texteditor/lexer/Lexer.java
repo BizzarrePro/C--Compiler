@@ -1,60 +1,52 @@
 package team.weird.texteditor.lexer;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Lexer {
 	public StringBuffer fullLine = new StringBuffer();
-	public LinkedList<Token> list = new LinkedList<Token>();
-	public Lexer() throws IOException{
-		while(true){
-			list.add(scan());
-			//System.out.print(" "+scan().toString()+"\n");
-		}
-	}
-//	private int line = 0;
-//	private char temp = ' ';
-//	private ReservedWord table = new ReservedWord();
-//	public int getLine(){
-//		return line;
-//	}
-/*	private int line = 0;
-	private char temp = ' ';
-	private ReservedWord table = new ReservedWord();
-	public int getLine(){
-		return line;
-	}*/
+//	public LinkedList<Token> list = new LinkedList<Token>();
+	public ArrayList<Token> tokenList = new ArrayList<Token>();
+	private boolean exitTag = false;
+	public Lexer() {}
 	private int line = 0;
 	private char temp = ' ';
 	private ReservedWord table = new ReservedWord();
 	public int getLine(){
 		return line;
 	}
+	public Token[] getTokenStream() throws IOException{
+		while(true){
+			Token element = scan();
+			if(element == null)
+				break;
+			element.setLineNum(line);
+			tokenList.add(element);
+		}
+		Token[] tokenStream = new Token[tokenList.size()];
+		tokenList.toArray(tokenStream);
+		return tokenStream;
+	}
 	public void getChar() throws IOException{
 		temp = (char)System.in.read();
+		if(temp == '$')
+			exitTag = true;
 		fullLine.append(temp);
-		if(temp == '\n')
-			line++;
 	}
 	public boolean getNextChar(char ch) throws IOException{
 		getChar();
-		if(temp == ch)
-			return true;
+		if(temp != ch)
+			return false;
 		temp = ' ';
-		return false;
+		return true;
 	}
 	public Token scan() throws IOException{
 		for( ; ; getChar()){
-			if(temp == ' ' || temp == '\t');
-			else if(temp == '\n'){
-				System.out.println(line+ " "+fullLine.toString().trim());
-				fullLine = new StringBuffer("");
-				Iterator<Token> iter = list.iterator();
-				while(iter.hasNext())
-					System.out.println(iter.next().toString());
-				list.clear();
-			}
+			if(exitTag)
+				return null;
+			if(temp == ' ' || temp == '\t'||temp == '\r') continue;
+			else if(temp == '\n')
+				line++;
 			else if(temp == '/'){
 				getChar();
 				if(temp == '*'){
@@ -65,10 +57,6 @@ public class Lexer {
 						prev = temp;
 						buf.append(temp);
 						getChar();
-//						if(temp == '\n'){
-//							System.out.println(line);
-//							line++;
-//						}
 					}while(!((temp == '/') && (prev == '*')));
 					buf.append('/');
 					String note = buf.toString();
@@ -121,13 +109,15 @@ public class Lexer {
 			else	
 				return table.lookUpTable("!");	
 		}
+		
 		if( Character.isDigit(temp)){
 			int num = 0;
 			do{
 				num = num*10 + (temp - '0');
 				getChar();
 			}while(Character.isDigit(temp));
-			if(temp != '.')	return new Number(num, "DIGIT");
+			
+			if(temp != '.')	return new Number(num, "NUM");
 			double out = num;
 			double bit = 10;
 			while(true){
@@ -136,7 +126,7 @@ public class Lexer {
 				out += ((temp - '0')/bit);
 				bit *= 10;
 			}
-			return new Float(out, "FLOATINGDIGIT");
+			return new Float(out, "NUM");
 		}
 		if(	Character.isLetter(temp)){
 			StringBuffer buf = new StringBuffer();
@@ -147,14 +137,13 @@ public class Lexer {
 			String str = buf.toString();
 			Token value = table.lookUpTable(str);
 			if(value == null){
-				value = new Token(str, "IDENTIFY");
-				table.putInTable(str, value);
+				value = new Token(str, "ID");
 				return value;
 			}
 			else
 				return value;
 		}
-		Bound bo = new Bound(temp);
+		Token bo = new Token(""+temp);
 		temp = ' ';
 		return bo;
 	}

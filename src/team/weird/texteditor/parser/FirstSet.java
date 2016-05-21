@@ -20,8 +20,6 @@ public class FirstSet{
 			Entry<String, Symbol> entry = symIter.next();
 			Symbol temp = entry.getValue();
 			Iterator<RightProduction> proIter = temp.rightList.iterator();
-			if(temp.getUnterminatingString().equals("local-declarations"))
-				System.out.println();
 			while(proIter.hasNext()){
 				LinkedList<String> list = proIter.next().getRightSymbolList();
 				String firstSymStr =list.getFirst();

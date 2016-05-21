@@ -14,7 +14,4 @@ public class Float extends Token{
 	public String getType(){
 		return type;
 	}
-	public String toString(){
-		return "Num: "+flo+" TYPE: "+ type;
-	}
 }

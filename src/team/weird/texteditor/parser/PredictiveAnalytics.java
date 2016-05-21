@@ -21,7 +21,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable{
 		this.TermSymbolSet = TermSymbolSet;
 		this.entrance = entrance;
 	}
-	public void PredictAndAnalyze(Token[] token, int line) throws SyntacticErrorException{
+	public SyntaxTreeNode PredictAndAnalyze(Token[] token) throws SyntacticErrorException{
 		int index = 0;
 		SyntaxTreeNode root = new SyntaxTreeNode(entrance);
 		stack.push(root);
@@ -36,18 +36,18 @@ public class PredictiveAnalytics extends PredictAnalyticalTable{
 			System.out.println(peek+" "+token[index].toString());
 
 			if(peek.equals(token[index].toString())){
-				System.out.println(peek+" "+token[index].toString());
+//				System.out.println(peek+" "+token[index].toString());
 				stack.pop();
 				index++;
 			}
 			else if(TermSymbolSet.contains(peek))
 				throw new SyntacticErrorException("You have an error in your C- syntax; " +
 						"check the manual that corresponds to your C- version for the right" +
-						"syntax to use near '"+token[index].toString()+"' at line"+ line); 
+						"syntax to use near '"+token[index].toString()+"' at line "+ token[index].getLineNum()); 
 			else if(UntermSymbolMap.get(peek).predictiveMap.get(token[index].toString()) == null)
 				throw new SyntacticErrorException("You have an error in your C- syntax; " +
 						"check the manual that corresponds to your C- version for the right" +
-						"syntax to use near '"+token[index].toString()+"' at line"+ line);
+						"syntax to use near '"+token[index].toString()+"' at line "+ token[index].getLineNum());
 			else if(UntermSymbolMap.get(peek).predictiveMap.get(token[index].toString()).get(0).equals("empty"))
 				stack.pop();
 			else{
@@ -67,6 +67,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable{
 			}
 		}
 		System.out.println("Ok");
+		return root;
 	} 
 }
 

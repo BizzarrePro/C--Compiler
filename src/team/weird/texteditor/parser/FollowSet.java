@@ -53,8 +53,6 @@ public class FollowSet {
 					
 					if (symbolMap.containsKey(tempSym)
 							&& tempSym.equals(symbol)) {
-						if (symbol.equals("local-declarations"))
-								System.out.println(tempSym+ " " + temp.getUnterminatingString());
 						if (listIter.hasNext()) {
 							
 							String followSymbol = listIter.next();

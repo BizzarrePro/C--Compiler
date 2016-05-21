@@ -14,7 +14,4 @@ public class Number extends Token{
 	public String getType(){
 		return type;
 	}
-	public String toString(){
-		return "Num: "+num+" TYPE: "+ type;
-	}
 }

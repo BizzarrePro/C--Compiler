@@ -29,7 +29,7 @@ public class EliminationOfLeftRecursion extends ExtractProduction {
 		//reduceIndirectLeftRecursionToImmediateLeftRecursion();
 		createTerminatingSymbolTable();
 
-		displayAfterElimination();
+		//displayAfterElimination();
 		// displayBeforeDepthFirstOrder();
 	}
 
