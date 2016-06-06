@@ -1,28 +1,20 @@
 package team.weird.texteditor.lexer;
 
 public class Token {
-	private String word;
-	private String type;
-	private int lineNum ;
+	protected String word;
+	protected int lineNum ;
 	public Token(){}
-	public Token(String word, String type){
+	public Token(String word){
 		this.word = word;
-		this.type = type;
-	}
-	public Token(String type){
-		this.type = type;
 	}
 	public String getWord(){
 		return word;
-	}
-	public String getType(){
-		return type;
 	}
 	public boolean equals(Object o){
 		if(o == null)	return false;
 		if(!(o instanceof Token))	return false;
 		Token temp = (Token)o;
-		if(this == temp)
+		if(this.word.equals(temp.word))
 			return true;
 		return false;
 	}
@@ -36,7 +28,7 @@ public class Token {
 		return word.hashCode();
 	}
 	public String toString(){
-		return type;
+		return word;
 	}
 	
 }

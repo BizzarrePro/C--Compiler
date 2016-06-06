@@ -4,7 +4,7 @@ public class Number extends Token{
 	private int num;
 	private String type;
 	public Number(int num, String type){
-		super(""+num, type);
+		super(type);
 		this.num = num;
 		this.type = type;
 	}

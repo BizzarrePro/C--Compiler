@@ -9,7 +9,7 @@ public class Lexer {
 	public ArrayList<Token> tokenList = new ArrayList<Token>();
 	private boolean exitTag = false;
 	public Lexer() {}
-	private int line = 0;
+	private int line = 1;
 	private char temp = ' ';
 	private ReservedWord table = new ReservedWord();
 	public int getLine(){
@@ -137,7 +137,7 @@ public class Lexer {
 			String str = buf.toString();
 			Token value = table.lookUpTable(str);
 			if(value == null){
-				value = new Token(str, "ID");
+				value = new Word(str, "ID");
 				return value;
 			}
 			else

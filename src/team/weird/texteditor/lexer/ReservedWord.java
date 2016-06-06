@@ -23,6 +23,10 @@ public class ReservedWord {
 		reservedSet.put("[", new Token("["));
 		reservedSet.put("else", new Token("else"));
 		reservedSet.put("int", new Token("int"));
+		reservedSet.put("double", new Token("double"));
+		reservedSet.put("float", new Token("float"));
+		reservedSet.put("bool", new Token("bool"));
+		reservedSet.put("int", new Token("int"));
 		reservedSet.put("*", new Token("*"));
 		reservedSet.put("return", new Token("return"));
 		reservedSet.put("void", new Token("void"));

@@ -4,7 +4,7 @@ public class Float extends Token{
 	private double flo;
 	private String type;
 	public Float(double flo, String type){
-		super(""+flo, type);
+		super(type);
 		this.flo = flo;
 		this.type = type;
 	}
