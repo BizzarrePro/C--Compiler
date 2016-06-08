@@ -2,11 +2,11 @@ package team.weird.texteditor.semantic;
 
 import team.weird.texteditor.lexer.Token;
 
-public class SyntaxLeafNode extends Token{
+public class SyntaxLeafNode extends Node{
 	private Token token = null;
 	public SyntaxLeafNode() { super("empty");}
-	public SyntaxLeafNode(Token token){
-		super(token.toString());
+	public SyntaxLeafNode(Token token, String symbol){
+		super(symbol);
 		this.token = token;
 	}
 	public Token getToken(){
@@ -14,8 +14,5 @@ public class SyntaxLeafNode extends Token{
 	}
 	public void setToken(Token tok){
 		this.token = tok;
-	}
-	public String toString(){
-		return token.toString();
 	}
 }

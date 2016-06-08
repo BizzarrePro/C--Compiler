@@ -5,20 +5,18 @@ import java.util.LinkedList;
 
 import team.weird.texteditor.lexer.Token;
 
-public class SyntaxTreeNode extends Token{
-	private String symbol;
-	private LinkedList<Token> childNode = new LinkedList<Token>();
+public class SyntaxTreeNode extends Node{
+	private LinkedList<Node> childNode = new LinkedList<Node>();
 	public SyntaxTreeNode(String symbol){
 		super(symbol);
-		this.symbol = symbol;
 	}
 	public String getSymbol(){
 		return symbol;
 	}
-	public void addNewNode(Token node){
+	public void addNewNode(Node node){
 		childNode.add(node);
 	}
-	public LinkedList<Token> getChildList(){
+	public LinkedList<Node> getChildList(){
 		return childNode;
 	}
 }

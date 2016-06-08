@@ -9,7 +9,7 @@ import java.util.Stack;
 import team.weird.texteditor.lexer.Token;
 
 public class AbstractSyntaxTree {
-	private SyntaxTreeNode root = null;
+	private Node root = null;
 //	private HashSet<String> terminatingSet;
 //	private Stack<HashMap<String, Token>> varSymbolTable = 
 //			new Stack<HashMap<String, Token>>();
@@ -17,7 +17,7 @@ public class AbstractSyntaxTree {
 	private String type;
 	private static int depth = 1;
 
-	public AbstractSyntaxTree(SyntaxTreeNode entrance,
+	public AbstractSyntaxTree(Node entrance,
 			HashSet<String> terminatingSet) {
 		this.root = entrance;
 //		this.terminatingSet = terminatingSet;
@@ -25,15 +25,13 @@ public class AbstractSyntaxTree {
 
 	}
 	
-	public void displayTreeNode(Token root){
-//		System.out.println(((SyntaxTreeNode)root).getSymbol());
-//		System.out.println(((SyntaxTreeNode) root).getChildList().size());
+	public void displayTreeNode(Node root){
+		System.out.println(root.getClass().getSimpleName());
 		if(root.getClass().getSimpleName().equals("SyntaxLeafNode"))
 			return;
-		Iterator<Token> displayIter = ((SyntaxTreeNode) root).getChildList().iterator();
+		Iterator<Node> displayIter = ((SyntaxTreeNode)root).getChildList().iterator();
 		while(displayIter.hasNext()){
-			Token temp = displayIter.next();	
-			//System.out.println(((SyntaxTreeNode) temp).getChildList().size());
+			Node temp = displayIter.next();	
 			displayTreeNode(temp);
 		}
 		
