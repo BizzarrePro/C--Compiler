@@ -30,6 +30,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 	public Node PredictAndAnalyze(Token[] token)
 			throws SyntacticErrorException {
 		int index = 0;
+		int leafNodeIndex = 0;
 		Node root = new SyntaxTreeNode(entrance);
 		stack.push(root);
 		while (!stack.isEmpty() && index < token.length) {
@@ -39,6 +40,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 //				 System.out.println(a.getSymbol());
 			String peek = stack.peek().getSymbol();
 			if (peek.equals(token[index].toString())) {
+//				System.out.println(token[index]);
 				stack.pop();
 				index++;
 			} else if (TermSymbolSet.contains(peek))
@@ -73,7 +75,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 					if(UntermSymbolMap.containsKey(temp))
 						childNode = new SyntaxTreeNode(temp);
 					else
-						childNode = new SyntaxLeafNode(token[index], temp);
+						childNode = new SyntaxLeafNode(token[leafNodeIndex++], temp);
 					((SyntaxTreeNode) peekElement).addNewNode(childNode);
 					stack.push(childNode);
 				}

@@ -7,6 +7,7 @@ import java.util.ListIterator;
 import java.util.Stack;
 
 import team.weird.texteditor.lexer.Token;
+import team.weird.texteditor.lexer.Word;
 
 public class AbstractSyntaxTree {
 	private Node root = null;
@@ -14,7 +15,6 @@ public class AbstractSyntaxTree {
 //	private Stack<HashMap<String, Token>> varSymbolTable = 
 //			new Stack<HashMap<String, Token>>();
 //	private HashSet<String> typeSet = new HashSet<String>();
-	private String type;
 	private static int depth = 1;
 
 	public AbstractSyntaxTree(Node entrance,
@@ -26,7 +26,10 @@ public class AbstractSyntaxTree {
 	}
 	
 	public void displayTreeNode(Node root){
-		System.out.println(root.getClass().getSimpleName());
+		if(root.getClass().getSimpleName().equals("SyntaxLeafNode")&&((SyntaxLeafNode)root).getToken() != null)
+			System.out.println(((SyntaxLeafNode)root).getToken().getWord()+" "+depth);
+		else if(root.getClass().getSimpleName().equals("SyntaxTreeNode"))
+			System.out.println(((SyntaxTreeNode)root).getSymbol()+" "+depth);
 		if(root.getClass().getSimpleName().equals("SyntaxLeafNode"))
 			return;
 		Iterator<Node> displayIter = ((SyntaxTreeNode)root).getChildList().iterator();
@@ -34,9 +37,6 @@ public class AbstractSyntaxTree {
 			Node temp = displayIter.next();	
 			displayTreeNode(temp);
 		}
-		
-		
-		
 	}
 //	public void displayTree(SyntaxTreeNode root) {
 //		System.out.println(root.toString() + " <depth>: " + depth);

@@ -134,11 +134,12 @@ public class Lexer {
 				buf.append(temp);
 				getChar();
 			} while(Character.isLetterOrDigit(temp) || temp == '_');
-			String str = buf.toString();
+		
+			String str = buf.toString();	
 			Token value = table.lookUpTable(str);
 			if(value == null){
-				value = new Word(str, "ID");
-				return value;
+				return new Word(str, "ID");
+				
 			}
 			else
 				return value;

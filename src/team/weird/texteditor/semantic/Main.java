@@ -30,6 +30,8 @@ public class Main {
 				selectSet.getSymbolMap(), ExtractProduction.TerminatingSymbolTable,
 				EliminationOfLeftRecursion.entrance);
 		Lexer lex = new Lexer();
+//		for(Token a:lex.getTokenStream())
+//			System.out.println(a.getClass().getSimpleName());
 		AbstractSyntaxTree tree = new AbstractSyntaxTree(
 				analysic.PredictAndAnalyze(lex.getTokenStream()), 
 				ExtractProduction.TerminatingSymbolTable);
