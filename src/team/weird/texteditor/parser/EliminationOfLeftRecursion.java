@@ -17,9 +17,8 @@ import java.util.Map;
 import team.weird.texteditor.parser.Symbol.RightProduction;
 
 public class EliminationOfLeftRecursion extends ExtractProduction {
-
+	private static final EliminationOfLeftRecursion INSTANCE = new EliminationOfLeftRecursion();
 	private static int count = 1;
-
 	public EliminationOfLeftRecursion() {
 		super();
 		markEpsilonEntry();
@@ -32,7 +31,7 @@ public class EliminationOfLeftRecursion extends ExtractProduction {
 		//displayAfterElimination();
 		// displayBeforeDepthFirstOrder();
 	}
-
+	public static EliminationOfLeftRecursion getInstance(){ return INSTANCE; }
 	private void reduceIndirectLeftRecursionToImmediateLeftRecursion() {
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
 				.entrySet().iterator();

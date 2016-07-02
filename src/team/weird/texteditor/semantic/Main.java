@@ -17,19 +17,23 @@ import team.weird.texteditor.parser.SyntacticErrorException;
 public class Main {
 	public static void main(String[] args) throws OverlappedSyntaxException,
 			SyntacticErrorException, IOException {
-		EliminationOfLeftRecursion removeLeftRecursion = new EliminationOfLeftRecursion();
+		EliminationOfLeftRecursion removeLeftRecursion = EliminationOfLeftRecursion.getInstance();
+		
 		FirstSet firstSet = new FirstSet(removeLeftRecursion.getSymbolMap());
 		firstSet.createFirstSet();
 		
 		FollowSet followSet = new FollowSet(firstSet.symbolMap);
 		followSet.createFollowSet();
+		
 		SelectSet selectSet = new SelectSet(followSet.symbolMap,
 				ExtractProduction.TerminatingSymbolTable);
+		
 		selectSet.createSelectSet();
 		PredictiveAnalytics analysic = new PredictiveAnalytics(
 				selectSet.getSymbolMap(), ExtractProduction.TerminatingSymbolTable,
 				EliminationOfLeftRecursion.entrance);
-		Lexer lex = new Lexer();
+		
+		Lexer lex = Lexer.getInstance();
 //		for(Token a:lex.getTokenStream())
 //			System.out.println(a.getClass().getSimpleName());
 		AbstractSyntaxTree tree = new AbstractSyntaxTree(
