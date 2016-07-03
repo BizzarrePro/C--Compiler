@@ -15,4 +15,8 @@ public class SyntaxLeafNode extends Node{
 	public void setToken(Token tok){
 		this.token = tok;
 	}
+	public boolean isLeaf(){
+		return true;
+	}
+	
 }

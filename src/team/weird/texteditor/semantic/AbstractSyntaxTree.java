@@ -16,27 +16,27 @@ public class AbstractSyntaxTree {
 //			new Stack<HashMap<String, Token>>();
 //	private HashSet<String> typeSet = new HashSet<String>();
 	private static int depth = 1;
-
 	public AbstractSyntaxTree(Node entrance,
 			HashSet<String> terminatingSet) {
 		this.root = entrance;
 //		this.terminatingSet = terminatingSet;
-		displayTreeNode(root);
+//		displayTreeNode(root);
 
 	}
 	
 	public void displayTreeNode(Node root){
-		if(root.getClass().getSimpleName().equals("SyntaxLeafNode")&&((SyntaxLeafNode)root).getToken() != null)
+		if(root.isLeaf()&&((SyntaxLeafNode)root).getToken() != null)
 			System.out.println(((SyntaxLeafNode)root).getToken().getWord()+" "+depth);
-		else if(root.getClass().getSimpleName().equals("SyntaxTreeNode"))
+		else if(!root.isLeaf())
 			System.out.println(((SyntaxTreeNode)root).getSymbol()+" "+depth);
-		if(root.getClass().getSimpleName().equals("SyntaxLeafNode"))
+		if(root.isLeaf())
 			return;
 		Iterator<Node> displayIter = ((SyntaxTreeNode)root).getChildList().iterator();
 		while(displayIter.hasNext()){
 			Node temp = displayIter.next();	
 			displayTreeNode(temp);
 		}
+		depth--;
 	}
 //	public void displayTree(SyntaxTreeNode root) {
 //		System.out.println(root.toString() + " <depth>: " + depth);

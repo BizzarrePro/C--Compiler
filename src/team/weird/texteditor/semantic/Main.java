@@ -32,7 +32,6 @@ public class Main {
 		PredictiveAnalytics analysic = new PredictiveAnalytics(
 				selectSet.getSymbolMap(), ExtractProduction.TerminatingSymbolTable,
 				EliminationOfLeftRecursion.entrance);
-		
 		Lexer lex = Lexer.getInstance();
 //		for(Token a:lex.getTokenStream())
 //			System.out.println(a.getClass().getSimpleName());

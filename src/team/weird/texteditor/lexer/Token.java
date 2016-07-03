@@ -12,10 +12,15 @@ public class Token {
 	}
 	public boolean equals(Object o){
 		if(o == null)	return false;
-		if(!(o instanceof Token))	return false;
-		Token temp = (Token)o;
-		if(this.word.equals(temp.word))
-			return true;
+		if(!(o instanceof Token || o instanceof String))	return false;
+		if(o instanceof Token){
+			if(this.word.equals(((Token)o).word))
+				return true;
+		}
+		else {
+			if(this.word.equals((String)o))
+				return true;
+		}
 		return false;
 	}
 	public void setLineNum(int lineNum){
