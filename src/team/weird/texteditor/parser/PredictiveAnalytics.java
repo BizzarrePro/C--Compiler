@@ -1,5 +1,6 @@
 package team.weird.texteditor.parser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -39,28 +40,32 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 			throws SyntacticErrorException {
 		int index = 0;
 		int leafNodeIndex = 0;
+		boolean CalParameter = false;
+		//Temporary function parameters list
+		ArrayList<String> TypeList = new ArrayList<String>();
+		ArrayList<SymbolAttr> AttrList = new ArrayList<SymbolAttr>();
 		String identify = null;
 		String type = null;
-		boolean CalParameter = false;
+		String currFunc = null;
 		Node root = new SyntaxTreeNode(entrance);
 		stack.push(root);
 		while (!stack.isEmpty() && index < token.length) {
 //		 For debugging
-		 System.out.println("---Stack Start---");
-			 for(Node a : stack)
-				 System.out.println(a.getSymbol());
+//		 System.out.println("---Stack Start---");
+//			 for(Node a : stack)
+//				 System.out.println(a.getSymbol());
 			String peek = stack.peek().getSymbol();
 			if (peek.equals(token[index].toString())) {
-				System.out.println(token[index]);
+//				System.out.println(token[index]);
 				if((peek.equals("int") || peek.equals("double") || peek.equals("float") || peek.equals("bool"))){
 					type = peek;
 					identify = ((Word)token[index+1]).getId();
 				}
 				else if(peek.equals("{")){
-//					System.out.println(symTable.getSymbolTable().size());
-//					for(Map.Entry<String, SymbolAttr> entry : symTable.getSymbolTable().entrySet())
-//						System.out.println(entry.getKey());
 					symTable.createNewScope();
+					symTable.putAllInSymbolTable(TypeList, AttrList, TypeList.size());
+					TypeList.clear();
+					AttrList.clear();
 				}
 				else if(peek.equals("}")){
 					symTable.destroyOldScope();
@@ -79,6 +84,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 			else {
 				Node peekElement = stack.pop();
 				if(peekElement.equals("var-declaration") && token[index].equals(";")){
+					System.out.println(symTable.checkKeyState("a"));
 					if(symTable.checkKeyState(identify))
 						symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.VAR));
 					else
@@ -87,7 +93,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				}
 				else if(peekElement.equals("var-declaration") && token[index].equals("[")){
 					if(symTable.checkKeyState(identify))
-						symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.ARRAY, ((Number)token[index]).getNum()));
+						symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.ARRAY, ((Number)token[index+1]).getNum()));
 					else
 						throw new SyntacticErrorException(identify, token[index].getLineNum());
 						
@@ -95,13 +101,35 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				}
 				else if(peekElement.equals("fun-declaration") && token[index].equals("(")){
 					CalParameter = true;
+					currFunc = identify;
 					if(funcTable.checkKeyState(identify))
-						;
-//						funcTable.putInFuncTable(identify, new SymbolAttr)
+						funcTable.putInFuncTable(identify, new SymbolAttr(type, Attribute.FUNC));
+					else
+						throw new SyntacticErrorException(identify, token[index].getLineNum());
 					//leave array problem
 				}
-				else if(peekElement.equals("param-temp") && token[index].equals(")")){
+				else if(CalParameter && token[index].equals(")")){
 					CalParameter = false;
+				}
+				else if(CalParameter && peekElement.equals("param-temp") && token[index].equals("[")){
+					if(symTable.checkKeyState(identify)){
+						//symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.ARRAY));
+						TypeList.add(identify);
+						AttrList.add(new SymbolAttr(type, Attribute.ARRAY));
+						funcTable.getSymbolAttribute(currFunc).addParameter(identify);
+					}
+					else
+						throw new SyntacticErrorException(identify, token[index].getLineNum());
+				}
+				else if(CalParameter && peekElement.equals("param-temp")){
+					if(symTable.checkKeyState(identify)){
+						//symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.VAR));
+						TypeList.add(identify);
+						AttrList.add(new SymbolAttr(type, Attribute.VAR));
+						funcTable.getSymbolAttribute(currFunc).addParameter(identify);
+					}
+					else
+						throw new SyntacticErrorException(identify, token[index].getLineNum());
 				}
 				else if(peekElement.equals("factor"))
 					if(token[index].equals("ID") && 
@@ -130,11 +158,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 		return root;
 	}
 }
-//int d;
-//int a(void){
-//	  int b;
-//	  while(1){
-//	  int a;
-//	  int b;
-//	  }
-//	}$
+//bug
+//int a(int a, int b){
+//int b;
+//}$

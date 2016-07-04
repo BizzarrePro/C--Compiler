@@ -1,5 +1,7 @@
 package team.weird.texteditor.semantic;
 
+import java.util.ArrayList;
+
 public class SymbolAttr {
 	public enum Attribute{
 		VAR, ARRAY, FUNC
@@ -7,7 +9,7 @@ public class SymbolAttr {
 	private String type = null;
 	private Attribute attr= null;
 	private int arrayLength = 0;
-//	private String returnType = null;
+	private ArrayList<String> parametersList = new ArrayList<String>();
 	public SymbolAttr(String type, Attribute attr){
 		this.type = type;
 		this.attr = attr;
@@ -34,5 +36,9 @@ public class SymbolAttr {
 	}
 	public int getArrayLength(){
 		return arrayLength;
+	}
+	public void addParameter(String e){
+		assert attr == Attribute.FUNC;
+		parametersList.add(e);
 	}
 }

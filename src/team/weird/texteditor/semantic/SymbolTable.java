@@ -1,5 +1,6 @@
 package team.weird.texteditor.semantic;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,5 +36,10 @@ public class SymbolTable {
 	}
 	public HashMap<String, SymbolAttr> getSymbolTable(){
 		return scopeStk.peek();
+	}
+	public void putAllInSymbolTable(ArrayList<String> typeList, ArrayList<SymbolAttr> attrList, int length){
+		for(int i = 0; i < length; i++){
+			scopeStk.peek().put(typeList.get(i), attrList.get(i));
+		}
 	}
 }

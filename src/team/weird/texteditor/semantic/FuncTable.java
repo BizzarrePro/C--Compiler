@@ -15,4 +15,7 @@ public class FuncTable {
 	public boolean checkKeyState(String key){
 		return !funcTable.containsKey(key);
 	}
+	public SymbolAttr getSymbolAttribute(String key){
+		return funcTable.get(key);
+	}
 }
