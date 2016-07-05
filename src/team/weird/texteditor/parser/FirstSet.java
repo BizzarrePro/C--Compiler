@@ -58,7 +58,7 @@ public class FirstSet{
 		}
 	}
 	public void disposeOfFirstSet(Set<String> set, String untermination){
-		if(!symbolMap.containsKey(untermination) && !untermination.equals("empty")){
+		if(!symbolMap.containsKey(untermination)){
 			set.add(untermination);
 			return;
 		}

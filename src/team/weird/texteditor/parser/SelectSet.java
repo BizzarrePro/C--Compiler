@@ -21,13 +21,16 @@ public class SelectSet {
 			Symbol temp = entry.getValue();
 			Iterator<RightProduction> proIter = temp.rightList.iterator();
 			while(proIter.hasNext()){
-				String firstSymbol = proIter.next().getFirstRightSymbol();
+				RightProduction production = proIter.next();
+				String firstSymbol = production.getFirstRightSymbol();
 				if(termMap.contains(firstSymbol))
 					temp.selectSet.add(firstSymbol);
-				else if(firstSymbol.equals("empty"));
+				else if(firstSymbol.equals("empty"))
+					temp.selectSet.addAll(temp.followSet);
+//					;
 				else{
 					temp.selectSet.addAll(temp.firstSet);
-					temp.selectSet.remove("empty");
+					//temp.selectSet.remove("empty");
 				}
 			}
 		}

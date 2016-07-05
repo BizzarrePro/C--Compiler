@@ -3,9 +3,10 @@ declaration-list:declaration-list declaration|declaration
 declaration:type-specifier ID general-declaration|general-declaration
 general-declaration:var-declaration|fun-declaration
 var-declaration:;|[ NUM ] ;
-type-specifier:int|void
+type-specifier:int|double|bool|float|void
 fun-declaration:( params ) |compound-stmt
-params:param|void
+params:param-list|void
+param-list:param-list , param|param
 param:type-specifier ID param-temp
 param-temp:empty|[ ]
 compound-stmt:{ local-declarations statement-list }
@@ -13,18 +14,24 @@ local-declarations:local-declarations declaration|empty
 statement-list:statement-list statement|empty
 statement:expression-stmt|compound-stmt|selection-stmt|iteration-stmt|return-stmt
 expression-stmt:expression ;|;
-selection-stmt:if ( expression ) statement|if ( expression ) statement else statement
+selection-stmt:if ( expression ) statement selection-stmt-temp
+selection-stmt-temp:empty|else statement
 iteration-stmt:while ( expression ) statement
 return-stmt:return ;|return expression ;
-expression:var = expression|simple-expression
-var:ID|ID [ expression ]
-simple-expression:additive-expression relop additive-expression|additive-expression
+expression:ID expression-sub|( expression ) expression-none|NUM expression-none
+expression-none:term-temp additive-expression-temp simple-expression
+expression-sub:var expression-sub-sub|( args ) expression-none
+expression-sub-sub:expression-none|= expression
+var:empty|[ expression ]
+simple-expression:empty|relop additive-expression
 relop:<=|<|>|>=|==|!=
-additive-expression:additive-expression addop term|term
+additive-expression:term additive-expression-temp
+additive-expression-temp:addop term additive-expression-temp|empty
 addop:+|-
-term:term mulop factor|factor
+term:factor term-temp
+term-temp:mulop factor term-temp|empty
 mulop:*|/
-factor:( expression )|var|call|NUM
-call:ID ( args )
+factor:( expression )|ID factor-temp|NUM
+factor-temp:var|( args )
 args:arg-list|empty
 arg-list:arg-list , expression|expression

@@ -51,9 +51,10 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 		stack.push(root);
 		while (!stack.isEmpty() && index < token.length) {
 //		 For debugging
-//		 System.out.println("---Stack Start---");
-//			 for(Node a : stack)
-//				 System.out.println(a.getSymbol());
+			System.out.println("---Stack Start---");
+			for(Node a : stack)
+				 System.out.println(a.getSymbol());
+			System.out.println(token[index]);
 			String peek = stack.peek().getSymbol();
 			if (peek.equals(token[index].toString())) {
 //				System.out.println(token[index]);
@@ -63,6 +64,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				}
 				else if(peek.equals("{")){
 					symTable.createNewScope();
+//					System.out.println(TypeList.size());
 					symTable.putAllInSymbolTable(TypeList, AttrList, TypeList.size());
 					TypeList.clear();
 					AttrList.clear();
@@ -72,19 +74,29 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				}
 				stack.pop();
 				index++;
-			} else if (TermSymbolSet.contains(peek))
+			} 
+			else if (TermSymbolSet.contains(peek))
 				throw new SyntacticErrorException(token[index].toString(), token[index].getLineNum());
 			else if (UntermSymbolMap.get(peek).predictiveMap.get(token[index]
 					.toString()) == null)
 				throw new SyntacticErrorException(token[index].toString(), token[index].getLineNum());
 			else if (UntermSymbolMap.get(peek).predictiveMap
 					.get(token[index].toString()).get(0).equals("empty")){
-				((SyntaxTreeNode)stack.pop()).addNewNode(new SyntaxLeafNode());
+				Node peekElement = stack.pop();
+				((SyntaxTreeNode)peekElement).addNewNode(new SyntaxLeafNode());
+				if(CalParameter && peekElement.equals("param-temp")){
+					if(!TypeList.contains(identify)){
+						TypeList.add(identify);
+						AttrList.add(new SymbolAttr(type, Attribute.VAR));
+						funcTable.getSymbolAttribute(currFunc).addParameter(identify);
+					}
+					else
+						throw new SyntacticErrorException(identify, token[index].getLineNum());
+				}
 			}
 			else {
 				Node peekElement = stack.pop();
 				if(peekElement.equals("var-declaration") && token[index].equals(";")){
-					System.out.println(symTable.checkKeyState("a"));
 					if(symTable.checkKeyState(identify))
 						symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.VAR));
 					else
@@ -102,6 +114,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				else if(peekElement.equals("fun-declaration") && token[index].equals("(")){
 					CalParameter = true;
 					currFunc = identify;
+					//System.out.println("Hello");
 					if(funcTable.checkKeyState(identify))
 						funcTable.putInFuncTable(identify, new SymbolAttr(type, Attribute.FUNC));
 					else
@@ -112,20 +125,9 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 					CalParameter = false;
 				}
 				else if(CalParameter && peekElement.equals("param-temp") && token[index].equals("[")){
-					if(symTable.checkKeyState(identify)){
-						//symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.ARRAY));
+					if(!TypeList.contains(identify)){
 						TypeList.add(identify);
 						AttrList.add(new SymbolAttr(type, Attribute.ARRAY));
-						funcTable.getSymbolAttribute(currFunc).addParameter(identify);
-					}
-					else
-						throw new SyntacticErrorException(identify, token[index].getLineNum());
-				}
-				else if(CalParameter && peekElement.equals("param-temp")){
-					if(symTable.checkKeyState(identify)){
-						//symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.VAR));
-						TypeList.add(identify);
-						AttrList.add(new SymbolAttr(type, Attribute.VAR));
 						funcTable.getSymbolAttribute(currFunc).addParameter(identify);
 					}
 					else
@@ -135,7 +137,6 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 					if(token[index].equals("ID") && 
 							!symTable.checkVariableExist(((Word)token[index]).getId()))
 						throw new SyntacticErrorException(((Word)token[index]).getId(), token[index].getLineNum());
-				else if(true){}
 				//Need to add simantic action
 				LinkedList<String> production = UntermSymbolMap.get(peek).predictiveMap
 						.get(token[index].toString());

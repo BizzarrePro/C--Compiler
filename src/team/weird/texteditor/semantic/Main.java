@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import team.weird.texteditor.lexer.Lexer;
+import team.weird.texteditor.lexer.LexerErrorException;
 import team.weird.texteditor.lexer.Token;
 import team.weird.texteditor.parser.EliminationOfLeftRecursion;
 import team.weird.texteditor.parser.ExtractProduction;
@@ -16,19 +17,20 @@ import team.weird.texteditor.parser.SyntacticErrorException;
 
 public class Main {
 	public static void main(String[] args) throws OverlappedSyntaxException,
-			SyntacticErrorException, IOException {
+			SyntacticErrorException, IOException, LexerErrorException {
 		EliminationOfLeftRecursion removeLeftRecursion = EliminationOfLeftRecursion.getInstance();
 		
 		FirstSet firstSet = new FirstSet(removeLeftRecursion.getSymbolMap());
 		firstSet.createFirstSet();
-		
+		firstSet.display();
 		FollowSet followSet = new FollowSet(firstSet.symbolMap);
 		followSet.createFollowSet();
+		followSet.display();
 		
 		SelectSet selectSet = new SelectSet(followSet.symbolMap,
 				ExtractProduction.TerminatingSymbolTable);
-		
 		selectSet.createSelectSet();
+		
 		PredictiveAnalytics analysic = new PredictiveAnalytics(
 				selectSet.getSymbolMap(), ExtractProduction.TerminatingSymbolTable,
 				EliminationOfLeftRecursion.entrance);
@@ -43,7 +45,6 @@ public class Main {
 		pause.next();
 		removeLeftRecursion.displayAfterElimination();
 		firstSet.display();
-		followSet.display();
 		followSet.display();
 		selectSet.display();
 		analysic.displayPredictiveTable();
