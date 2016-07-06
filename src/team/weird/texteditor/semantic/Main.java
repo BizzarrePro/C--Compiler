@@ -22,10 +22,9 @@ public class Main {
 		
 		FirstSet firstSet = new FirstSet(removeLeftRecursion.getSymbolMap());
 		firstSet.createFirstSet();
-		firstSet.display();
+
 		FollowSet followSet = new FollowSet(firstSet.symbolMap);
 		followSet.createFollowSet();
-		followSet.display();
 		
 		SelectSet selectSet = new SelectSet(followSet.symbolMap,
 				ExtractProduction.TerminatingSymbolTable);

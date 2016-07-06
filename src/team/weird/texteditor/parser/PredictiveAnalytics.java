@@ -119,7 +119,6 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 						funcTable.putInFuncTable(identify, new SymbolAttr(type, Attribute.FUNC));
 					else
 						throw new SyntacticErrorException(identify, token[index].getLineNum());
-					//leave array problem
 				}
 				else if(CalParameter && token[index].equals(")")){
 					CalParameter = false;
