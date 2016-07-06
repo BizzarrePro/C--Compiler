@@ -11,17 +11,13 @@ import team.weird.texteditor.lexer.Word;
 
 public class AbstractSyntaxTree {
 	private Node root = null;
-//	private HashSet<String> terminatingSet;
-//	private Stack<HashMap<String, Token>> varSymbolTable = 
-//			new Stack<HashMap<String, Token>>();
-//	private HashSet<String> typeSet = new HashSet<String>();
+	private HashSet<String> terminatingSet;
 	private static int depth = 1;
 	public AbstractSyntaxTree(Node entrance,
 			HashSet<String> terminatingSet) {
 		this.root = entrance;
-//		this.terminatingSet = terminatingSet;
+		this.terminatingSet = terminatingSet;
 //		displayTreeNode(root);
-
 	}
 	
 	public void displayTreeNode(Node root){
@@ -38,24 +34,9 @@ public class AbstractSyntaxTree {
 		}
 		depth--;
 	}
-//	public void displayTree(SyntaxTreeNode root) {
-//		System.out.println(root.toString() + " <depth>: " + depth);
-//		depth++;
-//		Iterator<SyntaxTreeNode> displayIter = root.getChildList().iterator();
-//		System.out.print("<|");
-//		while (displayIter.hasNext()) {
-//			System.out.print(displayIter.next().getSymbol() + " ");
-//		}
-//		System.out.print("|>");
-//		System.out.println();
-//		Iterator<SyntaxTreeNode> iter = root.getChildList().iterator();
-//		while (iter.hasNext()) {
-//			displayTree(iter.next());
-//		}
-//		depth--;
-//
-//	}
-
+	public void postOrderTraverse(SyntaxTreeNode root) {
+		
+	}
 //	public void postOrderTraverse(SyntaxTreeNode root) {
 //		if (root.getChildList().size() == 0) {
 //			if (terminatingSet.contains(root.getSymbol()))

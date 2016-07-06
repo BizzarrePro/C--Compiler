@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import team.weird.texteditor.parser.Symbol.RightProduction;
-
+import team.weird.texteditor.parser.ExtractProduction;
 public class FirstSet{
 	public HashMap<String, Symbol> symbolMap;
 	public FirstSet(HashMap<String, Symbol> symbolMap){
@@ -48,10 +48,6 @@ public class FirstSet{
 							temp.firstSet.add(noEpsilonSymbol);
 							break;
 						}
-//						if(!proEpsilonIter.hasNext())
-//							temp.firstSet.add("empty");
-							
-						
 					}
 				}
 			}
@@ -62,13 +58,18 @@ public class FirstSet{
 			set.add(untermination);
 			return;
 		}
-		else if(untermination.equals("empty"))
-			return;
 		Symbol temp = symbolMap.get(untermination);
+		int index = 0;
 		for(int i = 0; i < temp.rightList.size(); i++){
 			RightProduction proTemp = temp.rightList.get(i);
-			if(proTemp.getRightSymbolList().size() > 0 )
-				disposeOfFirstSet(temp.firstSet, proTemp.getFirstRightSymbol());	
+			disposeOfFirstSet(temp.firstSet, proTemp.getFirstRightSymbol());	
+			while(symbolMap.containsKey(proTemp.getFirstRightSymbol()) 
+					&& index < proTemp.getRightSymbolList().size() 
+					&& symbolMap.get(proTemp.getSymbolByIndex(index)).hasEpsilon){
+				disposeOfFirstSet(temp.firstSet, proTemp.getSymbolByIndex(index));
+				index++;
+			}
+				
 		}
 		set.addAll(temp.firstSet);
 	}

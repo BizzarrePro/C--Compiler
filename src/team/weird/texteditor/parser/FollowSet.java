@@ -54,7 +54,6 @@ public class FollowSet {
 					if (symbolMap.containsKey(tempSym)
 							&& tempSym.equals(symbol)) {
 						if (listIter.hasNext()) {
-							
 							String followSymbol = listIter.next();
 							// System.out.println(followSymbol);
 							if (symbolMap.containsKey(followSymbol)) {

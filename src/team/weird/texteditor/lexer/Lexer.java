@@ -19,7 +19,7 @@ public class Lexer {
 	public int getLine(){
 		return line;
 	}
-	public Token[] getTokenStream() throws IOException, LexerErrorException{
+	public Token[] getTokenStream() throws IOException {
 		while(true){
 			Token element = scan();
 			if(element == null)
@@ -44,7 +44,7 @@ public class Lexer {
 		temp = ' ';
 		return true;
 	}
-	public Token scan() throws IOException, LexerErrorException{
+	public Token scan() throws IOException {
 		for( ; ; getChar()){
 			if(exitTag)
 				return null;
