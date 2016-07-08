@@ -26,6 +26,10 @@ public class SyntacticErrorException extends Exception {
 			this.message = "You have an error in your C- syntax; \r\n"
 					+ "			conflicting declaration '" + args + "' at line " + line;
 			break;
+		case 3:
+			this.message = "You have an error in your C- syntax; \r\n	Function '" + args
+			+ "' was not declared in the scope at line " + line;
+	break;
 		}
 	}
 

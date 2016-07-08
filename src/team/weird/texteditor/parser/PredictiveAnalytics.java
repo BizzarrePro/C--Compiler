@@ -41,12 +41,13 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 		int index = 0;
 		int leafNodeIndex = 0;
 		boolean CalParameter = false;
+		String identify = null;
+		String variable = null;
+		String type = null;
+		String currFunc = null;
 		//Temporary function parameters list
 		ArrayList<String> TypeList = new ArrayList<String>();
 		ArrayList<SymbolAttr> AttrList = new ArrayList<SymbolAttr>();
-		String identify = null;
-		String type = null;
-		String currFunc = null;
 		Node root = new SyntaxTreeNode(entrance);
 		stack.push(root);
 		while (!stack.isEmpty() && index < token.length) {
@@ -60,14 +61,12 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				System.out.println(token[index]);
 			String peek = stack.peek().getSymbol();
 			if (peek.equals(token[index].toString())) {
-//				System.out.println(token[index]);
 				if((peek.equals("int") || peek.equals("double") || peek.equals("float") || peek.equals("bool"))){
 					type = peek;
 					identify = ((Word)token[index+1]).getId();
 				}
 				else if(peek.equals("{")){
 					symTable.createNewScope();
-//					System.out.println(TypeList.size());
 					symTable.putAllInSymbolTable(TypeList, AttrList, TypeList.size());
 					TypeList.clear();
 					AttrList.clear();
@@ -99,51 +98,67 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 			}
 			else {
 				Node peekElement = stack.pop();
-				if(peekElement.equals("var-declaration") && token[index].equals(";")){
-					if(symTable.checkKeyState(identify))
-						symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.VAR));
-					else
-						throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-				}
-				else if(peekElement.equals("var-declaration") && token[index].equals("[")){
-					if(symTable.checkKeyState(identify))
-						symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.ARRAY, ((Number)token[index+1]).getNum()));
-					else
-						throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-						
-						
-				}
-				else if(peekElement.equals("fun-declaration") && token[index].equals("(")){
-					CalParameter = true;
-					currFunc = identify;
-					if(funcTable.checkKeyState(identify))
-						funcTable.putInFuncTable(identify, new SymbolAttr(type, Attribute.FUNC));
-					else
-						throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-				}
-				else if(CalParameter && token[index].equals(")")){
+				if(CalParameter && token[index].equals(")"))
 					CalParameter = false;
-				}
-				else if(CalParameter && peekElement.equals("param-temp") && token[index].equals("[")){
-					if(!TypeList.contains(identify)){
-						TypeList.add(identify);
-						AttrList.add(new SymbolAttr(type, Attribute.ARRAY));
-						funcTable.getSymbolAttribute(currFunc).addParameter(identify);
-					}
-					else
-						throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-				}
-				else if(peekElement.equals("factor")){
-					if(token[index].equals("ID") && 
-							!symTable.checkVariableExist(((Word)token[index]).getId()))
-						throw new SyntacticErrorException(((Word)token[index]).getId(), token[index].getLineNum(), 0);
-				}
-				else if(peekElement.equals("expression")){
-					if(token[index].equals("ID") && 
-							!symTable.checkVariableExist(((Word)token[index]).getId())) 
-						throw new SyntacticErrorException(((Word)token[index]).getId(), token[index].getLineNum(), 0);
-				}
-				//Need to add simantic action
+				switch(peekElement.toString()){
+					case "var-declaration":	
+						switch(token[index].toString()){
+							case ";": 	
+								if(symTable.checkKeyState(identify))
+									symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.VAR));
+								else
+									throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
+								break;
+							case "[":	
+								if(symTable.checkKeyState(identify))
+									symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.ARRAY, ((Number)token[index+1]).getNum()));
+								else
+									throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
+								break;
+						}
+						break;
+					case "fun-declaration":
+						if(token[index].equals("(")){
+							CalParameter = true;
+							currFunc = identify;
+							if(funcTable.checkKeyState(identify))
+								funcTable.putInFuncTable(identify, new SymbolAttr(type, Attribute.FUNC));
+							else
+								throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
+						}
+						break;
+					case "param-temp":
+						if(CalParameter && token[index].equals("[")){
+							if(!TypeList.contains(identify)){
+								TypeList.add(identify);
+								AttrList.add(new SymbolAttr(type, Attribute.ARRAY));
+								funcTable.getSymbolAttribute(currFunc).addParameter(identify);
+							}
+							else
+								throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
+						}
+						break;
+					case "factor":
+						if(token[index].equals("ID"))
+							variable = ((Word)token[index]).getId();
+						break;
+					case "factor-temp":
+						if(token[index].equals("(") && funcTable.checkKeyState(variable))
+							throw new SyntacticErrorException(variable, token[index].getLineNum(), 3);
+						else if(!token[index].equals("(") && !symTable.checkVariableExist(variable))
+							throw new SyntacticErrorException(variable, token[index].getLineNum(), 0);	
+						break;
+					case "expression":
+						if(token[index].equals("ID"))
+							variable = ((Word)token[index]).getId();
+						break;
+					case "expression-sub":
+						if(token[index].equals("(") && funcTable.checkKeyState(variable))
+							throw new SyntacticErrorException(variable, token[index].getLineNum(), 3);
+						else if(!token[index].equals("(") && !symTable.checkVariableExist(variable))
+							throw new SyntacticErrorException(variable, token[index].getLineNum(), 0);
+						break;		
+				}	
 				LinkedList<String> production = UntermSymbolMap.get(peek).predictiveMap
 						.get(token[index].toString());
 				ListIterator<String> productionIter = production
@@ -164,7 +179,3 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 		return root;
 	}
 }
-//bug
-//int a(int a, int b){
-//int b;
-//}$

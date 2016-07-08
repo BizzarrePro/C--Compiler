@@ -32,10 +32,10 @@ public class Main {
 		PredictiveAnalytics analysic = new PredictiveAnalytics(
 				selectSet.getSymbolMap(), ExtractProduction.TerminatingSymbolTable,
 				EliminationOfLeftRecursion.entrance);
+		
 		Lexer lex = Lexer.getInstance();
-//		for(Token a:lex.getTokenStream())
-//			System.out.println(a.getClass().getSimpleName());
-		AbstractSyntaxTree tree = new AbstractSyntaxTree(
+		
+		AbstractSyntaxTree tree = AbstractSyntaxTree.getInstance(
 				analysic.PredictAndAnalyze(lex.getTokenStream()), 
 				ExtractProduction.TerminatingSymbolTable);
 /*		&&&&&Display model&&&&&
