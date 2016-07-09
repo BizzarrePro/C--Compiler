@@ -19,4 +19,10 @@ public class SyntaxTreeNode extends Node{
 	public LinkedList<Node> getChildList(){
 		return childNode;
 	}
+	public int getChildNumber(){
+		return childNode.size();
+	}
+	public Node getChild(int index){
+		return childNode.get(index);
+	}
 }

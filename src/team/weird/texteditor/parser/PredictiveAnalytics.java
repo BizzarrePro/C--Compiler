@@ -21,12 +21,16 @@ import team.weird.texteditor.semantic.SyntaxTreeNode;
 import team.weird.texteditor.semantic.SymbolTable;
 
 public class PredictiveAnalytics extends PredictAnalyticalTable {
+	/**
+	 * @param:
+	 */
 	private Stack<Node> stack = new Stack<Node>();
-	public HashMap<String, Symbol> UntermSymbolMap;
-	public Set<String> TermSymbolSet;
+	private Stack<SyntaxLeafNode> leafNodeStack = new Stack<SyntaxLeafNode>();
+	private HashMap<String, Symbol> UntermSymbolMap;
+	private Set<String> TermSymbolSet;
 	private String entrance;
-	public SymbolTable symTable = SymbolTable.getInstance();
-	public FuncTable funcTable = FuncTable.getInstance();
+	private SymbolTable symTable = SymbolTable.getInstance();
+	private FuncTable funcTable = FuncTable.getInstance();
 	public PredictiveAnalytics(HashMap<String, Symbol> UntermSymbolMap,
 			HashSet<String> TermSymbolSet, String entrance)
 			throws OverlappedSyntaxException {
@@ -39,7 +43,6 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 	public Node PredictAndAnalyze(Token[] token)
 			throws SyntacticErrorException {
 		int index = 0;
-		int leafNodeIndex = 0;
 		boolean CalParameter = false;
 		String identify = null;
 		String variable = null;
@@ -52,13 +55,13 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 		stack.push(root);
 		while (!stack.isEmpty() && index < token.length) {
 //		 For debugging
-			System.out.println("---Stack Start---");
-			for(Node a : stack)
-				 System.out.println(a.getSymbol());
-			if(token[index] instanceof Word)
-				System.out.println(((Word)token[index]).getId());
-			else 
-				System.out.println(token[index]);
+//			System.out.println("---Stack Start---");
+//			for(Node a : stack)
+//				 System.out.println(a.getSymbol());
+//			if(token[index] instanceof Word)
+//				System.out.println(((Word)token[index]).getId());
+//			else 
+//				System.out.println(token[index]);
 			String peek = stack.peek().getSymbol();
 			if (peek.equals(token[index].toString())) {
 				if((peek.equals("int") || peek.equals("double") || peek.equals("float") || peek.equals("bool"))){
@@ -74,6 +77,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				else if(peek.equals("}")){
 					symTable.destroyOldScope();
 				}
+				leafNodeStack.pop().setToken(token[index]);
 				stack.pop();
 				index++;
 			} 
@@ -165,11 +169,15 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 						.listIterator(production.size());
 				while (productionIter.hasPrevious()) {
 					String temp = productionIter.previous();
-					Node childNode;
+					Node childNode = null;
 					if(UntermSymbolMap.containsKey(temp))
 						childNode = new SyntaxTreeNode(temp);
+					else if(!temp.equals("empty")){
+						childNode = new SyntaxLeafNode(temp);
+						leafNodeStack.push((SyntaxLeafNode) childNode);
+					}
 					else
-						childNode = new SyntaxLeafNode(token[leafNodeIndex++], temp);
+						childNode = new SyntaxLeafNode(temp);
 					((SyntaxTreeNode) peekElement).addNewNode(childNode);
 					stack.push(childNode);
 				}

@@ -19,7 +19,7 @@ public class AbstractSyntaxTree {
 			HashSet<String> terminatingSet) {
 		this.root = entrance;
 		this.terminatingSet = terminatingSet;
-//		postOrderTraverse(root, null);
+		postOrderTraverse(root, null);
 //		displayTreeNode(root);
 	}
 	public static AbstractSyntaxTree getInstance(Node entrance, HashSet<String> terminatingSet){
@@ -42,18 +42,23 @@ public class AbstractSyntaxTree {
 		depth--;
 	}
 	private void postOrderTraverse(Node node, Node father) {
-		if(node instanceof SyntaxLeafNode)
+		if(node instanceof SyntaxLeafNode){
 			visitLeafNode((SyntaxLeafNode)node, father);
+			return;
+		}
 		else{
-			int index = ((SyntaxTreeNode)node).getChildList().size() - 1;
-			ListIterator<Node> iter = ((SyntaxTreeNode)node).getChildList().listIterator(index);
+			if(((SyntaxTreeNode)node).getChildList().size() == 0)
+				return;
+			int index = ((SyntaxTreeNode)node).getChildList().size();
+			ListIterator<Node> iter = ((SyntaxTreeNode)node).getChildList().listIterator(index);			
 			while(iter.hasPrevious())
 				postOrderTraverse(iter.previous(), node);
+
 		}
 	}
 	private void visitLeafNode(SyntaxLeafNode node, Node father) {
 		if(node.getToken() instanceof Word){
-			
+			System.out.println(father.getSymbol()+ " "+((SyntaxTreeNode)father).getChildList().get(0).getSymbol()+" "+node.getToken().getWord());
 		}	
 	}
 }

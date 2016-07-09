@@ -18,7 +18,7 @@ public class Main {
 	public static void main(String[] args) throws OverlappedSyntaxException,
 			SyntacticErrorException, IOException {
 		EliminationOfLeftRecursion removeLeftRecursion = EliminationOfLeftRecursion.getInstance();
-		
+
 		FirstSet firstSet = new FirstSet(removeLeftRecursion.getSymbolMap());
 		firstSet.createFirstSet();
 		
@@ -41,7 +41,6 @@ public class Main {
 /*		&&&&&Display model&&&&&
 		Scanner pause = new Scanner(System.in);
 		pause.next();
-		removeLeftRecursion.displayAfterElimination();
 		firstSet.display();
 		followSet.display();
 		selectSet.display();

@@ -9,6 +9,9 @@ public class SyntaxLeafNode extends Node{
 		super(symbol);
 		this.token = token;
 	}
+	public SyntaxLeafNode(String symbol){
+		super(symbol);
+	}
 	public Token getToken(){
 		return token;
 	}
