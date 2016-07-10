@@ -10,23 +10,27 @@ public class SymbolAttr {
 	public enum Type{
 		INT, DOUBLE, BOOL, FLOAT, VOID
 	}
+	private String identify = null;
 	private Type type = null;
 	private Attribute attr= null;
 	private int arrayLength = 0;
 	private List<SymbolAttr> paramsList = new ArrayList<SymbolAttr>();
 	//for variable
-	public SymbolAttr(Type type, Attribute attr){
+	public SymbolAttr(String identify, Type type, Attribute attr){
+		this.identify = identify;
 		this.type = type;
 		this.attr = attr;
 	}
 	//for array
-	public SymbolAttr(Type type, Attribute attr, int arrayLength){
+	public SymbolAttr(String identify, Type type, Attribute attr, int arrayLength){
+		this.identify = identify;
 		this.type = type;
 		this.attr = attr;
 		this.arrayLength = arrayLength;
 	}
 	//for function
-	public SymbolAttr(Type type, Attribute attr, List<SymbolAttr> paramsList){
+	public SymbolAttr(String identify, Type type, Attribute attr, List<SymbolAttr> paramsList){
+		this.identify = identify;
 		this.type = type;
 		this.attr = attr;
 		this.paramsList = paramsList;
@@ -53,8 +57,24 @@ public class SymbolAttr {
 	public int getArrayLength(){
 		return arrayLength;
 	}
+	public String getIdentify(){
+		return identify;
+	}
 	public void addParameter(SymbolAttr e){
 		assert attr == Attribute.FUNC;
 		paramsList.add(e);
+	}
+	public boolean equals(Object o){
+		if(o == null)	return false;
+		if(!(o instanceof SymbolAttr))	return false;
+		SymbolAttr temp = (SymbolAttr)o;
+		if(temp.getIdentify() == null || this.identify == null)
+			return false;
+		if(temp.getIdentify().equals(this.identify))
+			return true;
+		return false;
+	}
+	public int hashCode(){
+		return identify.hashCode();
 	}
 }
