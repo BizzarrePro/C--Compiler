@@ -14,22 +14,28 @@ public class SyntacticErrorException extends Exception {
 	public SyntacticErrorException(String args, int line, int type) {
 		switch (type) {
 		case 0:
-			this.message = "You have an error in your C- syntax; \r\n	'" + args
-					+ "' was not declared in the scope at line " + line;
+			this.message = "'"+args
+					+ "' was not declared in the scope at line " + line+"\r\n";
 			break;
 		case 1:
 			this.message = "You have an error in your C- syntax; \r\n"
 					+ "		check the manual that corresponds to your C- version for the right"
-					+ "syntax to use near '" + args + "' at line " + line;
+					+ "syntax to use near '" + args + "' at line " + line+"\r\n";
 			break;
 		case 2:
-			this.message = "You have an error in your C- syntax; \r\n"
-					+ "			conflicting declaration '" + args + "' at line " + line;
+			this.message = "conflicting declaration '" + args + "' at line " + line + "\r\n";
 			break;
 		case 3:
-			this.message = "You have an error in your C- syntax; \r\n	Function '" + args
-			+ "' was not declared in the scope at line " + line;
-	break;
+			this.message = "function '" + args
+					+ "' was not declared in the scope at line " + line + "\r\n";
+			break;
+		case 4:
+			this.message = "variable couldn't be declared 'void'"
+					+ "syntax to use near '" + args + "' at line " + line + "\r\n";
+			break;
+		case 5:
+			this.message = "size of array '" + args + "' has non-integral type 'double' at line " + line;
+			break;
 		}
 	}
 
