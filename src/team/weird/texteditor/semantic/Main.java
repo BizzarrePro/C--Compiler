@@ -15,8 +15,9 @@ import team.weird.texteditor.parser.SelectSet;
 import team.weird.texteditor.parser.SyntacticErrorException;
 
 public class Main {
-	public static void main(String[] args) throws OverlappedSyntaxException,
-			SyntacticErrorException, IOException {
+	public static void main(String[] args) throws Throwable {
+		Lexer lex = Lexer.getInstance();
+		
 		EliminationOfLeftRecursion removeLeftRecursion = EliminationOfLeftRecursion.getInstance();
 
 		FirstSet firstSet = new FirstSet(removeLeftRecursion.getSymbolMap());
@@ -33,11 +34,9 @@ public class Main {
 				selectSet.getSymbolMap(), ExtractProduction.TerminatingSymbolTable,
 				EliminationOfLeftRecursion.entrance);
 		
-		Lexer lex = Lexer.getInstance();
-		
-		AbstractSyntaxTree tree = AbstractSyntaxTree.getInstance(
-				analysic.PredictAndAnalyze(lex.getTokenStream()), 
-				ExtractProduction.TerminatingSymbolTable);
+		Semantic semantic = Semantic.getInstance(analysic.PredictAndAnalyze(lex.getTokenStream()));
+		semantic.init();
+//		semantic.init();
 /*		&&&&&Display model&&&&&
 		Scanner pause = new Scanner(System.in);
 		pause.next();

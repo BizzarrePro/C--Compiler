@@ -78,8 +78,8 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				else if(peek.equals("}")){
 					symTable.destroyOldScope();
 				}
+				**/
 				leafNodeStack.pop().setToken(token[index]);
-**/
 				stack.pop();
 				index++;
 			} 
@@ -182,14 +182,11 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 						childNode = new SyntaxLeafNode(temp);
 						leafNodeStack.push((SyntaxLeafNode) childNode);
 					}
-					else
-						childNode = new SyntaxLeafNode(temp);
 					((SyntaxTreeNode) peekElement).addNewNode(childNode);
 					stack.push(childNode);
 				}
 			}
 		}
-		System.out.println("Ok");
 		return root;
 	}
 }

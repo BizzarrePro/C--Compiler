@@ -8,7 +8,7 @@ public class SymbolAttr {
 		VAR, ARRAY, FUNC
 	}
 	public enum Type{
-		INT, DOUBLE, BOOL, FLOAT, VOID
+		INT, DOUBLE, BOOL, FLOAT, VOID, NULL
 	}
 	private String identify = null;
 	private Type type = null;

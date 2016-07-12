@@ -1,5 +1,5 @@
 program:declaration-list
-declaration-list:declaration-list declaration|declaration
+declaration-list:declaration-list declaration|compound-stmt
 declaration:type-specifier ID general-declaration|general-declaration
 general-declaration:var-declaration|fun-declaration
 var-declaration:;|[ NUM ] ;

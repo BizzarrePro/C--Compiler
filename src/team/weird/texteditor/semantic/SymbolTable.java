@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
 
+import team.weird.texteditor.semantic.SymbolAttr.Type;
+
 public class SymbolTable {
 	private static final SymbolTable INSTANCE = new SymbolTable();
 	private Stack<HashMap<String, SymbolAttr>> scopeStk = new Stack<HashMap<String, SymbolAttr>>();
@@ -21,6 +23,11 @@ public class SymbolTable {
 	public void createNewScope(){
 		scopeStk.add(new HashMap<String, SymbolAttr>());
 	}
+	/**
+	 * If variable exist, return true, else return false.
+	 * @param key:Symoltable key 
+	 * @return
+	 */
 	public boolean checkVariableExist(String key){
 		for(int i = scopeStk.size()-1; i >= 0; i--)
 			if(scopeStk.get(i).containsKey(key))
@@ -36,6 +43,12 @@ public class SymbolTable {
 	}
 	public HashMap<String, SymbolAttr> getSymbolTable(){
 		return scopeStk.peek();
+	}
+	public Type getTypeofVariable(String key){
+		for(int i = scopeStk.size()-1; i >= 0; i--)
+			if(scopeStk.get(i).containsKey(key))
+				return scopeStk.get(i).get(key).getType();
+		return null;
 	}
 	public void putAllInSymbolTable(ArrayList<String> typeList, ArrayList<SymbolAttr> attrList, int length){
 		for(int i = 0; i < length; i++){
