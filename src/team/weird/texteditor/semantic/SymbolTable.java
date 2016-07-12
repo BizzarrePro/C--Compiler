@@ -44,10 +44,10 @@ public class SymbolTable {
 	public HashMap<String, SymbolAttr> getSymbolTable(){
 		return scopeStk.peek();
 	}
-	public Type getTypeofVariable(String key){
+	public SymbolAttr getAttributeofVariable(String key){
 		for(int i = scopeStk.size()-1; i >= 0; i--)
 			if(scopeStk.get(i).containsKey(key))
-				return scopeStk.get(i).get(key).getType();
+				return scopeStk.get(i).get(key);
 		return null;
 	}
 	public void putAllInSymbolTable(ArrayList<String> typeList, ArrayList<SymbolAttr> attrList, int length){
