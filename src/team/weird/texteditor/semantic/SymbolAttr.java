@@ -39,6 +39,7 @@ public class SymbolAttr {
 	public SymbolAttr(Type type){
 		this.type = type;
 	}
+	
 	public void setAttribute(Attribute attr){
 		this.attr = attr;
 	}
@@ -63,6 +64,15 @@ public class SymbolAttr {
 	public void addParameter(SymbolAttr e){
 		assert attr == Attribute.FUNC;
 		paramsList.add(e);
+	}
+	//Return parameter at the specified position in the list
+	public SymbolAttr getParameter(int index){
+		if(paramsList.isEmpty())
+			return null;
+		return paramsList.get(index);
+	}
+	public int getListSize(){
+		return paramsList.size();
 	}
 	public boolean equals(Object o){
 		if(o == null)	return false;

@@ -52,12 +52,14 @@ public class Semantic {
 			line = tok.getLineNum();
 			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
 			general_declaration(child2, identify, type, line);
+			System.out.println(funcTable.getFuncNum());
 		}
 		else {
 			Node child = ((SyntaxTreeNode)currNode).getChild(0);
 			symTable.createNewScope();
 			compound_stmt(child);
 			symTable.destroyOldScope();
+			
 		}
 	}
 	private void declaration_list_elim(Node currNode){
@@ -115,7 +117,9 @@ public class Semantic {
 	private void fun_declaration(Node currNode, String identify, Type type, int line){
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 1){
 			Node child = ((SyntaxTreeNode)currNode).getChild(0);
+			symTable.createNewScope();
 			Type retType = compound_stmt(child);
+			symTable.destroyOldScope();
 			if(type == Type.VOID && retType != Type.NULL)
 				err.addException(new SyntacticErrorException(identify, line, 6));
 			else if(type != Type.VOID && retType != type)
@@ -126,7 +130,9 @@ public class Semantic {
 			List<SymbolAttr> paramList = new ArrayList<SymbolAttr>();
 			params(child, paramList);
 			if(funcTable.checkKeyState(identify)){
+				System.out.println("2: "+ identify);
 				funcTable.putInFuncTable(identify, new SymbolAttr(identify, type, Attribute.FUNC, paramList));
+				System.out.println(funcTable.getReturnType(identify));
 			}
 			else
 				err.addException(new SyntacticErrorException(identify, line, 5));
@@ -180,9 +186,9 @@ public class Semantic {
 		param_list_elim(child1, paramList);
 	}
 	private Type compound_stmt(Node currNode){
-		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
+		Node child0 = ((SyntaxTreeNode)currNode).getChild(2);
 		local_declarations(child0);
-		Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
 		return statement_list(child1);
 	}
 	private void local_declarations(Node currNode){
@@ -230,13 +236,40 @@ public class Semantic {
 		return null;
 	}
 	private void expression_stmt(Node currNode){
-		
+		if(((SyntaxTreeNode)currNode).getChildNumber() == 2){
+			Node child = ((SyntaxTreeNode)currNode).getChild(1);
+			expression(child);
+		}
 	}
 	private void selection_stmt(Node currNode){
-		
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(3);
+		Type type = expression(child1);
+		Node child2 = ((SyntaxTreeNode)currNode).getChild(4);
+		Token tok = ((SyntaxLeafNode)child2).getToken();
+		int line = tok.getLineNum();
+		if(type == Type.VOID)
+			err.addException(new SyntacticErrorException("(", line, 12));
+		Node child3 = ((SyntaxTreeNode)currNode).getChild(1);
+		statement(child3);
+		Node child4 = ((SyntaxTreeNode)currNode).getChild(3);
+		selection_stmt_temp(child4);
+	}
+	private void selection_stmt_temp(Node currNode){
+		if(((SyntaxTreeNode)currNode).getChildNumber() != 0){
+			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+			statement(child2);
+		}
 	}
 	private void iteration_stmt(Node currNode){
-	
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(2);
+		Type type = expression(child1);
+		Node child3 = ((SyntaxTreeNode)currNode).getChild(3);
+		Token tok = ((SyntaxLeafNode)child3).getToken();
+		int line = tok.getLineNum();
+		if(type == Type.NULL)
+			err.addException(new SyntacticErrorException("(", line, 13));
+		Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+		statement(child2);
 	}
 	private Type return_stmt(Node currNode){
 		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
@@ -277,7 +310,7 @@ public class Semantic {
 				Type type1 = expression(child1);
 				Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
 				Type type2 = expression_none(child2, line);
-				if(type1 != type2)
+				if(type1 != type2 && type1 != Type.NULL && type2 != Type.NULL)
 					err.addException(new SyntacticErrorException(type1, type2, line));
 				return type1;
 			}
@@ -287,12 +320,12 @@ public class Semantic {
 				int line = tok.getLineNum();
 				Type type = expression_none(child1, line);
 				if(tok instanceof Number){
-					if(type != Type.INT)
+					if(type != Type.INT && type != Type.NULL)
 						err.addException(new SyntacticErrorException(type, Type.INT, line));
 					return Type.INT;
 				}
 				else {
-					if(type != Type.FLOAT)
+					if(type != Type.FLOAT && type != Type.NULL)
 						err.addException(new SyntacticErrorException(type, Type.FLOAT, line));
 					return Type.FLOAT;	
 				}
@@ -307,12 +340,23 @@ public class Semantic {
 			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
 			Type type1 = expression_sub_sub(child2, line);
 			Type type2 = symTable.getAttributeofVariable(identify).getType();
-			if(type1 != type2)
+			if(type1 != type2 && type1 != Type.NULL && type2 != Type.NULL)
 				err.addException(new SyntacticErrorException(type1, type2, line));
 			return attr;
 			
 		} else {
-			//need to complete
+			List<Type> paramList = new ArrayList<Type>();
+			Node child2 = ((SyntaxTreeNode)currNode).getChild(2);
+			args(child2, paramList);
+			if(funcTable.getSymbolAttribute(identify) != null && paramList.size() == funcTable.getSymbolAttribute(identify).getListSize()){
+				if(!funcTable.parametersMatched(paramList, identify))
+					err.addException(new SyntacticErrorException(identify, line, 11));
+			}
+			else{
+				System.out.println("1: "+identify);
+				System.out.println(funcTable.checkKeyState(identify));
+				err.addException(new SyntacticErrorException(identify, line, 11));
+			}
 			return Attribute.FUNC;
 		}
 	}
@@ -337,26 +381,26 @@ public class Semantic {
 		Type type1 = term_temp(child1, line);
 		Node child2 = ((SyntaxTreeNode)currNode).getChild(1);
 		Type type2 = additive_expression_temp(child2, line);
-		if(type1 != type2)
+		if(type1 != type2 && type1 != Type.NULL && type2 != Type.NULL)
 			err.addException(new SyntacticErrorException(type1, type2, line));
 		Node child3 = ((SyntaxTreeNode)currNode).getChild(0);
 		Type type3 = simple_expression(child3, line);
-		if(type2 != type3)
+		if(type2 != type3 && type2 != Type.NULL && type3 != Type.NULL)
 			err.addException(new SyntacticErrorException(type2, type3, line));
 		return type1;
 	}
 	private Type expression_sub_sub(Node currNode, int line){
+		Node child = ((SyntaxTreeNode)currNode).getChild(0);
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 1)
-			return expression_none(currNode, line);
+			return expression_none(child, line);
 		else{
-			Node child = ((SyntaxTreeNode)currNode).getChild(0);
 			return expression(child);
 		}	
 	}
 	private Type term_temp(Node currNode, int line){
 		if(((SyntaxTreeNode)currNode).getChildNumber() != 0){
 			Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
-			Type type1 = term_temp(child1);
+			Type type1 = term_temp(child1, line);
 			Node child2 = ((SyntaxTreeNode)currNode).getChild(1);
 			Type type2 = factor(child2);
 			Node child3 = ((SyntaxTreeNode)currNode).getChild(2);
@@ -386,16 +430,106 @@ public class Semantic {
 			return Type.NULL;
 	}
 	private Type simple_expression(Node currNode, int line){
-		
+		if(((SyntaxTreeNode)currNode).getChildNumber() != 0){
+			Node child = ((SyntaxTreeNode)currNode).getChild(0);
+			return additive_expression(child, line);
+		}
+		else {
+			return Type.NULL;
+		}
 	}
-	private Type term_temp(Node currNode){
-		
+	private Type additive_expression(Node currNode, int line){
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
+		Type type1 = term(child1, line);
+		Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+		Type type2 = additive_expression_temp(currNode, line);
+		if(type1 != type2 && type1 != Type.NULL && type2 != Type.NULL)
+			err.addException(new SyntacticErrorException(type1, type2, line));
+		return type1;
 	}
 	private Type factor(Node currNode){
-		
+		Node child = ((SyntaxTreeNode)currNode).getChild(0);
+		if(child instanceof SyntaxTreeNode){
+			Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
+			Token tok = ((SyntaxLeafNode)child1).getToken();
+			String identify = ((Word)tok).getId();
+			int line = tok.getLineNum();
+			Attribute attr = factor_temp(child, identify, line);
+			if(attr != Attribute.FUNC){
+				if(!symTable.checkVariableExist(identify))
+					err.addException(new SyntacticErrorException(identify, line, 3));
+				else
+					return symTable.getAttributeofVariable(identify).getType();
+			}
+			else {
+				if(funcTable.checkKeyState(identify))
+					err.addException(new SyntacticErrorException(identify, line, 8));
+				else
+					return funcTable.getReturnType(identify);
+			}
+			return Type.NULL;
+				
+		}
+		else {
+			if(child.getSymbol().equals("NUM"))
+				return Type.INT;
+			else {
+				Node child2 = ((SyntaxTreeNode)currNode).getChild(1);
+				return expression(child2);
+			}
+		}
+	}
+	private Attribute factor_temp(Node currNode, String identify, int line){
+		Node child = ((SyntaxTreeNode)currNode).getChild(0);
+		if(child instanceof SyntaxTreeNode)
+			return var(child, identify, line);
+		else {
+			List<Type> paramList = new ArrayList<Type>();
+			Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
+			args(child1, paramList);
+			if(funcTable.getSymbolAttribute(identify) != null && paramList.size() == funcTable.getSymbolAttribute(identify).getListSize()){
+				if(!funcTable.parametersMatched(paramList, identify))
+					err.addException(new SyntacticErrorException(identify, line, 11));
+			}
+			else{
+				err.addException(new SyntacticErrorException(identify, line, 11));
+			}
+			return Attribute.FUNC;
+		}
 	}
 	private Type term(Node currNode, int line){
-		
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
+		Type type1 = factor(child1);
+		Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+		Type type2 = term_temp(child2, line);
+		if(type1 != type2 && type1 != Type.NULL && type2 != Type.NULL)
+			err.addException(new SyntacticErrorException(type1, type2, line));
+		return type1;
+	}
+	private void args(Node currNode, List<Type> list){
+		if(((SyntaxTreeNode)currNode).getChildNumber() != 0){
+			Node child = ((SyntaxTreeNode)currNode).getChild(0);
+			args_list(child, list);
+		} 
+		else {
+			list.add(Type.VOID);
+		}
+	}
+	private void args_list(Node currNode, List<Type> list){
+		Node child = ((SyntaxTreeNode)currNode).getChild(1);
+		Type type = expression(child);
+		list.add(type);
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
+		args_list_elim(child1, list);
+	}
+	private void args_list_elim(Node currNode, List<Type> list){
+		if(((SyntaxTreeNode)currNode).getChildNumber() != 0){
+			Node child = ((SyntaxTreeNode)currNode).getChild(1);
+			Type type = expression(child);
+			list.add(type);
+			Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
+			args_list_elim(child1, list);
+		}
 	}
 	private void mulop(Node currNode){
 		

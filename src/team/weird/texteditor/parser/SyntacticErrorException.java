@@ -49,6 +49,15 @@ public class SyntacticErrorException extends Exception {
 			case 10:
 				this.message = "Variable '" + args + "': Incompatible types in assignment at line " + line;
 				break;
+			case 11:
+				this.message = "Method '" + args + "': Method parameters is not applicable for the arguments at line " + line;
+				break;
+			case 12:
+				this.message = "Expression '" + args + "': Selection statement expression is not match at line " + line;
+				break;
+			case 13:
+				this.message = "Expression '" + args + "': Iterator statement expression is not match at line " + line;
+				break;
 		}
 	}
 	
