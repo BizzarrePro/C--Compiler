@@ -6,7 +6,7 @@ import java.io.IOException;
  * @filename Main.java
  * @author Siyuan_Liu
  * @copyright All rights reserved by Siyuan_Liu and Qian_Yang .
- * @description A basic text editor with lexer and parsing.
+ * @description A C-MINUS compiler with simple but beautiful user interface.
  */
 public class Main {
 	

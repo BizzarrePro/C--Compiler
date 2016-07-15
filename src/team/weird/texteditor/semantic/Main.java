@@ -153,5 +153,16 @@ public class Main {
 			}
 		}
 */
+/**		int a(int b){
+			return 1; }
+			int main(void){
+			int a;
+			a = 5;
+			{
+			 float a;
+			 a = 6.0;
+			 a(a);
+			}$
+**/
 	}
 }

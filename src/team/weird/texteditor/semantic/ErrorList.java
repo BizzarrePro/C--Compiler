@@ -27,7 +27,6 @@ public class ErrorList {
 				throw err;
 			} catch (SyntacticErrorException e) {
 				e.printStackTrace();
-				throw err;
 			}
 		}
 	}

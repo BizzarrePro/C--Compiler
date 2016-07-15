@@ -34,13 +34,14 @@ public class Semantic {
 		declaration_list(child);
 	}
 	private void declaration_list(Node currNode){
-		Node child0 = ((SyntaxTreeNode)currNode).getChild(0);
-		declaration_list_elim(child0);
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
 		declaration(child1);
+		Node child0 = ((SyntaxTreeNode)currNode).getChild(0);
+		declaration_list_elim(child0);
+		
 	}
-	private void declaration(Node currNode){
-		if(((SyntaxTreeNode)currNode).getChildNumber() == 3){
+	private Type declaration(Node currNode){
+		if(((SyntaxTreeNode)currNode).getChildNumber() != 1){
 			Type type = null;
 			String identify = null;
 			int line = 0;
@@ -51,22 +52,25 @@ public class Semantic {
 			identify = ((Word)tok).getId();
 			line = tok.getLineNum();
 			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
-			general_declaration(child2, identify, type, line);
-			System.out.println(funcTable.getFuncNum());
+			return general_declaration(child2, identify, type, line); 
 		}
 		else {
-			Node child = ((SyntaxTreeNode)currNode).getChild(0);
-			symTable.createNewScope();
-			compound_stmt(child);
+			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+			Type retType = compound_stmt(child2);
 			symTable.destroyOldScope();
+			return retType;
+//			if(type == Type.VOID && retType != Type.NULL)
+//				err.addException(new SyntacticErrorException(identify, line, 6));
+//			else if(type != Type.VOID && retType != type)
+//				err.addException(new SyntacticErrorException(identify, line, 7));
 			
 		}
 	}
 	private void declaration_list_elim(Node currNode){
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 0)
 			return;
-		Node child0 = ((SyntaxTreeNode)currNode).getChild(0);
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
+		Node child0 = ((SyntaxTreeNode)currNode).getChild(0);
 		declaration(child1);
 		declaration_list_elim(child0);	
 	}
@@ -85,12 +89,23 @@ public class Semantic {
 				return Type.VOID;	
 		}
 	}
-	private void general_declaration(Node currNode, String identify, Type type, int line){
+	private Type general_declaration(Node currNode, String identify, Type type, int line){
 		Node child = ((SyntaxTreeNode)currNode).getChild(0);
-		if(child.equals("var-declaration"))
+		if(child instanceof SyntaxTreeNode){
 			var_daclaration(child, identify, type, line);
-		else
-			fun_declaration(child, identify, type, line);
+			return Type.NULL;
+		}
+		else{
+			symTable.createNewScope();
+			Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
+			List<SymbolAttr> paramList = new ArrayList<SymbolAttr>();
+			params(child1, paramList);
+			if(funcTable.checkKeyState(identify))
+				funcTable.putInFuncTable(identify, new SymbolAttr(identify, type, Attribute.FUNC, paramList));
+			else
+				err.addException(new SyntacticErrorException(identify, line, 14));
+			return type;
+		}
 	}
 	private void var_daclaration(Node currNode, String identify, Type type, int line){
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 1){
@@ -111,30 +126,6 @@ public class Semantic {
 					err.addException(new SyntacticErrorException(identify, line, 2));
 			}
 			else 
-				err.addException(new SyntacticErrorException(identify, line, 5));
-		}
-	}
-	private void fun_declaration(Node currNode, String identify, Type type, int line){
-		if(((SyntaxTreeNode)currNode).getChildNumber() == 1){
-			Node child = ((SyntaxTreeNode)currNode).getChild(0);
-			symTable.createNewScope();
-			Type retType = compound_stmt(child);
-			symTable.destroyOldScope();
-			if(type == Type.VOID && retType != Type.NULL)
-				err.addException(new SyntacticErrorException(identify, line, 6));
-			else if(type != Type.VOID && retType != type)
-				err.addException(new SyntacticErrorException(identify, line, 7));;	
-		}
-		else {
-			Node child = ((SyntaxTreeNode)currNode).getChild(1);
-			List<SymbolAttr> paramList = new ArrayList<SymbolAttr>();
-			params(child, paramList);
-			if(funcTable.checkKeyState(identify)){
-				System.out.println("2: "+ identify);
-				funcTable.putInFuncTable(identify, new SymbolAttr(identify, type, Attribute.FUNC, paramList));
-				System.out.println(funcTable.getReturnType(identify));
-			}
-			else
 				err.addException(new SyntacticErrorException(identify, line, 5));
 		}
 	}
@@ -251,7 +242,7 @@ public class Semantic {
 			err.addException(new SyntacticErrorException("(", line, 12));
 		Node child3 = ((SyntaxTreeNode)currNode).getChild(1);
 		statement(child3);
-		Node child4 = ((SyntaxTreeNode)currNode).getChild(3);
+		Node child4 = ((SyntaxTreeNode)currNode).getChild(0);
 		selection_stmt_temp(child4);
 	}
 	private void selection_stmt_temp(Node currNode){
@@ -339,9 +330,14 @@ public class Semantic {
 			Attribute attr = var(child1, identify, line);
 			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
 			Type type1 = expression_sub_sub(child2, line);
-			Type type2 = symTable.getAttributeofVariable(identify).getType();
-			if(type1 != type2 && type1 != Type.NULL && type2 != Type.NULL)
-				err.addException(new SyntacticErrorException(type1, type2, line));
+			Type type2 = null;
+			if(symTable.getAttributeofVariable(identify) == null)
+				err.addException(new SyntacticErrorException(identify, line, 3));
+			else{
+				type2 = symTable.getAttributeofVariable(identify).getType();
+				if(type1 != type2 && type1 != Type.NULL && type2 != Type.NULL)
+					err.addException(new SyntacticErrorException(type1, type2, line));
+			}
 			return attr;
 			
 		} else {
@@ -353,8 +349,6 @@ public class Semantic {
 					err.addException(new SyntacticErrorException(identify, line, 11));
 			}
 			else{
-				System.out.println("1: "+identify);
-				System.out.println(funcTable.checkKeyState(identify));
 				err.addException(new SyntacticErrorException(identify, line, 11));
 			}
 			return Attribute.FUNC;
@@ -363,12 +357,16 @@ public class Semantic {
 	private Attribute var(Node currNode, String identify, int line){
 		Attribute attr = null;
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 0){
-			if(symTable.getAttributeofVariable(identify).getAttribute() == Attribute.ARRAY)
+			if(symTable.getAttributeofVariable(identify) == null)
+				err.addException(new SyntacticErrorException(identify, line, 3));
+			else if (symTable.getAttributeofVariable(identify).getAttribute() == Attribute.ARRAY)
 				err.addException(new SyntacticErrorException(identify, line, 9));
 			attr = Attribute.VAR;
 		}
 		else {
-			if(symTable.getAttributeofVariable(identify).getAttribute() == Attribute.VAR)
+			if(symTable.getAttributeofVariable(identify) == null)
+				err.addException(new SyntacticErrorException(identify, line, 3));
+			else if (symTable.getAttributeofVariable(identify).getAttribute() == Attribute.VAR)
 				err.addException(new SyntacticErrorException(identify, line, 10));
 			attr = Attribute.ARRAY;
 			Node child = ((SyntaxTreeNode)currNode).getChild(1);
@@ -399,12 +397,12 @@ public class Semantic {
 	}
 	private Type term_temp(Node currNode, int line){
 		if(((SyntaxTreeNode)currNode).getChildNumber() != 0){
-			Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
-			Type type1 = term_temp(child1, line);
-			Node child2 = ((SyntaxTreeNode)currNode).getChild(1);
-			Type type2 = factor(child2);
 			Node child3 = ((SyntaxTreeNode)currNode).getChild(2);
 			mulop(child3);
+			Node child2 = ((SyntaxTreeNode)currNode).getChild(1);
+			Type type2 = factor(child2);
+			Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
+			Type type1 = term_temp(child1, line);
 			//need to add code for generating intermediate code
 			if(type1 != type2 && type1 != Type.NULL && type2 != Type.NULL)
 				err.addException(new SyntacticErrorException(type1, type2, line));

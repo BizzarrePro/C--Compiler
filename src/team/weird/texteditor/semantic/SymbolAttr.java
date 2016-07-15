@@ -39,7 +39,10 @@ public class SymbolAttr {
 	public SymbolAttr(Type type){
 		this.type = type;
 	}
-	
+	public SymbolAttr(Attribute attr, Type type){
+		this.attr = attr;
+		this.type = type;
+	}
 	public void setAttribute(Attribute attr){
 		this.attr = attr;
 	}
