@@ -1,4 +1,7 @@
 package team.weird.texteditor.implement;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.TextArea;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -15,7 +18,9 @@ import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -31,10 +36,12 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTabbedPane tab;
-	public EditAction(String name, JTabbedPane tab){
+	private JTabbedPane tab = null;
+	private JFrame frame = null;
+	public EditAction(String name, JTabbedPane tab, JFrame frame){
 		super(name);
 		this.tab = tab;
+		this.frame = frame;
 	}
 	
 	@Override
@@ -165,8 +172,9 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	@Override
 	public void findAction() {
 		// TODO Auto-generated method stub
-		Find find =new Find();
+		Find find =new Find(frame, tab);
 		find.setVisible(true);
+		
 	}
 
 	
@@ -174,7 +182,7 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	@Override
 	public void replaceAction() {
 		// TODO Auto-generated method stub
-		Find find =new Find();
+		Find find =new Find(frame, tab);
 		find.setVisible(true);
 	}
 }

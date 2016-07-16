@@ -1,5 +1,6 @@
 package team.weird.texteditor.menu;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -13,24 +14,26 @@ import team.weird.texteditor.implement.EditAction;
  * @copyright All rights reserved by Qian_Yang.
  */
 public class EditMenuItem {
-	private JMenuBar menuBar; 
-	private JTabbedPane contentPane;
-	public EditMenuItem(JMenuBar menuBar, JTabbedPane contentPane){
+	private JMenuBar menuBar = null; 
+	private JTabbedPane contentPane = null;
+	private JFrame frame = null;
+	public EditMenuItem(JMenuBar menuBar, JTabbedPane contentPane, JFrame frame){
 		this.menuBar = menuBar;
 		this.contentPane = contentPane;
+		this.frame = frame;
 	}
 	public void initEditMenuItem(){
 		JMenu editMenu = new JMenu("Edit");
 		menuBar.add(editMenu);
-		EditAction undoTxt =new EditAction("Undo",contentPane);
-		EditAction redoTxt =new EditAction("Redo",contentPane);
-		EditAction cutTxt = new EditAction("Cut", contentPane);
-		EditAction copyTxt = new EditAction("Copy", contentPane);
-		EditAction pasteTxt = new EditAction("Paste", contentPane);
-		EditAction selectAll =new EditAction("Select All",contentPane);
-		EditAction delete =new EditAction("Delete",contentPane);
-		EditAction find =new EditAction("Find",contentPane);
-		EditAction replace =new EditAction("Replace",contentPane);
+		EditAction undoTxt =new EditAction("Undo",contentPane, frame);
+		EditAction redoTxt =new EditAction("Redo",contentPane, frame);
+		EditAction cutTxt = new EditAction("Cut", contentPane, frame);
+		EditAction copyTxt = new EditAction("Copy", contentPane, frame);
+		EditAction pasteTxt = new EditAction("Paste", contentPane, frame);
+		EditAction selectAll =new EditAction("Select All",contentPane, frame);
+		EditAction delete =new EditAction("Delete",contentPane, frame);
+		EditAction find =new EditAction("Find",contentPane, frame);
+		EditAction replace =new EditAction("Replace",contentPane, frame);
 		JMenuItem undoItem = new JMenuItem(undoTxt);
 		JMenuItem redoItem = new JMenuItem(redoTxt);
 		JMenuItem cutItem = new JMenuItem(cutTxt);

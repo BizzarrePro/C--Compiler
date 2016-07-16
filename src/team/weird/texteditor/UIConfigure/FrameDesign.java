@@ -47,7 +47,7 @@ public class FrameDesign extends JFrame {
 		setJMenuBar(bar);
 		
 		FileMenuItem fileMenu = new FileMenuItem(bar, contentPane, this);
-		EditMenuItem editMenu = new EditMenuItem(bar, contentPane);
+		EditMenuItem editMenu = new EditMenuItem(bar, contentPane, this);
 		fileMenu.initFileMenuItem();
 		editMenu.initEditMenuItem();
 		

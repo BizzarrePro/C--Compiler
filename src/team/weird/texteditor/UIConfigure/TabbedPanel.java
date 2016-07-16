@@ -19,10 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicButtonUI;
-/**
- * @author CSDN
- * @copyright All rights reserved by CSDN.
- */
+
+
 public class TabbedPanel extends JPanel {  
     private JTabbedPane pane;  
     public TabbedPanel(final JTabbedPane pane){  
@@ -45,10 +43,7 @@ public class TabbedPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(1, 0, 0, 0));  
     }  
    
-    /** 
-     * @author CSDN
-     * @description The exit button on the tab
-     */
+
     private class TabButton extends JButton {  
         public TabButton() {  
             int size = 17;  
