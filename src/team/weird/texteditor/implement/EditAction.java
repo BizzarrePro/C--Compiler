@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -31,48 +32,9 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane tab;
-	private UndoManager um =new  UndoManager();
 	public EditAction(String name, JTabbedPane tab){
 		super(name);
 		this.tab = tab;
-		JTextArea textArea = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
-		textArea.getDocument().addUndoableEditListener(new UndoableEditListener() {
-		    @Override
-		    public void undoableEditHappened(UndoableEditEvent e) {
-
-		        um.addEdit(e.getEdit());
-
-		    }
-		});
-		InputMap im = textArea.getInputMap(JComponent.WHEN_FOCUSED);
-		ActionMap am = textArea.getActionMap();
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Undo");
-		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Redo");
-
-		am.put("Undo", new AbstractAction() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-		            if (um.canUndo()) {
-		                um.undo();
-		            }
-		        } catch (CannotUndoException exp) {
-		            exp.printStackTrace();
-		        }
-		    }
-		});
-		am.put("Redo", new AbstractAction() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-		            if (um.canRedo()) {
-		                um.redo();
-		            }
-		        } catch (CannotUndoException exp) {
-		            exp.printStackTrace();
-		        }
-		    }
-		});
 	}
 	
 	@Override
@@ -150,18 +112,34 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 	public void undoTextAction() {
 		// TODO Auto-generated method stub
 		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
-		text.getDocument().addUndoableEditListener(um);
-		if(um.canUndo()){
-			um.undo();
+		LinkedList<UndoManager> umList = FileAction.getUndoManager();
+		if(umList.get(tab.getSelectedIndex()) != null){
+			text.getDocument().addUndoableEditListener(umList.get(tab.getSelectedIndex()));
+			try{
+				if(umList.get(tab.getSelectedIndex()).canUndo()){
+					umList.get(tab.getSelectedIndex()).undo();
+				}
+			}
+			catch(CannotUndoException e){
+				e.printStackTrace();
+			}
 		}
 	}
 	@Override
 	public void redoTextAction() {
 		// TODO Auto-generated method stub
 		JTextArea text = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
-		text.getDocument().addUndoableEditListener(um);
-		if(um.canRedo()){
-			um.redo();
+		LinkedList<UndoManager> umList = FileAction.getUndoManager();
+		if(umList.get(tab.getSelectedIndex()) != null){
+			text.getDocument().addUndoableEditListener(umList.get(tab.getSelectedIndex()));
+			try{
+				if(umList.get(tab.getSelectedIndex()).canRedo()){
+					umList.get(tab.getSelectedIndex()).redo();
+				}
+			}
+			catch(CannotUndoException e){
+				e.printStackTrace();
+			}
 		}
 	}
 

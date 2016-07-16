@@ -5,7 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,11 +16,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,11 +34,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 
 import team.weird.texteditor.UIConfigure.FrameDesign;
 import team.weird.texteditor.UIConfigure.TabbedPanel;
@@ -55,14 +67,13 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 	private FileActionUtil util = new FileActionUtil();
 	private JLabel line;
 	private JLabel column;
-	
 	public FileAction(String name, JTabbedPane tab,
 			HashMap<String, FileAttribute> fileMap) {
 		super(name);
 		this.tab = tab;
 		this.fileMap = fileMap;
 	}
-	
+	private static final LinkedList<UndoManager> umList = new LinkedList<UndoManager>();
 	public FileAction(String name, JTabbedPane tab,
 			HashMap<String, FileAttribute> fileMap, JLabel line, JLabel column) {
 		super(name);
@@ -71,7 +82,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		this.line = line;
 		this.column = column;
 	}
-
+	
 	public FileAction(String name, JTabbedPane tab) {
 		super(name);
 		this.tab = tab;
@@ -81,7 +92,9 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		super(name);
 		this.pan = pan;
 	}
-
+	public static LinkedList<UndoManager> getUndoManager(){
+		return umList;
+	}
 	public void actionPerformed(ActionEvent event) {
 		if (event.getActionCommand().equals("New")) {
 			newFileAction("Untitle" + id);
@@ -149,8 +162,46 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 				
 			}
 		});
+		UndoManager um= new UndoManager();
+		umList.add(um);
+		Document doc = text.getDocument();
+		doc.addUndoableEditListener(new UndoableEditListener() {
+		    @Override
+		    public void undoableEditHappened(UndoableEditEvent e) {
+		        umList.get(tab.getSelectedIndex()).addEdit(e.getEdit());
+		    }
+		});
+		InputMap im = text.getInputMap(JComponent.WHEN_FOCUSED);
+		ActionMap am = text.getActionMap();
 		
-		tab.setSelectedIndex(id++);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Undo");
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Redo");
+		am.put("Undo", new AbstractAction() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            if (umList.get(tab.getSelectedIndex()).canUndo()) {
+		            	umList.get(tab.getSelectedIndex()).undo();
+		            }
+		        } catch (CannotUndoException exp) {
+		            exp.printStackTrace();
+		        }
+		    }
+		});
+		am.put("Redo", new AbstractAction() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            if (umList.get(tab.getSelectedIndex()).canRedo()) {
+		            	umList.get(tab.getSelectedIndex()).redo();
+		            }
+		        } catch (CannotUndoException exp) {
+		            exp.printStackTrace();
+		        }
+		    }
+		});
+		tab.setSelectedIndex(tab.getComponentCount() - 2);
+		id++;
 		return text;
 	}
 

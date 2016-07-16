@@ -38,22 +38,6 @@ public class Find extends JFrame {
     private File file;
 
     /**
-     * Launch the application.
-     */
-//    public static void main(String[] args) {
-//        EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    Find frame = new Find();
-//                    frame.setVisible(true);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
-
-    /**
      * Create the frame.
      */
     public Find() {
