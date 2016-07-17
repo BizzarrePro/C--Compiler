@@ -54,7 +54,6 @@ public class Find extends JFrame {
     private JCheckBox caseSen;
     private JCheckBox regex;
     private boolean finishedFinding = true;
-    private boolean changeObject = false;
     private Matcher matcher;
     private JTabbedPane tab;
     /**
@@ -74,6 +73,7 @@ public class Find extends JFrame {
         setContentPane(contentPane);
         JPanel panel = new JPanel();
         contentPane.add(panel, BorderLayout.NORTH);
+        
         GridBagLayout gbl_panel = new GridBagLayout();
         gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
         gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
@@ -105,6 +105,26 @@ public class Find extends JFrame {
         panel.add(label, gbc_label);
 
         searchTextField = new JTextField();
+        searchTextField.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				finishedFinding = true;
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				finishedFinding = true;
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
         GridBagConstraints gbc_searchTextField = new GridBagConstraints();
         gbc_searchTextField.gridwidth = 3;
         gbc_searchTextField.insets = new Insets(0, 0, 5, 0);

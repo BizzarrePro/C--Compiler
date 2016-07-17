@@ -38,11 +38,15 @@ import javax.swing.KeyStroke;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Caret;
+import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
+import javax.swing.text.StyledDocument;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
@@ -139,14 +143,12 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		//scrollPane.setOpaque(true);
 		scrollPane.setBorder(null);
 		
-		
 		tab.addTab(name, scrollPane);
 		final int EIndex = tab.indexOfTab(name);
 		tab.setTabComponentAt(EIndex, new TabbedPanel(tab));
 		DocumentListener textAction = new FileTextAction(model, text);
 		text.getDocument().addDocumentListener(textAction);
 		text.addCaretListener(new CaretListener() {
-		JTextField stateField = new JTextField();	
 			@Override
 			public void caretUpdate(CaretEvent e) {
 				// TODO Auto-generated method stub
@@ -165,6 +167,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		UndoManager um= new UndoManager();
 		umList.add(um);
 		Document doc = text.getDocument();
+//		doc.addDocumentListener(new TextHighLight(text));
 		doc.addUndoableEditListener(new UndoableEditListener() {
 		    @Override
 		    public void undoableEditHappened(UndoableEditEvent e) {
