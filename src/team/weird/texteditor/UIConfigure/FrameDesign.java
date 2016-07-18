@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +16,8 @@ import javax.swing.JTextField;
 
 import team.weird.texteditor.menu.EditMenuItem;
 import team.weird.texteditor.menu.FileMenuItem;
+import team.weird.texteditor.menu.SelectMenuItem;
+import team.weird.texteditor.menu.ToolMenuItem;
 /**
  * @filename FrameDesign.java
  * @author Siyuan_Liu 
@@ -45,11 +49,13 @@ public class FrameDesign extends JFrame {
 	public void initMenuItem() {
 		JMenuBar bar = new JMenuBar();
 		setJMenuBar(bar);
-		
 		FileMenuItem fileMenu = new FileMenuItem(bar, contentPane, this);
 		EditMenuItem editMenu = new EditMenuItem(bar, contentPane, this);
+		SelectMenuItem selectMenu = new SelectMenuItem(bar, contentPane, this);
+		ToolMenuItem toolMenu = new ToolMenuItem(bar, contentPane, this);
 		fileMenu.initFileMenuItem();
 		editMenu.initEditMenuItem();
-		
+		selectMenu.initSelectionMenuItem();
+		toolMenu.initToolMenuItem();
 	}
 }

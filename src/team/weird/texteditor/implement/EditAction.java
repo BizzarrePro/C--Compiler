@@ -166,7 +166,6 @@ public class EditAction extends AbstractAction implements EditMenuItemFunc{
 		int len = text.getSelectedText().length();
 		tmp.delete(start, start+len);
 		text.setText(tmp.toString());
-	
 	}
 
 	@Override

@@ -100,26 +100,36 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		return umList;
 	}
 	public void actionPerformed(ActionEvent event) {
-		if (event.getActionCommand().equals("New")) {
+		String command = event.getActionCommand();
+		switch(command){
+		case "New":
 			newFileAction("Untitle" + id);
-		} else if (event.getActionCommand().equals("New Windows")) {
+			break;
+		case "New Windows":
 			newWindowsAction();
-		} else if (event.getActionCommand().equals("Close Windows")){
+			break;
+		case "Close Windows":
 			closeWindowsAction();
-		} else if (event.getActionCommand().equals("Open")) {
+			break;
+		case "Open":
 			openFileAction();
-		} else if (event.getActionCommand().equals("Save")) {
+			break;
+		case "Save":
 			saveFileAction();
-		} else if (event.getActionCommand().equals("Save as")) {
+			break;
+		case "Save as":
 			saveAsFileAction();
-		} else if (event.getActionCommand().equals("Close File")) {
+			break;
+		case "Close File":
 			closeFileAction();
-		} else if (event.getActionCommand().equals("Close All File")) {
+			break;
+		case "Close All File":
 			closeAllFileAction();
-		} else if (event.getActionCommand().equals("Exit")) {
+			break;
+		case "Exit":
 			exitFileAction();
+			break;
 		}
-
 	}
 
 	@Override
@@ -133,7 +143,6 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		JPanel rowNum = new JPanel();
 		rowNum.add(row);
 		rowNum.setLayout(new GridLayout());
-		
 		JScrollPane scrollPane = new JScrollPane(text);
 		final DefaultListModel<Integer> model = new DefaultListModel<>();
 		final JList<Integer> list = util.initRowList(model);
@@ -142,7 +151,6 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		text.setForeground(new Color(248, 248, 242));
 		//scrollPane.setOpaque(true);
 		scrollPane.setBorder(null);
-		
 		tab.addTab(name, scrollPane);
 		final int EIndex = tab.indexOfTab(name);
 		tab.setTabComponentAt(EIndex, new TabbedPanel(tab));

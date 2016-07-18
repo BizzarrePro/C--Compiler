@@ -60,7 +60,6 @@ public class EditMenuItem {
 		selectItem.setAccelerator(KeyStroke.getKeyStroke("ctrl A"));
 		deleteItem.setAccelerator(KeyStroke.getKeyStroke("DELETE"));
 		findItem.setAccelerator(KeyStroke.getKeyStroke("ctrl F"));
-		replaceItem.setAccelerator(KeyStroke.getKeyStroke("ctrl R"));
 		editMenu.add(undoItem);
 		editMenu.add(redoItem);
 		editMenu.addSeparator();
