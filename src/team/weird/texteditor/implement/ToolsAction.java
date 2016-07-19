@@ -11,7 +11,11 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.swing.AbstractAction;
@@ -150,6 +154,24 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 			gbc_pathTextField.fill = GridBagConstraints.HORIZONTAL;
 			gbc_pathTextField.gridx = 1;
 			gbc_pathTextField.gridy = 1;
+			File content = new File("./recent/record.txt");
+			if(content.exists()){
+				BufferedReader br = null;
+				try{
+					br = new BufferedReader(new FileReader(content));
+					String path = br.readLine();
+					if(path != null)
+						pathField.setText(path);
+				} catch(IOException ioe) {
+					ioe.printStackTrace();
+				} finally {
+					try {
+						br.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
 			panel.add(pathField, gbc_pathTextField);
 			pathField.setColumns(10);
 
@@ -200,7 +222,6 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 
 		private void doCommitment(ActionEvent e, int type) {
 			try {
-				System.out.println(type);
 				Runtime rt = Runtime.getRuntime();
 				System.out.println(pathField.getText());
 				File file = new File(pathField.getText());
@@ -215,7 +236,25 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 					while ((line = input.readLine()) != null)
 						buffer.append("" + line + "\r\n");
 					buffer.append("You have commit successfully~~ \r\n");
-					pr.waitFor();
+					File recordDir = new File("./recent");
+					File record = new File("./recent/record.txt");
+					BufferedWriter bw = null;
+					if(!recordDir.exists()){
+						recordDir.mkdir();
+						String attr = "attrib +H " + recordDir.getAbsolutePath();
+						Process pro = Runtime.getRuntime().exec(attr);
+						pr.waitFor();
+					} else {
+						try{
+							bw = new BufferedWriter(new FileWriter(record));
+							bw.write(pathField.getText());
+						} catch(IOException ioe){
+							ioe.printStackTrace();
+						} finally{
+							bw.close();
+						}
+						
+					}
 					break;
 				case 2:
 					buffer.append("This directory is not git responsibility!");
