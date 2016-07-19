@@ -8,9 +8,11 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -164,7 +166,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 					int lineNum = text.getLineOfOffset(e.getDot());
 					list.setSelectedIndex(lineNum);
 					line.setText(""+lineNum);
-					column.setText(""+text.getCaretPosition());
+					column.setText(""+(e.getDot() - text.getLineStartOffset(lineNum)));
 				} catch (BadLocationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -340,6 +342,49 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void loadLastText(){
+		File dir = new File(".\\storage");
+		if(dir.exists()){
+			File[] list = dir.listFiles();
+			if(list.length != 0){
+				FileReader fr = null;
+				BufferedReader br = null;
+				for(int i = 0; i < list.length; i++){
+					try {
+						fr = new FileReader(list[i]);
+						br = new BufferedReader(fr);
+						String title = br.readLine();
+						StringBuffer sb = new StringBuffer();
+						String content = br.readLine();
+						while(content != null){
+							sb.append(content);
+							sb.append("\r\n");
+							content = br.readLine();
+						}
+						JTextArea text = newFileAction(title);
+						text.setText(sb.toString());
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+					} finally {
+						try {
+							fr.close();
+							br.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}
+					
+				}
+			}
+			dir.delete();
 		}
 	}
 }

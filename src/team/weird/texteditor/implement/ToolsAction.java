@@ -10,6 +10,8 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -41,6 +43,7 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 	private JFrame frame;
 	private JTextField pathField;
 	private JTextField commentField;
+	private Thread t ;
 
 	public ToolsAction(String name, JTabbedPane tab) {
 		super(name);
@@ -60,7 +63,7 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 		String event = e.getActionCommand();
 		switch (event) {
 		case "Translation":
-			Thread t = new Thread(new Runnable() {
+			t = new Thread(new Runnable() {
 				public void run() {
 					translation();
 				}
@@ -79,11 +82,11 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 		final String url = "http://translate.google.cn/";
 		UIUtils.setPreferredLookAndFeel();
 		NativeInterface.open();
-		EventQueue.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Browser fm = new Browser(url);
+				Browser fm = new Browser(url);				
 			}
 		});
 		NativeInterface.runEventPump();
@@ -108,9 +111,14 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 			web.setLocationBarVisible(false);
 			add(web);
 			setSize(new Dimension(400, 600));
-			setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setLocationByPlatform(true);
 			setVisible(true);
+			addWindowListener(new WindowAdapter(){
+				public void windowClosing(WindowEvent e){
+					dispose();
+				}
+			});
 		}
 	}
 
@@ -154,24 +162,7 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 			gbc_pathTextField.fill = GridBagConstraints.HORIZONTAL;
 			gbc_pathTextField.gridx = 1;
 			gbc_pathTextField.gridy = 1;
-			File content = new File("./recent/record.txt");
-			if(content.exists()){
-				BufferedReader br = null;
-				try{
-					br = new BufferedReader(new FileReader(content));
-					String path = br.readLine();
-					if(path != null)
-						pathField.setText(path);
-				} catch(IOException ioe) {
-					ioe.printStackTrace();
-				} finally {
-					try {
-						br.close();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-			}
+			reloadPath();
 			panel.add(pathField, gbc_pathTextField);
 			pathField.setColumns(10);
 
@@ -220,16 +211,45 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 			setVisible(true);
 		}
 
+		private void reloadPath() {
+			File content = new File("./recent/record.txt");
+			if(content.exists()){
+				BufferedReader br = null;
+				try{
+					br = new BufferedReader(new FileReader(content));
+					String path = br.readLine();
+					if(path != null)
+						pathField.setText(path);
+				} catch(IOException ioe) {
+					ioe.printStackTrace();
+				} finally {
+					try {
+						br.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+			
+		}
+
 		private void doCommitment(ActionEvent e, int type) {
+			pushOrCommit("", type);
+		}
+
+		private void doPushUp(ActionEvent e, int type) {
+			pushOrCommit(" & git push origin master", type);
+		}
+		private void pushOrCommit(String command, int type){
 			try {
 				Runtime rt = Runtime.getRuntime();
 				System.out.println(pathField.getText());
-				File file = new File(pathField.getText());
 				StringBuffer buffer = new StringBuffer("");
+				reloadPath();
 				switch (type) {
 				case 1:
 					Process pr = rt.exec("cmd /c cd " + pathField.getText()
-							+ " & dir & git add --all & git commit -m \""+commentField.getText()+"\"");
+							+ " & dir & git add --all & git commit -m \""+commentField.getText()+"\""+command);
 					BufferedReader input = new BufferedReader(
 							new InputStreamReader(pr.getInputStream(), "GBK"));
 					String line = null;
@@ -272,15 +292,9 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 				Result result = new Result(buffer.toString());
 				
 			} catch (Exception ex) {
-				System.out.println(e.toString());
 				ex.printStackTrace();
 			}
 		}
-
-		private void doPushUp(ActionEvent e, int type) {
-
-		}
-
 		private int recordResponsibilityAddress() {
 			String path = pathField.getText();
 			if (path != null) {

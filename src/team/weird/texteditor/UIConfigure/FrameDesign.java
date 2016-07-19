@@ -6,16 +6,28 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import team.weird.texteditor.implement.FileAction;
 import team.weird.texteditor.menu.EditMenuItem;
 import team.weird.texteditor.menu.FileMenuItem;
+import team.weird.texteditor.menu.HelpMenuItem;
+import team.weird.texteditor.menu.RunMenuItem;
 import team.weird.texteditor.menu.SelectMenuItem;
 import team.weird.texteditor.menu.ToolMenuItem;
 /**
@@ -53,9 +65,61 @@ public class FrameDesign extends JFrame {
 		EditMenuItem editMenu = new EditMenuItem(bar, contentPane, this);
 		SelectMenuItem selectMenu = new SelectMenuItem(bar, contentPane, this);
 		ToolMenuItem toolMenu = new ToolMenuItem(bar, contentPane, this);
+		RunMenuItem runMenu = new RunMenuItem(bar, contentPane, this);
+		HelpMenuItem helpMenu = new HelpMenuItem(bar, contentPane, this);
 		fileMenu.initFileMenuItem();
 		editMenu.initEditMenuItem();
 		selectMenu.initSelectionMenuItem();
 		toolMenu.initToolMenuItem();
+		runMenu.initRunMenuItem();
+		helpMenu.initHelpMenuItem();
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				if(contentPane.getTabCount() > 0){
+					File dir = new File(".\\storage");
+					FileWriter fw = null;
+					if(!dir.exists()){
+						dir.mkdir();
+						String attr = "attrib +H " + dir.getAbsolutePath();
+						try {
+							Process pro = Runtime.getRuntime().exec(attr);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					for(int i = 0; i < contentPane.getTabCount(); i++){
+						JTextArea text = (JTextArea) ((JScrollPane) contentPane.getComponentAt(i)).getViewport().getView();
+						File file = new File(".\\storage\\"+i+".txt");
+						try {
+							file.createNewFile();
+						} catch (FileAlreadyExistsException e2) {
+							e2.printStackTrace();
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						try{
+							fw = new FileWriter(file);
+							fw.write(contentPane.getTitleAt(i));
+							fw.write("\r\n");
+							String content = text.getText();
+							fw.write(content);
+						} catch(IOException ioe) {
+							ioe.printStackTrace();
+						}
+						finally {
+							try {
+								fw.flush();
+								fw.close();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					}
+				}
+				System.exit(0);
+			}
+		});
 	}
 }

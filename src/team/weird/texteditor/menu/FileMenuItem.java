@@ -77,7 +77,7 @@ public class FileMenuItem{
 		FileAction CloseAllFile = new FileAction("Close All File", contentPane);
 		FileAction SaveFile = new FileAction("Save", contentPane, fileMap);
 		FileAction ExitFile = new FileAction("Exit", pan);
-		
+		newTxt.loadLastText();
 		/**
 		 * @description Create menu items
 		 */
