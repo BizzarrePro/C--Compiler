@@ -19,7 +19,7 @@ public class SyntacticErrorException extends Exception {
 				this.message = "Variable '"+ args +"': '"+ args + "' was not declared in the scope at line " + line;
 				break;
 			case 1:
-				this.message = "An error appears in syntax"+ "near '" + args + "' at line " + line;
+				this.message = "Parser: An error appears in syntax"+ "near '" + args + "' at line " + line;
 				break;
 			case 2:
 				this.message ="Variable '"+ args +"': Conflicting declaration '" + args + "' at line " + line;
@@ -57,6 +57,9 @@ public class SyntacticErrorException extends Exception {
 				break;
 			case 13:
 				this.message = "Expression '" + args + "': Iterator statement expression is not match at line " + line;
+				break;
+			case 14:
+				this.message ="Method '"+ args +"': Conflicting declaration '" + args + "' at line " + line;
 				break;
 		}
 	}

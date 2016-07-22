@@ -3,6 +3,19 @@ package team.weird.texteditor.semantic;
 import java.util.ArrayList;
 import java.util.List;
 
+import team.weird.texteditor.astnode.ArrayDeclaration;
+import team.weird.texteditor.astnode.CompoundStatement;
+import team.weird.texteditor.astnode.Declaration;
+import team.weird.texteditor.astnode.Expression;
+import team.weird.texteditor.astnode.ExpressionStatement;
+import team.weird.texteditor.astnode.FunctionDeclaration;
+import team.weird.texteditor.astnode.IterationStatement;
+import team.weird.texteditor.astnode.Program;
+import team.weird.texteditor.astnode.ReturnStatement;
+import team.weird.texteditor.astnode.SelectionStatement;
+import team.weird.texteditor.astnode.Statement;
+import team.weird.texteditor.astnode.Variable;
+import team.weird.texteditor.astnode.VariableDeclaration;
 import team.weird.texteditor.lexer.Token;
 import team.weird.texteditor.lexer.Word;
 import team.weird.texteditor.lexer.Number;
@@ -14,8 +27,10 @@ public class Semantic {
 	private Node root = null;
 	private SymbolTable symTable = SymbolTable.getInstance();
 	private FuncTable funcTable = FuncTable.getInstance();
+	private static Program program = Program.getInstance();
 	private ErrorList err = ErrorList.getInstance();
 	private static Semantic INSTANCE = null;
+	
 	private Semantic(Node root){
 		this.root = root;
 	}
@@ -33,39 +48,41 @@ public class Semantic {
 		Node child = ((SyntaxTreeNode)currNode).getChild(0);
 		declaration_list(child);
 	}
+
 	private void declaration_list(Node currNode){
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
-		declaration(child1);
+		program.addDeclaration(declaration(child1));
 		Node child0 = ((SyntaxTreeNode)currNode).getChild(0);
 		declaration_list_elim(child0);
 		
 	}
-	private Type declaration(Node currNode){
-		if(((SyntaxTreeNode)currNode).getChildNumber() != 1){
-			Type type = null;
-			String identify = null;
-			int line = 0;
-			Node child0 = ((SyntaxTreeNode)currNode).getChild(2);
-			type = type_declaration(child0);
-			Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
-			Token tok = ((SyntaxLeafNode)child1).getToken();
-			identify = ((Word)tok).getId();
-			line = tok.getLineNum();
-			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
-			return general_declaration(child2, identify, type, line); 
-		}
-		else {
-			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
-			Type retType = compound_stmt(child2);
-			symTable.destroyOldScope();
-			return retType;
+//done
+	private Declaration declaration(Node currNode){
+//		if(((SyntaxTreeNode)currNode).getChildNumber() != 1){
+		Type type = null;
+		String identify = null;
+		int line = 0;
+		Node child0 = ((SyntaxTreeNode)currNode).getChild(2);
+		type = type_declaration(child0);
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
+		Token tok = ((SyntaxLeafNode)child1).getToken();
+		identify = ((Word)tok).getId();
+		line = tok.getLineNum();
+		Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+		return general_declaration(child2, identify, type, line); 
+//		}
+//		else {
+//			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+//			Type retType = compound_stmt(child2);
+//			symTable.destroyOldScope();
 //			if(type == Type.VOID && retType != Type.NULL)
 //				err.addException(new SyntacticErrorException(identify, line, 6));
 //			else if(type != Type.VOID && retType != type)
 //				err.addException(new SyntacticErrorException(identify, line, 7));
 			
-		}
+//		}
 	}
+	
 	private void declaration_list_elim(Node currNode){
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 0)
 			return;
@@ -89,37 +106,43 @@ public class Semantic {
 				return Type.VOID;	
 		}
 	}
-	private Type general_declaration(Node currNode, String identify, Type type, int line){
-		Node child = ((SyntaxTreeNode)currNode).getChild(0);
-		if(child instanceof SyntaxTreeNode){
-			var_daclaration(child, identify, type, line);
-			return Type.NULL;
+//done	
+	private Declaration general_declaration(Node currNode, String identify, Type type, int line){
+		Declaration dec = null;
+		if(((SyntaxTreeNode)currNode).getChildNumber() == 1){
+			Node child = ((SyntaxTreeNode)currNode).getChild(0);
+			return var_daclaration(child, identify, type, line);
 		}
 		else{
-			symTable.createNewScope();
-			Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
-			List<SymbolAttr> paramList = new ArrayList<SymbolAttr>();
+			FunctionDeclaration function = new FunctionDeclaration(identify, type);
+			Node child1 = ((SyntaxTreeNode)currNode).getChild(2);
+			List<Variable> paramList = new ArrayList<Variable>();
 			params(child1, paramList);
-			if(funcTable.checkKeyState(identify))
-				funcTable.putInFuncTable(identify, new SymbolAttr(identify, type, Attribute.FUNC, paramList));
-			else
-				err.addException(new SyntacticErrorException(identify, line, 14));
-			return type;
+			function.setParameters(paramList);
+			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+			function.setStatement(compound_stmt(child2));
+			return function;
+//			if(funcTable.checkKeyState(identify))
+//				funcTable.putInFuncTable(identify, new SymbolAttr(identify, type, Attribute.FUNC, paramList));
+//			else
+//				err.addException(new SyntacticErrorException(identify, line, 14));
 		}
 	}
-	private void var_daclaration(Node currNode, String identify, Type type, int line){
+//done
+	private VariableDeclaration var_daclaration(Node currNode, String identify, Type type, int line){
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 1){
 			if(symTable.checkKeyState(identify))
 				symTable.putInSymbolTable(identify, new SymbolAttr(identify, type, Attribute.VAR));
 			else
 				err.addException(new SyntacticErrorException(identify, line, 2));
+			return new VariableDeclaration(identify, type);
 		}
 		else {
 			Node child = ((SyntaxTreeNode)currNode).getChild(1);
 			int length = 0;
 			Token tok = ((SyntaxLeafNode)child).getToken();
+			length = ((Number)tok).getNum();
 			if(tok instanceof Number){
-				length = ((Number)tok).getNum();
 				if(symTable.checkKeyState(identify))
 					symTable.putInSymbolTable(identify, new SymbolAttr(identify, type, Attribute.ARRAY, length));
 				else
@@ -127,24 +150,26 @@ public class Semantic {
 			}
 			else 
 				err.addException(new SyntacticErrorException(identify, line, 5));
+			return new ArrayDeclaration(identify, type, length);
 		}
 	}
-	private void params(Node currNode, List<SymbolAttr> paramList){
+//done	
+	private void params(Node currNode, List<Variable> paramList){
 		Node child = ((SyntaxTreeNode)currNode).getChild(0);
-		if(child instanceof SyntaxLeafNode){
-			paramList.add(new SymbolAttr(Type.VOID));
+		if(child instanceof SyntaxLeafNode)
 			return;
-		}
 		else 
 			param_list(child, paramList);	
 	}
-	private void param_list(Node currNode, List<SymbolAttr> paramList){
+//done
+	private void param_list(Node currNode, List<Variable> paramList){
 		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
 		param(child0, paramList);
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
 		param_list_elim(child1, paramList);
 	}
-	private void param(Node currNode, List<SymbolAttr> paramList){
+//done
+	private void param(Node currNode, List<Variable> paramList){
 		Type type = null;
 		String identify = null;
 		int line;
@@ -157,18 +182,20 @@ public class Semantic {
 		Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
 		param_temp(child2, identify, type, line, paramList);
 	}
-	private void param_temp(Node currNode, String identify, Type type, int line, List<SymbolAttr> paramList){
-		SymbolAttr symbol = null;
+//done
+	private void param_temp(Node currNode, String identify, Type type, int line, List<Variable> paramList){
+		Variable var = null;
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 1)
-			symbol = new SymbolAttr(identify, type, Attribute.VAR);
+			var = new Variable(identify, type, false);
 		else 
-			symbol = new SymbolAttr(identify, type, Attribute.ARRAY);
-		if(!paramList.contains(symbol))
-			paramList.add(symbol);
+			var = new Variable(identify, type, true);;
+		if(!paramList.contains(var))
+			paramList.add(var);
 		else 
 			err.addException(new SyntacticErrorException(identify, line, 2));
 	}
-	private void param_list_elim(Node currNode, List<SymbolAttr> paramList){
+//done
+	private void param_list_elim(Node currNode, List<Variable> paramList){
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 0)
 			return;
 		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
@@ -176,63 +203,79 @@ public class Semantic {
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
 		param_list_elim(child1, paramList);
 	}
-	private Type compound_stmt(Node currNode){
+//done
+	private CompoundStatement compound_stmt(Node currNode){
+		CompoundStatement compound = new CompoundStatement();
 		Node child0 = ((SyntaxTreeNode)currNode).getChild(2);
-		local_declarations(child0);
+		local_declarations(child0, compound);
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
-		return statement_list(child1);
+		statement_list(child1, compound);
+		return compound;
 	}
-	private void local_declarations(Node currNode){
+//done
+	private void local_declarations(Node currNode, CompoundStatement compound){
 		Node child = ((SyntaxTreeNode)currNode).getChild(0);
-		local_declarations_elim(child);
+		local_declarations_elim(child, compound);
 	}
-	private Type statement_list(Node currNode){
-		if(((SyntaxTreeNode)currNode).getChildNumber() == 0)
-			return Type.NULL;
-		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
-		Type type1 = statement(child0);
-		Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
-		Type type2 = statement_list(child1);
-		return type1 == Type.NULL ? type2 : type1;
-	}
-	private void local_declarations_elim(Node currNode){
+//done
+	private void statement_list(Node currNode, CompoundStatement compound){
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 0)
 			return;
 		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
-		declaration(child0);
+		compound.addStatement(statement(child0));
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
-		local_declarations_elim(child1);
+		statement_list(child1, compound);
+		
 	}
-	private Type statement(Node currNode){
+//done
+	private void local_declarations_elim(Node currNode, CompoundStatement compound){
+		if(((SyntaxTreeNode)currNode).getChildNumber() == 0)
+			return;
+		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
+		compound.addVariable(var_declaration_sub(child0));
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(0);
+		local_declarations_elim(child1, compound);
+	}
+//done
+	private VariableDeclaration var_declaration_sub(Node currNode) {
+		Type type = null;
+		String identify = null;
+		int line = 0;
+		Node child0 = ((SyntaxTreeNode)currNode).getChild(2);
+		type = type_declaration(child0);
+		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
+		Token tok = ((SyntaxLeafNode)child1).getToken();
+		identify = ((Word)tok).getId();
+		line = tok.getLineNum();
+		Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
+		return var_daclaration(child2, identify, type, line);
+	}
+//done
+	private Statement statement(Node currNode){
 		Node child = ((SyntaxTreeNode)currNode).getChild(0);
 		String statement = child.getSymbol();
 		switch(statement){
 			case "expression-stmt":
-				expression_stmt(child);
-				break;
+				return expression_stmt(child);
 			case "compound-stmt":
-				symTable.createNewScope();
-				compound_stmt(child);
-				symTable.destroyOldScope();
-				break;
+				return compound_stmt(child);
 			case "selection-stmt":
-				selection_stmt(child);
-				break;
+				return selection_stmt(child);
 			case "iteration-stmt":
-				iteration_stmt(child);
-				break;
+				return iteration_stmt(child);
 			case "return-stmt":
 				return return_stmt(child);	
 		}
 		return null;
 	}
-	private void expression_stmt(Node currNode){
+	private ExpressionStatement expression_stmt(Node currNode){
 		if(((SyntaxTreeNode)currNode).getChildNumber() == 2){
 			Node child = ((SyntaxTreeNode)currNode).getChild(1);
-			expression(child);
+			return new ExpressionStatement(expression(child));
 		}
+		return null;
 	}
-	private void selection_stmt(Node currNode){
+	private SelectionStatement selection_stmt(Node currNode){
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(3);
 		Type type = expression(child1);
 		Node child2 = ((SyntaxTreeNode)currNode).getChild(4);
@@ -245,13 +288,13 @@ public class Semantic {
 		Node child4 = ((SyntaxTreeNode)currNode).getChild(0);
 		selection_stmt_temp(child4);
 	}
-	private void selection_stmt_temp(Node currNode){
+	private SelectionStatement selection_stmt_temp(Node currNode){
 		if(((SyntaxTreeNode)currNode).getChildNumber() != 0){
 			Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
 			statement(child2);
 		}
 	}
-	private void iteration_stmt(Node currNode){
+	private IterationStatement iteration_stmt(Node currNode){
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(2);
 		Type type = expression(child1);
 		Node child3 = ((SyntaxTreeNode)currNode).getChild(3);
@@ -262,14 +305,14 @@ public class Semantic {
 		Node child2 = ((SyntaxTreeNode)currNode).getChild(0);
 		statement(child2);
 	}
-	private Type return_stmt(Node currNode){
+	private ReturnStatement return_stmt(Node currNode){
 		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
 		if(child0 instanceof SyntaxLeafNode)
 			return Type.NULL;
 		else
 			return expression(child0);
 	}
-	private Type expression(Node currNode){
+	private Expression expression(Node currNode){
 		Node child0 = ((SyntaxTreeNode)currNode).getChild(1);
 		String identify = ((SyntaxLeafNode)child0).getSymbol();
 		switch(identify){
