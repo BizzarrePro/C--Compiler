@@ -14,4 +14,10 @@ public class Program {
 	public static Program getInstance(){
 		return INSTANCE;
 	}
+	public ArrayList<Declaration> getDeclarations() {
+		return declarations;
+	}
+	public void setDeclarations(ArrayList<Declaration> declarations) {
+		this.declarations = declarations;
+	}
 }

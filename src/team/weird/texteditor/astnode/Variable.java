@@ -29,4 +29,7 @@ public class Variable {
 	public void setArray(boolean isArray) {
 		this.isArray = isArray;
 	}
+	public String toString(){
+		return "["+type+"]"+" '"+id+"'";
+	}
 }

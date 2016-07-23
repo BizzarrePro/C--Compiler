@@ -34,9 +34,8 @@ public class Main {
 				selectSet.getSymbolMap(), ExtractProduction.TerminatingSymbolTable,
 				EliminationOfLeftRecursion.entrance);
 		
-		analysic.PredictAndAnalyze(lex.getTokenStream());
-//		Semantic semantic = Semantic.getInstance();
-//		semantic.init();
+		Semantic semantic = Semantic.getInstance(analysic.PredictAndAnalyze(lex.getTokenStream()));
+		semantic.init();
 /*		&&&&&Display model&&&&&
 		Scanner pause = new Scanner(System.in);
 		pause.next();
