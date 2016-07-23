@@ -73,7 +73,7 @@ public class FirstSet{
 		}
 		set.addAll(temp.firstSet);
 	}
-	public void display(){
+	public void print(){
 		System.out.println();
 		System.out.println("-------------------------First Set-------------------------");
 		System.out.println();

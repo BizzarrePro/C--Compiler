@@ -3,6 +3,9 @@ package team.weird.texteditor.astnode;
 public class IterationStatement extends Statement{
 	private Expression iteration;
 	private Statement state;
+	public IterationStatement(){
+		
+	}
 	public IterationStatement(Expression iteration, Statement state){
 		this.iteration = iteration;
 		this.state = state;

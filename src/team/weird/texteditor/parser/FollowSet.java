@@ -51,11 +51,9 @@ public class FollowSet {
 				while (listIter.hasNext()) {
 					tempSym = listIter.next();
 					
-					if (symbolMap.containsKey(tempSym)
-							&& tempSym.equals(symbol)) {
+					if (symbolMap.containsKey(tempSym) && tempSym.equals(symbol)) {
 						if (listIter.hasNext()) {
 							String followSymbol = listIter.next();
-							// System.out.println(followSymbol);
 							if (symbolMap.containsKey(followSymbol)) {
 								if (symbolMap.get(followSymbol).hasEpsilon) {
 									Symbol elementSym = symbolMap
@@ -97,7 +95,7 @@ public class FollowSet {
 		}
 		cnt = 1;
 	}
-	public void display() {
+	public void print() {
 		System.out.println();
 		System.out
 				.println("-------------------------Follow Set-------------------------");

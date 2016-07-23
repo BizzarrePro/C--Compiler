@@ -130,7 +130,7 @@ public class Lexer {
 				out += ((temp - '0')/bit);
 				bit *= 10;
 			}
-			return new Float(out, "NUM");
+			return new FloatNumber(out, "NUM");
 		}
 		if(	Character.isLetter(temp)){
 			StringBuffer buf = new StringBuffer();

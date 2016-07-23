@@ -78,7 +78,7 @@ public class EliminationOfLeftRecursion extends ExtractProduction {
 				depthFirstOrderPreviously(temp.getPreList().get(i));
 	}
 
-	private void displayBeforeDepthFirstOrder() {
+	private void printBeforeDepthFirstOrder() {
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
 				.entrySet().iterator();
 		System.out
@@ -133,7 +133,7 @@ public class EliminationOfLeftRecursion extends ExtractProduction {
 		// }
 	}
 
-	public void displayAfterElimination() {
+	public void print() {
 		System.out.println("-------------------------After Removing Left Recursion-------------------------");
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
 		while(it.hasNext()){

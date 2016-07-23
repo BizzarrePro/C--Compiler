@@ -4,8 +4,8 @@ import team.weird.texteditor.semantic.SymbolAttr.Type;
 
 public class ArrayDeclaration extends VariableDeclaration{
 	private int length = 0;
-	public ArrayDeclaration(String id, Type type, int length){
-		super(id, type);
+	public ArrayDeclaration(String id, Type type, int length, int line){
+		super(id, type, line);
 		this.length = length;
 	}
 	public int getLength() {

@@ -68,55 +68,6 @@ public class PredictAnalyticalTable {
 
 				}
 			}
-
-			// while (proIter.hasNext()) {
-			// RightProduction proTemp = proIter.next();
-			// String firstRightSymbol = proTemp.getFirstRightSymbol();
-			//
-			// if ((UntermSymbolMap.containsKey(firstRightSymbol) &&
-			// UntermSymbolMap
-			// .get(firstRightSymbol).firstSet.contains("empty"))) {
-			// if(temp.getUnterminatingString().equals("local-declarations`"))
-			// System.out.println("++++++++"+proTemp.getRightSymbolList());
-			// Iterator<String> followSymbolIter = temp.followSet
-			// .iterator();
-			// while (followSymbolIter.hasNext()) {
-			// String key = followSymbolIter.next();
-			// if(temp.predictiveMap.get(key) == null ||
-			// temp.predictiveMap.get(key).equals("empty"))
-			// temp.predictiveMap.put(key,
-			// proTemp.getRightSymbolList());
-			// }
-			//
-			// } else if (UntermSymbolMap.containsKey(firstRightSymbol)) {
-			// Iterator<String> selectSymbolIter = UntermSymbolMap
-			// .get(firstRightSymbol).selectSet.iterator();
-			// while (selectSymbolIter.hasNext()) {
-			// String key = selectSymbolIter.next();
-			// // if(temp.predictiveMap.get(key) != null)
-			// // throw new OverlappedSyntaxException();
-			// if(temp.predictiveMap.get(key) == null ||
-			// temp.predictiveMap.get(key).equals("empty"))
-			// temp.predictiveMap.put(key,
-			// proTemp.getRightSymbolList());
-			//
-			// }
-			// } else if (firstRightSymbol.equals("empty")) {
-			// Iterator<String> followIter = temp.followSet.iterator();
-			// while (followIter.hasNext()) {
-			// String str = followIter.next();
-			// if(temp.predictiveMap.get(str) == null ||
-			// temp.predictiveMap.get(str).equals("empty"))
-			// temp.predictiveMap.put(str,
-			// proTemp.getRightSymbolList());
-			//
-			// }
-			//
-			// } else{
-			// temp.predictiveMap.put(firstRightSymbol,
-			// proTemp.getRightSymbolList());
-			// }
-			// }
 		}
 	}
 
@@ -134,7 +85,7 @@ public class PredictAnalyticalTable {
 		}
 	}
 
-	public void displayPredictiveTable() {
+	public void print() {
 		System.out.println();
 		System.out
 				.println("----------------------Predictive Table----------------------");

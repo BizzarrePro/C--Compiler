@@ -19,31 +19,27 @@ public class Main {
 		Lexer lex = Lexer.getInstance();
 		
 		EliminationOfLeftRecursion removeLeftRecursion = EliminationOfLeftRecursion.getInstance();
-
+		
 		FirstSet firstSet = new FirstSet(removeLeftRecursion.getSymbolMap());
 		firstSet.createFirstSet();
-		
+
 		FollowSet followSet = new FollowSet(firstSet.symbolMap);
 		followSet.createFollowSet();
-		
+
 		SelectSet selectSet = new SelectSet(followSet.symbolMap,
 				ExtractProduction.TerminatingSymbolTable);
 		selectSet.createSelectSet();
-		
+
 		PredictiveAnalytics analysic = new PredictiveAnalytics(
 				selectSet.getSymbolMap(), ExtractProduction.TerminatingSymbolTable,
 				EliminationOfLeftRecursion.entrance);
 		
-		Semantic semantic = Semantic.getInstance(analysic.PredictAndAnalyze(lex.getTokenStream()));
-		semantic.init();
+		analysic.PredictAndAnalyze(lex.getTokenStream());
+//		Semantic semantic = Semantic.getInstance();
 //		semantic.init();
 /*		&&&&&Display model&&&&&
 		Scanner pause = new Scanner(System.in);
 		pause.next();
-		firstSet.display();
-		followSet.display();
-		selectSet.display();
-		analysic.displayPredictiveTable();
 */
 		//Test Case 1
 /**		

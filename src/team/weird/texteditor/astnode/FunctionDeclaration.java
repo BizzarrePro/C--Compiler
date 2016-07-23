@@ -8,8 +8,8 @@ import team.weird.texteditor.semantic.SymbolAttr.Type;
 public class FunctionDeclaration extends Declaration{
 	private List<Variable> parameters = new ArrayList<Variable>();
 	private CompoundStatement statement;
-	public FunctionDeclaration(String id, Type type){
-		super(id, type);
+	public FunctionDeclaration(String id, Type type, int line){
+		super(id, type, line);
 	}
 	public List<Variable> getParameters() {
 		return parameters;

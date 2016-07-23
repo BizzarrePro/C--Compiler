@@ -43,15 +43,6 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 	public Node PredictAndAnalyze(Token[] token)
 			throws SyntacticErrorException {
 		int index = 0;
-/**		boolean CalParameter = false;
-		String identify = null;
-		String variable = null;
-		String type = null;
-		String currFunc = null;
-		//Temporary function parameters list
-		ArrayList<String> TypeList = new ArrayList<String>();
-		ArrayList<SymbolAttr> AttrList = new ArrayList<SymbolAttr>();
-		*/
 		Node root = new SyntaxTreeNode(entrance);
 		stack.push(root);
 		while (!stack.isEmpty() && index < token.length) {
@@ -65,110 +56,23 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 //				System.out.println(token[index]);
 			String peek = stack.peek().getSymbol();
 			if (peek.equals(token[index].toString())) {
-/**				if((peek.equals("int") || peek.equals("double") || peek.equals("float") || peek.equals("bool"))){
-					type = peek;
-					identify = ((Word)token[index+1]).getId();
-				}
-				else if(peek.equals("{")){
-					symTable.createNewScope();
-					symTable.putAllInSymbolTable(TypeList, AttrList, TypeList.size());
-					TypeList.clear();
-					AttrList.clear();
-				}
-				else if(peek.equals("}")){
-					symTable.destroyOldScope();
-				}
-				**/
 				leafNodeStack.pop().setToken(token[index]);
 				stack.pop();
 				index++;
 			} 
 			else if (TermSymbolSet.contains(peek))
-				err.addException(new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1));
+				//err.addException(new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1));
+				throw new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1);
 			else if (UntermSymbolMap.get(peek).predictiveMap.get(token[index]
 					.toString()) == null)
-				err.addException(new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1));
+				throw new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1);
+				//err.addException(new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1));
 			else if (UntermSymbolMap.get(peek).predictiveMap
 					.get(token[index].toString()).get(0).equals("empty")){
 				stack.pop();
-/**				Node peekElement = stack.pop();
-				((SyntaxTreeNode)peekElement).addNewNode(new SyntaxLeafNode());
-				if(CalParameter && peekElement.equals("param-temp")){
-					if(!TypeList.contains(identify)){
-						TypeList.add(identify);
-						AttrList.add(new SymbolAttr(type, Attribute.VAR));
-						funcTable.getSymbolAttribute(currFunc).addParameter(identify);
-					}
-					else
-						throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-				}*/
 			}
 			else {
 				Node peekElement = stack.pop();
-/**				if(CalParameter && token[index].equals(")"))
-					CalParameter = false;
-				switch(peekElement.toString()){
-					case "var-declaration":	
-						if(type.equals("void"))
-							throw new SyntacticErrorException(identify, token[index].getLineNum(), 4);
-						switch(token[index].toString()){
-							case ";": 	
-								if(symTable.checkKeyState(identify))
-									symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.VAR));
-								else
-									throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-								break;
-							case "[":	
-								if(symTable.checkKeyState(identify))
-									symTable.putInSymbolTable(identify, new SymbolAttr(type, Attribute.ARRAY, ((Number)token[index+1]).getNum()));
-								else
-									throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-								break;
-						}
-						break;
-					case "fun-declaration":
-						if(token[index].equals("(")){
-							CalParameter = true;
-							currFunc = identify;
-							if(funcTable.checkKeyState(identify))
-								funcTable.putInFuncTable(identify, new SymbolAttr(type, Attribute.FUNC));
-							else
-								throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-						}
-						break;
-					case "param-temp":
-						if(CalParameter && token[index].equals("[")){
-							if(!TypeList.contains(identify)){
-								TypeList.add(identify);
-								AttrList.add(new SymbolAttr(type, Attribute.ARRAY));
-								funcTable.getSymbolAttribute(currFunc).addParameter(identify);
-							}
-							else
-								throw new SyntacticErrorException(identify, token[index].getLineNum(), 2);
-						}
-						break;
-					case "factor":
-						if(token[index].equals("ID"))
-							variable = ((Word)token[index]).getId();
-						break;
-					case "factor-temp":
-						if(token[index].equals("(") && funcTable.checkKeyState(variable))
-							throw new SyntacticErrorException(variable, token[index].getLineNum(), 3);
-						else if(!token[index].equals("(") && !symTable.checkVariableExist(variable))
-							throw new SyntacticErrorException(variable, token[index].getLineNum(), 0);	
-						break;
-					case "expression":
-						if(token[index].equals("ID"))
-							variable = ((Word)token[index]).getId();
-						break;
-					case "expression-sub":
-						if(token[index].equals("(") && funcTable.checkKeyState(variable))
-							throw new SyntacticErrorException(variable, token[index].getLineNum(), 3);
-						else if(!token[index].equals("(") && !symTable.checkVariableExist(variable))
-							throw new SyntacticErrorException(variable, token[index].getLineNum(), 0);
-						break;		
-				}	
-*/
 				LinkedList<String> production = UntermSymbolMap.get(peek).predictiveMap
 						.get(token[index].toString());
 				ListIterator<String> productionIter = production
