@@ -22,5 +22,13 @@ public class IterationStatement extends Statement{
 	public void setState(Statement state) {
 		this.state = state;
 	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		System.out.println(tab + "IterationStmt: ");
+		iteration.print(tab + "\t");
+		state.print(tab + "\t");
+		System.out.println();
+	}
 	
 }

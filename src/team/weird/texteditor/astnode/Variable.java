@@ -2,7 +2,7 @@ package team.weird.texteditor.astnode;
 
 import team.weird.texteditor.semantic.SymbolAttr.Type;
 
-public class Variable {
+public class Variable implements PrintASTree{
 	private String id;
 	private Type type;
 	private boolean isArray;
@@ -31,5 +31,10 @@ public class Variable {
 	}
 	public String toString(){
 		return "["+type+"]"+" '"+id+"'";
+	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		System.out.println(tab + "Variable: " + id );
 	}
 }

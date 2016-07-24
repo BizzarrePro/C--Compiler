@@ -14,5 +14,14 @@ public class ExpressionStatement extends Statement{
 	public void setExp(Expression exp) {
 		this.exp = exp;
 	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		if(exp != null) {
+			System.out.println(tab + "ExpressionStatement: ");
+			exp.print(tab + "\t");
+			System.out.println();
+		}
+	}
 	
 }

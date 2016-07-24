@@ -2,7 +2,7 @@ package team.weird.texteditor.astnode;
 
 import team.weird.texteditor.semantic.SymbolAttr.Type;
 
-public abstract class Declaration {
+public abstract class Declaration implements PrintASTree{
 	protected String id;
 	protected Type type;
 	protected int line;

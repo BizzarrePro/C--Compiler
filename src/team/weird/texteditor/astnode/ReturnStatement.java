@@ -14,5 +14,11 @@ public class ReturnStatement extends Statement{
 	public void setRet(Expression ret) {
 		this.ret = ret;
 	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		System.out.println(tab + "ReturnStmt: ");
+		ret.print(tab + "\t");
+	}
 	
 }

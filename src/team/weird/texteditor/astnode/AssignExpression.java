@@ -1,6 +1,5 @@
-package team.weird.texteditor.semantic;
+package team.weird.texteditor.astnode;
 
-import team.weird.texteditor.astnode.Expression;
 
 public class AssignExpression extends Expression{
 	private Expression lex;
@@ -23,6 +22,15 @@ public class AssignExpression extends Expression{
 	}
 	public void setRex(Expression rex) {
 		this.rex = rex;
+	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		System.out.println(tab+"AssignExpression: ");
+		lex.print(tab+"\t");
+		System.out.println("\n" + tab +  "\t=");
+		rex.print(tab + "\t");
+		System.out.println();
 	}
 	
 }

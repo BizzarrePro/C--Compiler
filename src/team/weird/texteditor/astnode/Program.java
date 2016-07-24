@@ -1,6 +1,7 @@
 package team.weird.texteditor.astnode;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Program {
 	private static final Program INSTANCE = new Program();
@@ -19,5 +20,11 @@ public class Program {
 	}
 	public void setDeclarations(ArrayList<Declaration> declarations) {
 		this.declarations = declarations;
+	}
+	public void printASTree(){
+		Iterator<Declaration> iter = declarations.iterator();
+		while(iter.hasNext()){
+			iter.next().print("\t");
+		}
 	}
 }

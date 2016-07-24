@@ -25,5 +25,17 @@ public class SelectionStatement extends Statement{
 	public void setElseStmt(Statement elseStmt) {
 		this.elseStmt = elseStmt;
 	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		System.out.println(tab + "SelectionStmt: if (");
+		condition.print(tab + "\t");
+		System.out.println(tab + " )");
+		ifStmt.print(tab + "\t");
+		if(elseStmt != null) {
+			System.out.println("\n" + tab + "else");
+			elseStmt.print(tab + "\t");
+		}
+	}
 	
 }

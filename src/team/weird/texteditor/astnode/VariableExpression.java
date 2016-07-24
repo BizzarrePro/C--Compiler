@@ -1,6 +1,5 @@
-package team.weird.texteditor.semantic;
+package team.weird.texteditor.astnode;
 
-import team.weird.texteditor.astnode.Expression;
 
 public class VariableExpression extends Expression {
 	Expression array = null;
@@ -16,5 +15,15 @@ public class VariableExpression extends Expression {
 	}
 	public void setArray(Expression array) {
 		this.array = array;
+	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		System.out.println(tab + "VariableExpression: " + getId());
+		if(array != null) {
+			System.out.println("[ \n");
+			array.print(tab + "\t");
+			System.out.println("\n" + tab + "]\n");
+		}
 	}
 }

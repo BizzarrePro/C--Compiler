@@ -21,5 +21,15 @@ public class CallExpression extends Expression{
 	public void setArgsList(ArrayList<Expression> argsList) {
 		this.argsList = argsList;
 	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		System.out.println(tab + "CallExpression: " + id + " ( ");
+		for(Expression exp : argsList) {
+			exp.print(tab + "\t");
+			System.out.println();
+		}
+		System.out.println(tab + " )");
+	}
 	
 }

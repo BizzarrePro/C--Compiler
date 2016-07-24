@@ -1,7 +1,7 @@
 package team.weird.texteditor.astnode;
 
 
-public class BinaryExpression extends Expression{
+public class BinaryExpression extends Expression {
 	private Operator operator = null;
 	private Expression lChild = null;
 	private Expression rChild = null;
@@ -30,6 +30,15 @@ public class BinaryExpression extends Expression{
 	}
 	public void setrChild(Expression rChild) {
 		this.rChild = rChild;
+	}
+	@Override
+	public void print(String tab) {
+		// TODO Auto-generated method stub
+		System.out.println(tab + "BinaryExpression: ");
+		lChild.print(tab + "\t");
+		System.out.println("\n" + tab + "\t" + operator.toString());
+		rChild.print(tab + "\t");
+		System.out.println();
 	}
 	
 }

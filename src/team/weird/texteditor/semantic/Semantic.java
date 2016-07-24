@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import team.weird.texteditor.astnode.ArrayDeclaration;
+import team.weird.texteditor.astnode.AssignExpression;
 import team.weird.texteditor.astnode.BinaryExpression;
 import team.weird.texteditor.astnode.CallExpression;
 import team.weird.texteditor.astnode.CompoundStatement;
@@ -20,6 +21,7 @@ import team.weird.texteditor.astnode.SelectionStatement;
 import team.weird.texteditor.astnode.Statement;
 import team.weird.texteditor.astnode.Variable;
 import team.weird.texteditor.astnode.VariableDeclaration;
+import team.weird.texteditor.astnode.VariableExpression;
 import team.weird.texteditor.lexer.FloatNumber;
 import team.weird.texteditor.lexer.Token;
 import team.weird.texteditor.lexer.Word;
@@ -48,7 +50,7 @@ public class Semantic {
 		program(root);
 //		err.throwsAllExceptions();
 //		System.out.println("OK");
-		printASTNode();
+		program.printASTree();
 	}
 	private void program(Node currNode){
 		Node child = ((SyntaxTreeNode)currNode).getChild(0);

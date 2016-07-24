@@ -1,16 +1,16 @@
 program:declaration-list
 declaration-list:declaration-list declaration|declaration
-declaration:type-specifier ID general-declaration|compound-stmt
-general-declaration:var-declaration|fun-declaration
+declaration:type-specifier ID general-declaration
+general-declaration:var-declaration|( params ) compound-stmt
 var-declaration:;|[ NUM ] ;
+var-declaration-sub:type-specifier ID var-declaration
 type-specifier:int|double|bool|float|void
-fun-declaration:( params ) |compound-stmt
 params:param-list|void
 param-list:param-list , param|param
 param:type-specifier ID param-temp
 param-temp:empty|[ ]
 compound-stmt:{ local-declarations statement-list }
-local-declarations:local-declarations declaration|empty
+local-declarations:local-declarations var-declaration-sub|empty
 statement-list:statement statement-list|empty
 statement:expression-stmt|compound-stmt|selection-stmt|iteration-stmt|return-stmt
 expression-stmt:expression ;|;

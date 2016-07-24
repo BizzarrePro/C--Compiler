@@ -22,5 +22,5 @@ public abstract class Expression {
 	public void setLine(int line) {
 		this.line = line;
 	}
-	
+	public abstract void print(String tab);
 }
