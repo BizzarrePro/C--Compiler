@@ -3,9 +3,11 @@ package team.weird.texteditor.astnode;
 import java.util.ArrayList;
 import java.util.List;
 
+import team.weird.texteditor.codegen.Function;
+import team.weird.texteditor.codegen.Instruction;
 import team.weird.texteditor.semantic.SymbolAttr.Type;
 
-public class FunctionDeclaration extends Declaration implements PrintASTree{
+public class FunctionDeclaration extends Declaration implements PrintASTree, IntermediateCodeGen{
 	private List<Variable> parameters = new ArrayList<Variable>();
 	private CompoundStatement statement;
 	public FunctionDeclaration(String id, Type type, int line){
@@ -33,6 +35,13 @@ public class FunctionDeclaration extends Declaration implements PrintASTree{
 		System.out.println(")");
 		statement.print(tab);
 		System.out.println();
+	}
+	@Override
+	public Instruction generateIntermediateCode() {
+		// TODO Auto-generated method stub
+		Function fun = new Function(type, id);
+		fun.createBlock();
+		return null;
 	}
 
 }

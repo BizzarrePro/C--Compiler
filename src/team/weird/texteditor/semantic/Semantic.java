@@ -1,6 +1,7 @@
 package team.weird.texteditor.semantic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import team.weird.texteditor.astnode.ArrayDeclaration;
@@ -36,6 +37,7 @@ public class Semantic {
 	private FuncTable funcTable = FuncTable.getInstance();
 	private static Program program = Program.getInstance();
 	private ErrorList err = ErrorList.getInstance();
+	public static final HashMap<String, VariableDeclaration> globalSymbolTable = new HashMap<>();
 	private static Semantic INSTANCE = null;
 	
 	private Semantic(Node root){
@@ -64,7 +66,7 @@ public class Semantic {
 					System.out.println(v);
 		}
 	}
-//have dones
+//have done
 	private void declaration_list(Node currNode){
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);
 		program.addDeclaration(declaration(child1));
@@ -382,7 +384,6 @@ public class Semantic {
 			return new VariableExpression(identify, line);
 		}
 		else {
-
 			Node child = ((SyntaxTreeNode)currNode).getChild(1);
 			return new VariableExpression(identify, line, expression(child));
 		}
@@ -439,7 +440,7 @@ public class Semantic {
 			Operator op = addop(child1);
 			Node child2 = ((SyntaxTreeNode)currNode).getChild(1);
 			Expression rch = term(child2, null, line);
-			BinaryExpression binary = new BinaryExpression(op, lch, rch);
+			BinaryExpression binary = null;
 			Node child3 = ((SyntaxTreeNode)currNode).getChild(0);
 			Expression ret = additive_expression_temp(child3, rch, line);
 			binary = new BinaryExpression(op, lch, ret);
@@ -457,7 +458,7 @@ public class Semantic {
 			BinaryExpression binary = new BinaryExpression(op, lch, rch);
 			return binary;
 		}
-		return null;
+		return lch;
 	}
 	private Expression additive_expression(Node currNode, Expression lch, int line){
 		Node child1 = ((SyntaxTreeNode)currNode).getChild(1);

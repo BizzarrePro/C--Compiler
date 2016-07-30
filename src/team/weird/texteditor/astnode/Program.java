@@ -24,7 +24,7 @@ public class Program {
 	public void printASTree(){
 		Iterator<Declaration> iter = declarations.iterator();
 		while(iter.hasNext()){
-			iter.next().print("\t");
+			iter.next().print("");
 		}
 	}
 }

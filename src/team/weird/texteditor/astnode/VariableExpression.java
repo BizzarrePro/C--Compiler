@@ -19,11 +19,11 @@ public class VariableExpression extends Expression {
 	@Override
 	public void print(String tab) {
 		// TODO Auto-generated method stub
-		System.out.println(tab + "VariableExpression: " + getId());
+		System.out.print(tab + "VariableExpression: " + getId());
 		if(array != null) {
-			System.out.println("[ \n");
+			System.out.println("[ ");
 			array.print(tab + "\t");
-			System.out.println("\n" + tab + "]\n");
+			System.out.println("\n" + tab + "]");
 		}
 	}
 }
