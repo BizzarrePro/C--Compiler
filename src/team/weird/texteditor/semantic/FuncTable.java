@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import team.weird.texteditor.semantic.SymbolAttr.Attribute;
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.semantic.Type;
 
 public class FuncTable {
 	private static final FuncTable INSTANCE = new FuncTable();

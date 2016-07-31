@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import team.weird.texteditor.parser.SyntacticErrorException;
 
 public class ErrorList {
 	private static final ErrorList INSTANCE = new ErrorList();
@@ -20,12 +19,12 @@ public class ErrorList {
 		if(errList.isEmpty())
 			return;
 		Iterator<Throwable> iter = errList.iterator();
-		SyntacticErrorException err = null;
+		SemanticException err = null;
 		while(iter.hasNext()){
-			err = (SyntacticErrorException)iter.next();
+			err = (SemanticException)iter.next();
 			try{
 				throw err;
-			} catch (SyntacticErrorException e) {
+			} catch (SemanticException e) {
 				e.printStackTrace();
 			}
 		}

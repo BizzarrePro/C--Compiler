@@ -1,6 +1,5 @@
-package team.weird.texteditor.astnode;
+package team.weird.texteditor.codegen;
 
-import team.weird.texteditor.codegen.Instruction;
 
 public interface IntermediateCodeGen {
 	abstract Instruction generateIntermediateCode();

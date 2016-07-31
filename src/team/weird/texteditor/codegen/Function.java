@@ -1,6 +1,6 @@
 package team.weird.texteditor.codegen;
 
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.semantic.Type;
 
 public class Function extends Instruction{
 	private Type retType;
@@ -9,6 +9,7 @@ public class Function extends Instruction{
 	private BasicBlock firstBlock;
 	private BasicBlock lastBlock;
 	private BasicBlock currBlock;
+	private int registerNum;
 	public Function(){
 		
 	}
@@ -51,6 +52,12 @@ public class Function extends Instruction{
 	}
 	public void setCurrBlock(BasicBlock currBlock) {
 		this.currBlock = currBlock;
+	}
+	public int getRegisterNum() {
+		return registerNum;
+	}
+	public void setRegisterNum(int registerNum) {
+		this.registerNum = registerNum;
 	}
 	public void createBlock(){
 		firstBlock = new BasicBlock(this, null);

@@ -1,8 +1,11 @@
 package team.weird.texteditor.astnode;
 
 import team.weird.texteditor.codegen.Instruction;
+import team.weird.texteditor.codegen.IntermediateCodeGen;
+import team.weird.texteditor.semantic.ErrorList;
 import team.weird.texteditor.semantic.Semantic;
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.semantic.SemanticException;
+import team.weird.texteditor.semantic.Type;
 
 public class VariableDeclaration extends Declaration implements PrintASTree, IntermediateCodeGen{
 	public VariableDeclaration(String id, Type type, int line){
@@ -18,7 +21,11 @@ public class VariableDeclaration extends Declaration implements PrintASTree, Int
 	@Override
 	public Instruction generateIntermediateCode() {
 		// TODO Auto-generated method stub
-		Semantic.globalSymbolTable.put(id, this);
+		ErrorList err = ErrorList.getInstance();
+		if(!Semantic.globalSymbolTable.containsKey(id))
+			Semantic.globalSymbolTable.put(id, this);
+		else
+			err.addException(new SemanticException(id, line, 2));
 		return null;
 	}
 }

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Stack;
 
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.semantic.Type;
 
 public class SymbolTable {
 	private static final SymbolTable INSTANCE = new SymbolTable();

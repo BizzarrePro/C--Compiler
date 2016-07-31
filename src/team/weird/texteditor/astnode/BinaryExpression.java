@@ -1,5 +1,8 @@
 package team.weird.texteditor.astnode;
 
+import team.weird.texteditor.codegen.Function;
+import team.weird.texteditor.semantic.Type;
+
 
 public class BinaryExpression extends Expression {
 	private Operator operator = null;
@@ -39,6 +42,11 @@ public class BinaryExpression extends Expression {
 		System.out.println("\n" + tab + "\t" + operator.toString());
 		rChild.print(tab + "\t");
 		System.out.println();
+	}
+	@Override
+	public Type generateIntermediateCode(Function fun) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

@@ -27,9 +27,8 @@ import team.weird.texteditor.lexer.FloatNumber;
 import team.weird.texteditor.lexer.Token;
 import team.weird.texteditor.lexer.Word;
 import team.weird.texteditor.lexer.Number;
-import team.weird.texteditor.parser.SyntacticErrorException;
 import team.weird.texteditor.semantic.SymbolAttr.Attribute;
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.semantic.Type;
 
 public class Semantic {
 	private Node root = null;
@@ -197,7 +196,7 @@ public class Semantic {
 		if(!paramList.contains(var))
 			paramList.add(var);
 		else 
-			err.addException(new SyntacticErrorException(identify, line, 2));
+			err.addException(new SemanticException(identify, line, 2));
 	}
 //done
 	private void param_list_elim(Node currNode, List<Variable> paramList){

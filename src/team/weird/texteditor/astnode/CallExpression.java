@@ -2,6 +2,9 @@ package team.weird.texteditor.astnode;
 
 import java.util.ArrayList;
 
+import team.weird.texteditor.codegen.Function;
+import team.weird.texteditor.semantic.Type;
+
 public class CallExpression extends Expression{
 	private String id;
 	private ArrayList<Expression> argsList = new ArrayList<Expression>();
@@ -30,6 +33,11 @@ public class CallExpression extends Expression{
 			System.out.println();
 		}
 		System.out.println(tab + " )");
+	}
+	@Override
+	public Type generateIntermediateCode(Function fun) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

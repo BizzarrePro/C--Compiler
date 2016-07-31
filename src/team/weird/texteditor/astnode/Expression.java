@@ -1,8 +1,12 @@
 package team.weird.texteditor.astnode;
 
+import team.weird.texteditor.codegen.Function;
+import team.weird.texteditor.semantic.Type;
+
 public abstract class Expression {
 	private String id = null;
 	private int line = 0;
+	private int regNum = 0;
 	public Expression(){
 		
 	}
@@ -22,5 +26,12 @@ public abstract class Expression {
 	public void setLine(int line) {
 		this.line = line;
 	}
+	public int getRegNum() {
+		return regNum;
+	}
+	public void setRegNum(int regNum) {
+		this.regNum = regNum;
+	}
 	public abstract void print(String tab);
+	public abstract Type generateIntermediateCode(Function fun);
 }

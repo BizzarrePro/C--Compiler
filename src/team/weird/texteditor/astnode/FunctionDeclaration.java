@@ -1,11 +1,18 @@
 package team.weird.texteditor.astnode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import team.weird.texteditor.codegen.Function;
 import team.weird.texteditor.codegen.Instruction;
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.codegen.IntermediateCodeGen;
+import team.weird.texteditor.codegen.Parameter;
+import team.weird.texteditor.semantic.ErrorList;
+import team.weird.texteditor.semantic.SemanticException;
+import team.weird.texteditor.semantic.Type;
 
 public class FunctionDeclaration extends Declaration implements PrintASTree, IntermediateCodeGen{
 	private List<Variable> parameters = new ArrayList<Variable>();
@@ -39,8 +46,33 @@ public class FunctionDeclaration extends Declaration implements PrintASTree, Int
 	@Override
 	public Instruction generateIntermediateCode() {
 		// TODO Auto-generated method stub
+		ErrorList err = ErrorList.getInstance();
 		Function fun = new Function(type, id);
 		fun.createBlock();
+		Parameter param = null;
+		Parameter inter = null;
+		Variable temp = null;
+		Set<String> paramsPool = new HashSet<String>();
+		Iterator<Variable> iter = parameters.iterator();
+		while(iter.hasNext()){
+			if(param != null){
+				temp = iter.next();
+				if(!paramsPool.contains(temp.getId()))
+					paramsPool.add(temp.getId());
+				else
+					err.addException(new SemanticException(temp.getId(), getLine(), 2));
+				inter = new Parameter(temp.getType(), temp.getId(), temp.isArray());
+				param.setNextParam(inter);
+			} 
+			else {
+				temp = iter.next();
+				if(!paramsPool.contains(temp.getId()))
+					paramsPool.add(temp.getId());
+				else
+					err.addException(new SemanticException(temp.getId(), getLine(), 2));
+				param = new Parameter(temp.getType(), temp.getId(), temp.isArray());
+			}
+		}
 		return null;
 	}
 

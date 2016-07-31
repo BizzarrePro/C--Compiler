@@ -1,6 +1,6 @@
 package team.weird.texteditor.astnode;
 
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.semantic.Type;
 
 public abstract class Declaration implements PrintASTree{
 	protected String id;
@@ -25,6 +25,12 @@ public abstract class Declaration implements PrintASTree{
 	}
 	public void setType(Type type) {
 		this.type = type;
+	}
+	public int getLine() {
+		return line;
+	}
+	public void setLine(int line) {
+		this.line = line;
 	}
 	public String toString(){
 		return getClass().getSimpleName();

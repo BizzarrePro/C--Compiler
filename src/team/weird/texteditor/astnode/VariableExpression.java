@@ -1,5 +1,8 @@
 package team.weird.texteditor.astnode;
 
+import team.weird.texteditor.codegen.Function;
+import team.weird.texteditor.semantic.Type;
+
 
 public class VariableExpression extends Expression {
 	Expression array = null;
@@ -25,5 +28,10 @@ public class VariableExpression extends Expression {
 			array.print(tab + "\t");
 			System.out.println("\n" + tab + "]");
 		}
+	}
+	@Override
+	public Type generateIntermediateCode(Function fun) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

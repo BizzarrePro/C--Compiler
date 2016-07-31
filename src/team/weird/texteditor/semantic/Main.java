@@ -12,7 +12,6 @@ import team.weird.texteditor.parser.FollowSet;
 import team.weird.texteditor.parser.OverlappedSyntaxException;
 import team.weird.texteditor.parser.PredictiveAnalytics;
 import team.weird.texteditor.parser.SelectSet;
-import team.weird.texteditor.parser.SyntacticErrorException;
 
 public class Main {
 	public static void main(String[] args) throws Throwable {

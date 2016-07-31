@@ -15,6 +15,7 @@ import team.weird.texteditor.lexer.Number;
 import team.weird.texteditor.semantic.ErrorList;
 import team.weird.texteditor.semantic.FuncTable;
 import team.weird.texteditor.semantic.Node;
+import team.weird.texteditor.semantic.SemanticException;
 import team.weird.texteditor.semantic.SymbolAttr;
 import team.weird.texteditor.semantic.SymbolAttr.Attribute;
 import team.weird.texteditor.semantic.SyntaxLeafNode;
@@ -41,7 +42,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 	}
 
 	public Node PredictAndAnalyze(Token[] token)
-			throws SyntacticErrorException {
+			throws SemanticException {
 		int index = 0;
 		Node root = new SyntaxTreeNode(entrance);
 		stack.push(root);
@@ -62,10 +63,10 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 			} 
 			else if (TermSymbolSet.contains(peek))
 				//err.addException(new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1));
-				throw new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1);
+				throw new SemanticException(token[index].toString(), token[index].getLineNum(), 1);
 			else if (UntermSymbolMap.get(peek).predictiveMap.get(token[index]
 					.toString()) == null)
-				throw new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1);
+				throw new SemanticException(token[index].toString(), token[index].getLineNum(), 1);
 				//err.addException(new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1));
 			else if (UntermSymbolMap.get(peek).predictiveMap
 					.get(token[index].toString()).get(0).equals("empty")){

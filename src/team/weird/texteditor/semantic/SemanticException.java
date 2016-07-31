@@ -1,19 +1,20 @@
-package team.weird.texteditor.parser;
+package team.weird.texteditor.semantic;
 
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.semantic.Type;
 
-public class SyntacticErrorException extends Exception {
+
+public class SemanticException extends Exception {
 	/**
 	 * Report Syntactic Error
 	 */
 	private static final long serialVersionUID = 1L;
 	private String message = null;
 
-	public SyntacticErrorException() {
+	public SemanticException() {
 
 	}
 
-	public SyntacticErrorException(String args, int line, int type) {
+	public SemanticException(String args, int line, int type) {
 		switch (type) {
 			case 0:
 				this.message = "Variable '"+ args +"': '"+ args + "' was not declared in the scope at line " + line;
@@ -64,7 +65,7 @@ public class SyntacticErrorException extends Exception {
 		}
 	}
 	
-	public SyntacticErrorException(Type type0, Type type1, int line) {
+	public SemanticException(Type type0, Type type1, int line) {
 		this.message = "Type '" + type0.toString() +"' and type '" + type1.toString() + "' mismatch at line " + line;
 	}
 

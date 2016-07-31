@@ -1,6 +1,6 @@
 package team.weird.texteditor.astnode;
 
-import team.weird.texteditor.semantic.SymbolAttr.Type;
+import team.weird.texteditor.semantic.Type;
 
 public class Variable implements PrintASTree{
 	private String id;
