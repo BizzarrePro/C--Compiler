@@ -13,11 +13,9 @@ import team.weird.compiler.cminus.lexer.Number;
 import team.weird.compiler.cminus.lexer.Token;
 import team.weird.compiler.cminus.lexer.Word;
 import team.weird.compiler.cminus.semantic.ErrorList;
-import team.weird.compiler.cminus.semantic.FuncTable;
 import team.weird.compiler.cminus.semantic.Node;
 import team.weird.compiler.cminus.semantic.SemanticException;
 import team.weird.compiler.cminus.semantic.SymbolAttr;
-import team.weird.compiler.cminus.semantic.SymbolTable;
 import team.weird.compiler.cminus.semantic.SyntaxLeafNode;
 import team.weird.compiler.cminus.semantic.SyntaxTreeNode;
 import team.weird.compiler.cminus.semantic.SymbolAttr.Attribute;
@@ -62,12 +60,10 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				index++;
 			} 
 			else if (TermSymbolSet.contains(peek))
-				//err.addException(new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1));
-				throw new SemanticException(token[index].toString(), token[index].getLineNum(), 1);
+				err.addException(new SemanticException(token[index].toString(), token[index].getLineNum(), 1));
 			else if (UntermSymbolMap.get(peek).predictiveMap.get(token[index]
 					.toString()) == null)
-				throw new SemanticException(token[index].toString(), token[index].getLineNum(), 1);
-				//err.addException(new SyntacticErrorException(token[index].toString(), token[index].getLineNum(), 1));
+				err.addException(new SemanticException(token[index].toString(), token[index].getLineNum(), 1));
 			else if (UntermSymbolMap.get(peek).predictiveMap
 					.get(token[index].toString()).get(0).equals("empty")){
 				stack.pop();

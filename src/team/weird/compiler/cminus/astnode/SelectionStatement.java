@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
+import team.weird.compiler.cminus.codegen.Function;
+
 public class SelectionStatement extends Statement{
 	private Expression condition;
 	private Statement ifStmt;
@@ -36,6 +38,11 @@ public class SelectionStatement extends Statement{
 			System.out.println("\n" + tab + "else");
 			elseStmt.print(tab + "\t");
 		}
+	}
+	@Override
+	public void generateIntermediateCode(Function fun) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

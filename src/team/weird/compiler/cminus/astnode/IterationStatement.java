@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
+import team.weird.compiler.cminus.codegen.Function;
+
 public class IterationStatement extends Statement{
 	private Expression iteration;
 	private Statement state;
@@ -29,6 +31,11 @@ public class IterationStatement extends Statement{
 		iteration.print(tab + "\t");
 		state.print(tab + "\t");
 		System.out.println();
+	}
+	@Override
+	public void generateIntermediateCode(Function fun) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -35,4 +35,5 @@ public abstract class Declaration implements PrintASTree{
 	public String toString(){
 		return getClass().getSimpleName();
 	}
+	public abstract void declare();
 }

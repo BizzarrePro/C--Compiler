@@ -3,7 +3,8 @@ package team.weird.compiler.cminus.codegen;
 import team.weird.compiler.cminus.astnode.Operator;
 
 public enum OperandType {
-	FUNC_DEC, FUNC_EXIT, ASSIGN, INT, FLOAT, REG, BLOCK, ADD, SUB, MUL, DIV, EQUAL, GTH, LTH, GETH, LETH, NOTEQ, NULL;
+	FUNC_DEC, FUNC_EXIT, ASSIGN, INT, FLOAT, REG, BLOCK, ADD, SUB, MUL, DIV,
+	EQUAL, GTH, LTH, GETH, LETH, NOTEQ, NULL, PUSH, CALL;
 	public static OperandType typeConvert(Operator opera){
 		switch(opera){
 			case MUL:	return MUL;

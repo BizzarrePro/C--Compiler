@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
+import team.weird.compiler.cminus.codegen.Function;
+
 public class ExpressionStatement extends Statement{
 	private Expression exp = null;
 	public ExpressionStatement(Expression exp){
@@ -22,6 +24,11 @@ public class ExpressionStatement extends Statement{
 			exp.print(tab + "\t");
 			System.out.println();
 		}
+	}
+	@Override
+	public void generateIntermediateCode(Function fun) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

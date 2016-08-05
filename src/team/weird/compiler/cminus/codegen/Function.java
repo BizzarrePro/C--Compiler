@@ -75,5 +75,12 @@ public class Function extends Instruction{
 		// TODO Auto-generated method stub
 		
 	}
+	public BasicBlock constructRetBlock() {
+		
+		return null;
+	}
+	public void appendBlock(BasicBlock block) {
+		
+	}
 
 }

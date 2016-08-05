@@ -21,11 +21,16 @@ public class VariableDeclaration extends Declaration implements PrintASTree, Int
 	@Override
 	public Instruction generateIntermediateCode() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void declare() {
+		// TODO Auto-generated method stub
 		ErrorList err = ErrorList.getInstance();
 		if(!Semantic.globalSymbolTable.containsKey(id))
 			Semantic.globalSymbolTable.put(id, this);
 		else
 			err.addException(new SemanticException(id, line, 2));
-		return null;
 	}
 }

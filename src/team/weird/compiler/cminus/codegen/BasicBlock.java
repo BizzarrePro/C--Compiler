@@ -10,6 +10,9 @@ public class BasicBlock {
 	public BasicBlock(){
 		
 	}
+	public BasicBlock(Function function){
+		this.function = function;
+	}
 	public BasicBlock(Function func, BasicBlock next){
 		this.function = func;
 		this.nextBlock = next;

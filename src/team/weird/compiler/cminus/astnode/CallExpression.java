@@ -3,6 +3,9 @@ package team.weird.compiler.cminus.astnode;
 import java.util.ArrayList;
 
 import team.weird.compiler.cminus.codegen.Function;
+import team.weird.compiler.cminus.codegen.Operand;
+import team.weird.compiler.cminus.codegen.OperandType;
+import team.weird.compiler.cminus.codegen.Operation;
 import team.weird.compiler.cminus.semantic.Type;
 
 public class CallExpression extends Expression{
@@ -37,6 +40,23 @@ public class CallExpression extends Expression{
 	@Override
 	public Type generateIntermediateCode(Function fun) {
 		// TODO Auto-generated method stub
+		for(int i = argsList.size() - 1; i >= 0; i--){
+			Operation op = new Operation(OperandType.PUSH, fun.getCurrBlock());
+			argsList.get(i).generateIntermediateCode(fun);
+			Operand oper = null;
+			if(argsList.get(i) instanceof LiteralExpression){
+				Object num = ((LiteralExpression)argsList.get(i)).getNumber();
+				if(num.getClass() == Integer.class)
+					oper = new Operand(OperandType.INT, (int)num);
+				else
+					oper = new Operand(OperandType.FLOAT, (double)num);
+			}
+			else 
+				oper = new Operand(OperandType.REG, argsList.get(i).getRegNum());
+			op.setSrcOperand(0, oper);
+			fun.getCurrBlock().appendOperation(op);
+		}
+		Operation op = new Operation(OperandType.CALL, fun.getCurrBlock());
 		return null;
 	}
 	

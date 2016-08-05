@@ -61,11 +61,11 @@ public class AssignExpression extends Expression{
 			if(obj instanceof Integer)
 				src = new Operand(OperandType.INT, (int)obj);
 			else
-				src = new Operand(OperandType.INT, (double)obj);
+				src = new Operand(OperandType.FLOAT, (double)obj);
 
 		}
 		op.setSourceReg(src);	
-		return null;
+		return leftType;
 	}
 	
 }

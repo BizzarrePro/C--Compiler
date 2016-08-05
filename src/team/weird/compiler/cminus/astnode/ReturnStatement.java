@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
+import team.weird.compiler.cminus.codegen.Function;
+
 public class ReturnStatement extends Statement{
 	private Expression ret = null;
 	public ReturnStatement(Expression ret){
@@ -20,5 +22,9 @@ public class ReturnStatement extends Statement{
 		System.out.println(tab + "ReturnStmt: ");
 		ret.print(tab + "\t");
 	}
-	//
+	@Override
+	public void generateIntermediateCode(Function fun) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -6,11 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import team.weird.compiler.cminus.codegen.BasicBlock;
 import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Instruction;
 import team.weird.compiler.cminus.codegen.IntermediateCodeGen;
 import team.weird.compiler.cminus.codegen.Parameter;
 import team.weird.compiler.cminus.semantic.ErrorList;
+import team.weird.compiler.cminus.semantic.Semantic;
 import team.weird.compiler.cminus.semantic.SemanticException;
 import team.weird.compiler.cminus.semantic.Type;
 
@@ -46,11 +48,33 @@ public class FunctionDeclaration extends Declaration implements PrintASTree, Int
 	@Override
 	public Instruction generateIntermediateCode() {
 		// TODO Auto-generated method stub
-		ErrorList err = ErrorList.getInstance();
 		Function fun = new Function(type, id);
 		fun.createBlock();
 		Parameter param = null;
-		Parameter inter = null;
+		for(Variable temp : parameters){
+			if(temp == null){
+				param = new Parameter(temp.getType(), temp.getId(), temp.isArray());
+				fun.setFirstParam(param);
+			} 
+			else {
+				Parameter inter = new Parameter(temp.getType(), temp.getId(), temp.isArray());
+				param.setNextParam(inter);
+				param = inter;
+			}
+		}
+		BasicBlock basic = new BasicBlock(fun);
+		BasicBlock ret = fun.constructRetBlock();
+		fun.setCurrBlock(basic);
+		statement.generateIntermediateCode(fun);
+		fun.appendBlock(basic);
+		fun.appendBlock(ret);
+		return fun;
+	}
+	@Override
+	public void declare() {
+		// TODO Auto-generated method stub
+		ErrorList err = ErrorList.getInstance();
+		Parameter param = null;
 		Variable temp = null;
 		Set<String> paramsPool = new HashSet<String>();
 		Iterator<Variable> iter = parameters.iterator();
@@ -61,19 +85,17 @@ public class FunctionDeclaration extends Declaration implements PrintASTree, Int
 					paramsPool.add(temp.getId());
 				else
 					err.addException(new SemanticException(temp.getId(), getLine(), 2));
-				inter = new Parameter(temp.getType(), temp.getId(), temp.isArray());
-				param.setNextParam(inter);
-			} 
+			}
 			else {
 				temp = iter.next();
 				if(!paramsPool.contains(temp.getId()))
 					paramsPool.add(temp.getId());
 				else
 					err.addException(new SemanticException(temp.getId(), getLine(), 2));
-				param = new Parameter(temp.getType(), temp.getId(), temp.isArray());
 			}
 		}
-		return null;
+		Semantic.globalFuntionTable.put(getId(), this);
+			
 	}
 
 }
