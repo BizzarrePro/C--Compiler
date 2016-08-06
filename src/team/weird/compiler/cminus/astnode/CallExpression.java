@@ -6,7 +6,9 @@ import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Operand;
 import team.weird.compiler.cminus.codegen.OperandType;
 import team.weird.compiler.cminus.codegen.Operation;
+import team.weird.compiler.cminus.semantic.ErrorList;
 import team.weird.compiler.cminus.semantic.Semantic;
+import team.weird.compiler.cminus.semantic.SemanticException;
 import team.weird.compiler.cminus.semantic.Type;
 
 public class CallExpression extends Expression{
@@ -41,9 +43,22 @@ public class CallExpression extends Expression{
 	@Override
 	public Type generateIntermediateCode(Function fun) {
 		// TODO Auto-generated method stub
+		ErrorList err = ErrorList.getInstance();
+		FunctionDeclaration funDec = null;
+		if(Semantic.globalFuntionTable.containsKey(id))
+			funDec = Semantic.globalFuntionTable.get(id);
+		else 
+			err.addException(new SemanticException(id, super.getLine(), 8));
+		
 		for(int i = argsList.size() - 1; i >= 0; i--){
 			Operation op = new Operation(OperandType.PUSH, fun.getCurrBlock());
-			argsList.get(i).generateIntermediateCode(fun);
+			Type paramType = argsList.get(i).generateIntermediateCode(fun);
+			if(funDec != null){
+				if(funDec.getParameters().get(i) == null || funDec.getParameters().get(i).getType() != paramType ||
+						funDec.getParameters().get(i).isArray() != fun.getSymbolTable().get(i).isArray()){
+					err.addException(new SemanticException(id, super.getLine(), 11));
+				}
+			}
 			Operand oper = null;
 			if(argsList.get(i) instanceof LiteralExpression){
 				Object num = ((LiteralExpression)argsList.get(i)).getNumber();
@@ -71,8 +86,8 @@ public class CallExpression extends Expression{
 		oper = new Operand(OperandType.REG, super.getRegNum());
 		op.setDestOperand(0, oper);
 		fun.getCurrBlock().appendOperation(op);
-		if(Semantic.globalFuntionTable.containsKey(id))
-			return Semantic.globalFuntionTable.get(id).getType();
+		if(funDec != null)
+			return funDec.getType();
 		else
 			return Type.NULL;
 	}

@@ -101,7 +101,7 @@ public class Semantic {
 			case "int":
 				return Type.INT;
 			case "double":
-				return Type.DOUBLE;
+				return Type.FLOAT;
 			case "float":
 				return Type.FLOAT;
 			case "bool":

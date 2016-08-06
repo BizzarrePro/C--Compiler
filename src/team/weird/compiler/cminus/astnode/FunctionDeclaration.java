@@ -11,6 +11,7 @@ import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Instruction;
 import team.weird.compiler.cminus.codegen.IntermediateCodeGen;
 import team.weird.compiler.cminus.codegen.Parameter;
+import team.weird.compiler.cminus.codegen.SymbolAttribute;
 import team.weird.compiler.cminus.semantic.ErrorList;
 import team.weird.compiler.cminus.semantic.Semantic;
 import team.weird.compiler.cminus.semantic.SemanticException;
@@ -61,6 +62,8 @@ public class FunctionDeclaration extends Declaration implements PrintASTree, Int
 				param.setNextParam(inter);
 				param = inter;
 			}
+			fun.getSymbolTable().put(temp.getId(), 
+					new SymbolAttribute(temp.getId(), temp.getType(), temp.isArray(), fun.getNewRegisterNum()));
 		}
 		BasicBlock basic = new BasicBlock(fun);
 		BasicBlock ret = fun.constructRetBlock();

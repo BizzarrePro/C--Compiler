@@ -62,6 +62,9 @@ public class SemanticException extends Exception {
 			case 14:
 				this.message ="Method '"+ args +"': Conflicting declaration '" + args + "' at line " + line;
 				break;
+			case 15:
+				this.message ="Expression '"+ args +"': Iterator statement condition '" + args + "' error at line " + line;
+				break;
 		}
 	}
 	

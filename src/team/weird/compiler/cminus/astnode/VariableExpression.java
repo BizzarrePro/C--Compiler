@@ -1,6 +1,15 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.util.HashMap;
+
 import team.weird.compiler.cminus.codegen.Function;
+import team.weird.compiler.cminus.codegen.Operand;
+import team.weird.compiler.cminus.codegen.OperandType;
+import team.weird.compiler.cminus.codegen.Operation;
+import team.weird.compiler.cminus.codegen.SymbolAttribute;
+import team.weird.compiler.cminus.semantic.ErrorList;
+import team.weird.compiler.cminus.semantic.Semantic;
+import team.weird.compiler.cminus.semantic.SemanticException;
 import team.weird.compiler.cminus.semantic.Type;
 
 
@@ -32,6 +41,23 @@ public class VariableExpression extends Expression {
 	@Override
 	public Type generateIntermediateCode(Function fun) {
 		// TODO Auto-generated method stub
-		return null;
+		ErrorList err = ErrorList.getInstance();
+		HashMap<String, SymbolAttribute> local = fun.getSymbolTable();
+		if(local.containsKey(super.getId())){
+			setRegNum(local.get(getId()).getRegNum());
+			return local.get(getId()).getType();
+		}
+		else if(Semantic.globalSymbolTable.containsKey(getId())){
+			setRegNum(fun.getNewRegisterNum());
+			Operation op = new Operation(OperandType.LOAD, fun.getCurrBlock());
+			Operand oper = new Operand(OperandType.REG, getRegNum());
+			fun.getCurrBlock().appendOperation(op);
+			op.setDestOperand(0, oper);
+			oper = new Operand(OperandType.VAR_NAME, getId());
+			return Semantic.globalSymbolTable.get(getId()).getType();
+		}
+		else
+			err.addException(new SemanticException(getId(), getLine(), 3));
+		return Type.NULL;
 	}
 }

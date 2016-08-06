@@ -7,15 +7,17 @@ public class BasicBlock {
 	private Operation firstOper;
 	private Operation lastOper;
 	private int BlockID;
-	public BasicBlock(){
-		
-	}
 	public BasicBlock(Function function){
-		this.function = function;
+		this(function, null);
 	}
-	public BasicBlock(Function func, BasicBlock next){
+	public BasicBlock(Function func, BasicBlock prev){
 		this.function = func;
-		this.nextBlock = next;
+		this.prevBlock = prev;
+		this.BlockID = prev.incBlockId();
+		if(prev != null)
+			prev.setNextBlock(this);
+		
+		
 	}
 	public BasicBlock getPrevBlock() {
 		return prevBlock;
@@ -52,6 +54,9 @@ public class BasicBlock {
 	}
 	public void setFunction(Function function) {
 		this.function = function;
+	}
+	public int incBlockId(){
+		return ++BlockID;
 	}
 	public void appendOperation(Operation op) {
 		if(firstOper != null){

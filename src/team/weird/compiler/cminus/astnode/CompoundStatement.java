@@ -3,6 +3,7 @@ package team.weird.compiler.cminus.astnode;
 import java.util.ArrayList;
 
 import team.weird.compiler.cminus.codegen.Function;
+import team.weird.compiler.cminus.codegen.SymbolAttribute;
 
 public class CompoundStatement extends Statement{
 	private ArrayList<VariableDeclaration> varDeclarations = new ArrayList<VariableDeclaration>();
@@ -34,6 +35,11 @@ public class CompoundStatement extends Statement{
 	@Override
 	public void generateIntermediateCode(Function fun) {
 		// TODO Auto-generated method stub
-		
+		for(VariableDeclaration v : varDeclarations)
+			fun.getSymbolTable().put(v.getId(), 
+					new SymbolAttribute(v.getId(), v.getType(), 
+							v.getClass() == ArrayDeclaration.class ? true : false, fun.getNewRegisterNum()));
+		for(Statement s : statements)
+			s.generateIntermediateCode(fun);
 	}
 }

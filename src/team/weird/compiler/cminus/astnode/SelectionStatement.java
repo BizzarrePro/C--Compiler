@@ -1,6 +1,10 @@
 package team.weird.compiler.cminus.astnode;
 
+import team.weird.compiler.cminus.codegen.BasicBlock;
 import team.weird.compiler.cminus.codegen.Function;
+import team.weird.compiler.cminus.codegen.Operand;
+import team.weird.compiler.cminus.codegen.OperandType;
+import team.weird.compiler.cminus.codegen.Operation;
 
 public class SelectionStatement extends Statement{
 	private Expression condition;
@@ -42,7 +46,34 @@ public class SelectionStatement extends Statement{
 	@Override
 	public void generateIntermediateCode(Function fun) {
 		// TODO Auto-generated method stub
-		
+		BasicBlock ifBlock = new BasicBlock(fun);
+		BasicBlock elseBlock = new BasicBlock(fun);
+		BasicBlock condition = new BasicBlock(fun);
+		BasicBlock post = new BasicBlock(fun);
+		fun.appendToCurrBlock(condition);
+		fun.setCurrBlock(condition);
+		this.condition.generateIntermediateCode(fun);
+		Operation op = new Operation(OperandType.BNE, fun.getCurrBlock());
+		Operand oper = new Operand(OperandType.REG, this.condition.getRegNum());
+		op.setSrcOperand(0, oper);
+		oper = new Operand(OperandType.INT, 0);
+		op.setSrcOperand(1, oper);
+		oper = new Operand(OperandType.BLOCK, elseBlock.getBlockID());
+		op.setSrcOperand(2, oper);
+		condition.appendOperation(op);
+		fun.appendToCurrBlock(ifBlock);
+		fun.setCurrBlock(ifBlock);
+		ifStmt.generateIntermediateCode(fun);
+		//!!
+		BasicBlock curr = fun.getCurrBlock();
+		fun.appendToCurrBlock(elseBlock);
+		fun.setCurrBlock(elseBlock);
+		elseStmt.generateIntermediateCode(fun);
+		op = new Operation(OperandType.JMP, fun.getCurrBlock());
+		oper = new Operand(OperandType.BLOCK, post.getBlockID());
+		op.setSrcOperand(0, oper);
+		elseBlock.appendOperation(op);
+		fun.setCurrBlock(curr);
 	}
 	
 }

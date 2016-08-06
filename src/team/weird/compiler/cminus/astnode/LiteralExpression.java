@@ -1,6 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
 import team.weird.compiler.cminus.codegen.Function;
+import team.weird.compiler.cminus.codegen.OperandType;
 import team.weird.compiler.cminus.semantic.Type;
 
 public class LiteralExpression extends Expression {
@@ -23,7 +24,12 @@ public class LiteralExpression extends Expression {
 	@Override
 	public Type generateIntermediateCode(Function fun) {
 		// TODO Auto-generated method stub
-		return null;
+		if(number instanceof Double)
+			return Type.FLOAT;
+		else if (number instanceof Integer)
+			return Type.INT;
+		return Type.NULL;
+			
 	}
 	
 }
