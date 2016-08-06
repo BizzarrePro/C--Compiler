@@ -6,6 +6,7 @@ import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Operand;
 import team.weird.compiler.cminus.codegen.OperandType;
 import team.weird.compiler.cminus.codegen.Operation;
+import team.weird.compiler.cminus.semantic.Semantic;
 import team.weird.compiler.cminus.semantic.Type;
 
 public class CallExpression extends Expression{
@@ -57,7 +58,23 @@ public class CallExpression extends Expression{
 			fun.getCurrBlock().appendOperation(op);
 		}
 		Operation op = new Operation(OperandType.CALL, fun.getCurrBlock());
-		return null;
+		//Attribute
+		Operand oper = new Operand(OperandType.FUNC_NAME, getId());
+		op.setSrcOperand(0, oper);
+		fun.getCurrBlock().appendOperation(op);
+		
+		op = new Operation(OperandType.ASSIGN, fun.getCurrBlock());
+		oper = new Operand(OperandType.RET, "ret");
+		op.setSrcOperand(0, oper);
+		
+		super.setRegNum(fun.getNewRegisterNum());
+		oper = new Operand(OperandType.REG, super.getRegNum());
+		op.setDestOperand(0, oper);
+		fun.getCurrBlock().appendOperation(op);
+		if(Semantic.globalFuntionTable.containsKey(id))
+			return Semantic.globalFuntionTable.get(id).getType();
+		else
+			return Type.NULL;
 	}
 	
 }

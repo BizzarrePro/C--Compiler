@@ -27,4 +27,10 @@ public class Program {
 			iter.next().print("");
 		}
 	}
+	public void declareVarAndFun(){
+		Iterator<Declaration> iter = declarations.iterator();
+		while(iter.hasNext()){
+			iter.next().declare();
+		}
+	}
 }
