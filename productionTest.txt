@@ -26,4 +26,4 @@ mulop:*|/
 factor:(expression)|var|call|NUM
 call:ID ( args )
 args:arg-list|empty
-arg-list:arg-list , expression|arg-list : expression|expression|var
+arg-list:arg-list , expression|expression
