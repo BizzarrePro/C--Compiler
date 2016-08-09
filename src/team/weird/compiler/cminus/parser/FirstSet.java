@@ -1,6 +1,9 @@
 
 package team.weird.compiler.cminus.parser;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -9,8 +12,8 @@ import java.util.Set;
 
 import team.weird.compiler.cminus.parser.ExtractProduction;
 import team.weird.compiler.cminus.parser.Symbol.RightProduction;
-public class FirstSet{
-	public HashMap<String, Symbol> symbolMap;
+public class FirstSet implements PrintParserProcedure{
+	public HashMap<String, Symbol> symbolMap; 
 	public FirstSet(HashMap<String, Symbol> symbolMap){
 		this.symbolMap = symbolMap;
 	}
@@ -74,23 +77,44 @@ public class FirstSet{
 		set.addAll(temp.firstSet);
 	}
 	public void print(){
+		FileWriter fw = null;
+		File fir = new File("./compile/temp.fir");
 		System.out.println();
 		System.out.println("-------------------------First Set-------------------------");
 		System.out.println();
-		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
-		while(symIter.hasNext()){
-			Entry<String, Symbol> entry = symIter.next();
-			Symbol temp = entry.getValue();
-			Iterator<String> setIter = temp.firstSet.iterator();
-			System.out.print(temp.getUnterminatingString()+" Size: "+temp.firstSet.size()+" $$ {");
-			while(setIter.hasNext()){
-				String print = setIter.next();
-				System.out.print(print);
-				if(setIter.hasNext())
-					System.out.print(" ");
+		try{
+			fw = new FileWriter(fir);
+			fw.write(" --------------------------------------------------");
+			fw.write("|                Compute First Set                 |");
+			fw.write(" --------------------------------------------------");
+			Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
+			while(symIter.hasNext()){
+				Entry<String, Symbol> entry = symIter.next();
+				Symbol temp = entry.getValue();
+				Iterator<String> setIter = temp.firstSet.iterator();
+				System.out.print(temp.getUnterminatingString()+" Size: "+temp.firstSet.size()+" $$ {");
+				fw.write(temp.getUnterminatingString()+" Size: "+temp.firstSet.size()+" ^^ {");
+				while(setIter.hasNext()){
+					String print = setIter.next();
+					System.out.print(print);
+					fw.write(print);
+					if(setIter.hasNext()){
+						System.out.print(" ");
+						fw.write(" ");
+					}
+				}
+				fw.write("}\r\n");
+				System.out.print("}");
+				System.out.println();
 			}
-			System.out.print("}");
-			System.out.println();
+		} catch (IOException io){
+			io.printStackTrace();
+			try {
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		
 	}
 }

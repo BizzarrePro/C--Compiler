@@ -72,7 +72,7 @@ public class FileActionUtil {
 			if (!dir.exists()) {
 				dir.mkdir();
 				String attr = "attrib +H " + dir.getAbsolutePath();
-				Process pro = Runtime.getRuntime().exec(attr);
+				Runtime.getRuntime().exec(attr);
 			}
 			try {
 				fw = new FileWriter(recentFile, true);

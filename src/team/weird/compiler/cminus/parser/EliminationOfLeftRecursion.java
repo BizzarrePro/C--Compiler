@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 import team.weird.compiler.cminus.parser.Symbol.RightProduction;
 
-public class EliminationOfLeftRecursion extends ExtractProduction {
+public class EliminationOfLeftRecursion extends ExtractProduction implements PrintParserProcedure{
 	private static final EliminationOfLeftRecursion INSTANCE = new EliminationOfLeftRecursion();
 	private static int count = 1;
 	public EliminationOfLeftRecursion() {
@@ -27,8 +28,6 @@ public class EliminationOfLeftRecursion extends ExtractProduction {
 		markEpsilonEntry();
 		//reduceIndirectLeftRecursionToImmediateLeftRecursion();
 		createTerminatingSymbolTable();
-
-		//displayAfterElimination();
 		//displayBeforeDepthFirstOrder();
 	}
 	public static EliminationOfLeftRecursion getInstance(){ return INSTANCE; }
@@ -133,24 +132,48 @@ public class EliminationOfLeftRecursion extends ExtractProduction {
 		// }
 	}
 
-	public void print() {
+	public void print(){
+		File dir = new File("./compile");
+		File elr = new File("./compile/temp.elr");
+		FileWriter fw = null;
 		System.out.println("-------------------------After Removing Left Recursion-------------------------");
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable.entrySet().iterator();
-		while(it.hasNext()){
-			Map.Entry<String, Symbol> entry = it.next();
-			//System.out.println(entry.getKey());
-		    Symbol temp = entry.getValue();
-		   // System.out.println(temp.getUnterminatingString()+" "+temp.hasEpsilon);
-		    Iterator<RightProduction> iter = temp.rightList.iterator();
-		    while(iter.hasNext()){
-		    	Iterator<String> iterator = iter.next().getRightSymbolList().iterator();
-		    	System.out.print(entry.getValue().getUnterminatingString()+" ::= ");
-		    	while(iterator.hasNext()){
-		    		String str = iterator.next();
-		    		System.out.print(str+" ");
-		    	}
-		    	System.out.println();
-		    }
+		try{
+			if(!dir.exists()){
+				dir.mkdir();
+				String attr = "attrib +H " + dir.getAbsolutePath();
+				Runtime.getRuntime().exec(attr);
+			}
+			else {
+				fw = new FileWriter(elr);
+				fw.write(" --------------------------------------------------");
+				fw.write("|              Remove Left Recursion               |");
+				fw.write(" --------------------------------------------------");
+				while(it.hasNext()){
+					Map.Entry<String, Symbol> entry = it.next();
+				    Symbol temp = entry.getValue();
+				    Iterator<RightProduction> iter = temp.rightList.iterator();
+				    while(iter.hasNext()){
+				    	Iterator<String> iterator = iter.next().getRightSymbolList().iterator();
+				    	System.out.print(entry.getValue().getUnterminatingString()+" ::= ");
+						fw.write(entry.getValue().getUnterminatingString()+" ::= ");
+				    	while(iterator.hasNext()){
+				    		String str = iterator.next();
+				    		System.out.print(str+" ");
+				    		fw.write(str+" ");
+				    	}
+				    	fw.write("\r\n");
+				    	System.out.println();
+				    }
+				}
+			}
+		} catch (IOException io){
+			io.printStackTrace();
+			try {
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

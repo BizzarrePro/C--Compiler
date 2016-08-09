@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.parser;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -96,26 +99,47 @@ public class FollowSet {
 		cnt = 1;
 	}
 	public void print() {
+		FileWriter fw = null;
+		File fol = new File("./compile/temp.fol");
 		System.out.println();
 		System.out
 				.println("-------------------------Follow Set-------------------------");
 		System.out.println();
-		Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet()
-				.iterator();
-		while (symIter.hasNext()) {
-			Entry<String, Symbol> entry = symIter.next();
-			Symbol temp = entry.getValue();
-			Iterator<String> setIter = temp.followSet.iterator();
-			System.out.print(temp.getUnterminatingString() + " Size: "
-					+ temp.followSet.size() + " $$ {");
-			while (setIter.hasNext()) {
-				String print = setIter.next();
-				System.out.print(print);
-				if (setIter.hasNext())
-					System.out.print(" ");
+		try{
+			fw = new FileWriter(fol);
+			fw.write(" --------------------------------------------------");
+			fw.write("|               Compute Follow Set                 |");
+			fw.write(" --------------------------------------------------");
+			Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet()
+					.iterator();
+			while (symIter.hasNext()) {
+				Entry<String, Symbol> entry = symIter.next();
+				Symbol temp = entry.getValue();
+				Iterator<String> setIter = temp.followSet.iterator();
+				System.out.print(temp.getUnterminatingString() + " Size: "
+						+ temp.followSet.size() + " $$ {");
+				fw.write(temp.getUnterminatingString() + " Size: "
+						+ temp.followSet.size() + " ^^ {");
+				while (setIter.hasNext()) {
+					String print = setIter.next();
+					System.out.print(print);
+					fw.write(print);
+					if (setIter.hasNext()){
+						System.out.print(" ");
+						fw.write(" ");
+					}
+				}
+				fw.write("}\r\n");
+				System.out.print("}");
+				System.out.println();
 			}
-			System.out.print("}");
-			System.out.println();
+		} catch (IOException e){
+			e.printStackTrace();
+			try {
+				fw.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 }
