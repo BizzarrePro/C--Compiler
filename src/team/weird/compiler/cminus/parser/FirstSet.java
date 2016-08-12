@@ -84,9 +84,9 @@ public class FirstSet implements PrintParserProcedure{
 		System.out.println();
 		try{
 			fw = new FileWriter(fir);
-			fw.write(" --------------------------------------------------");
-			fw.write("|                Compute First Set                 |");
-			fw.write(" --------------------------------------------------");
+			fw.write(" --------------------------------------------------\r\n");
+			fw.write("|                Compute First Set                 |\r\n");
+			fw.write(" --------------------------------------------------\r\n");
 			Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet().iterator();
 			while(symIter.hasNext()){
 				Entry<String, Symbol> entry = symIter.next();

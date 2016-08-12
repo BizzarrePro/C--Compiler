@@ -107,9 +107,9 @@ public class FollowSet {
 		System.out.println();
 		try{
 			fw = new FileWriter(fol);
-			fw.write(" --------------------------------------------------");
-			fw.write("|               Compute Follow Set                 |");
-			fw.write(" --------------------------------------------------");
+			fw.write(" --------------------------------------------------\r\n");
+			fw.write("|               Compute Follow Set                 |\r\n");
+			fw.write(" --------------------------------------------------\r\n");
 			Iterator<Entry<String, Symbol>> symIter = symbolMap.entrySet()
 					.iterator();
 			while (symIter.hasNext()) {

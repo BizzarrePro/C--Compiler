@@ -146,9 +146,9 @@ public class EliminationOfLeftRecursion extends ExtractProduction implements Pri
 			}
 			else {
 				fw = new FileWriter(elr);
-				fw.write(" --------------------------------------------------");
-				fw.write("|              Remove Left Recursion               |");
-				fw.write(" --------------------------------------------------");
+				fw.write(" --------------------------------------------------\r\n");
+				fw.write("|              Remove Left Recursion               |\r\n");
+				fw.write(" --------------------------------------------------\r\n");
 				while(it.hasNext()){
 					Map.Entry<String, Symbol> entry = it.next();
 				    Symbol temp = entry.getValue();
