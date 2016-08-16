@@ -1,7 +1,10 @@
 package team.weird.compiler.editor.implement;
 
 import java.awt.event.ActionEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -37,18 +40,21 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 			try {
 				runCode();
 			} catch (Throwable e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			break;
 		case "syntax":
-			showLexerAnalysis();
+			showOriginalSyntax();
+			break;
 		case "lexer":
-			showParserAnalysis();
+			showLexerAnalysis();
+			break;
 		case "parser":
-			showIntermediateCode();
+			showParserAnalysis();
+			break;
 		case "semantic":
 			showIntermediateCode();
+			break;
 		case "target":
 			showAsmCode();
 		}
@@ -98,7 +104,27 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showLexerAnalysis() {
 		// TODO Auto-generated method stub
-		
+		FileAction fileAction = new FileAction("", tab);
+		File file = new File("./compile/temp.tok");
+		JTextArea text = fileAction.newFileAction("temp.tok");
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			StringBuffer sb = new StringBuffer();
+			String content = br.readLine();
+			while(content != null){
+				sb.append(content);
+				sb.append("\r\n");
+				content = br.readLine();
+			}
+			text.setText(sb.toString());
+		} catch (FileNotFoundException fn){
+			fn.printStackTrace();
+		} catch (IOException ex){
+			ex.printStackTrace();
+		}
 	}
 
 	@Override
@@ -115,6 +141,11 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 
 	@Override
 	public void showAsmCode() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void showOriginalSyntax() {
 		// TODO Auto-generated method stub
 		
 	}

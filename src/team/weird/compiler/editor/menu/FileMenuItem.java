@@ -54,10 +54,10 @@ public class FileMenuItem{
 		statePanel.setBackground(pan.getBackground());
 		pan.add(statePanel, BorderLayout.SOUTH);
 		statePanel.setLayout(new FlowLayout(pan.getWidth()));
-		JLabel Line = new JLabel("Line ");
-		JLabel lineValue = new JLabel("0");
-		JLabel Column = new JLabel(" Column ");
-		JLabel columnValue = new JLabel("0");
+		final JLabel Line = new JLabel("Line ");
+		final JLabel lineValue = new JLabel("0");
+		final JLabel Column = new JLabel(" Column ");
+		final JLabel columnValue = new JLabel("0");
 //		Line.setBackground(statePanel.getBackground());
 //		Column.setBackground(statePanel.getBackground());
 		statePanel.add(Line);

@@ -342,6 +342,12 @@ public class Semantic {
 				Expression exp = null;
 				int line = tok.getLineNum();
 				exp = expression_none(child1, exp, line);
+				if(exp == null){
+					if(tok instanceof Number)
+						return new LiteralExpression(((Number)tok).getNum(), line);
+					else
+						return new LiteralExpression(((FloatNumber)tok).getFloat(), line);
+				}
 				return exp;
 			}
 		}

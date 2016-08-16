@@ -38,25 +38,16 @@ public class AssignExpression extends Expression{
 	@Override
 	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
-		System.out.println(tab+"AssignExpression: ");
-		try {
+		try{
+			System.out.println(tab+"AssignExpression: ");
 			fw.write(tab+"AssignExpression: \r\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		lex.print(tab+"\t", fw);
-		System.out.println("\n" + tab +  "\t=");
-		try {
+			lex.print(tab+"\t", fw);
+			System.out.println("\n" + tab +  "\t=");
 			fw.write("\n" + tab +  "\t=\r\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		rex.print(tab + "\t", fw);
-		System.out.println();
-		try {
+			rex.print(tab + "\t", fw);
+			System.out.println();
 			fw.write("\r\n");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (IOException e){
 			e.printStackTrace();
 		}
 	}

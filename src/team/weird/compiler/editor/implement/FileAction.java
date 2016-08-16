@@ -165,8 +165,8 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 				try {
 					int lineNum = text.getLineOfOffset(e.getDot());
 					list.setSelectedIndex(lineNum);
-					line.setText(""+lineNum);
-					column.setText(""+(e.getDot() - text.getLineStartOffset(lineNum)));
+//					line.setText(""+lineNum);
+//					column.setText(""+(e.getDot() - text.getLineStartOffset(lineNum)));
 				} catch (BadLocationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

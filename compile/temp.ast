@@ -1,15 +1,24 @@
-FunctionDeclaration: INT a ( 
-Variable: b
+FunctionDeclaration: INT main ( 
 )
 CompoundStatement: {
+	VariableDeclaration: a
+	ExpressionStatement: 
+		AssignExpression: 
+			VariableExpression: a
+			=
+			LiteralExpression: 5
+
 	SelectionStmt: if (
 		BinaryExpression: 
 			VariableExpression: a
-			EQUAL
-			LiteralExpression: 5
+			GTEQ
+			LiteralExpression: 3
 	 )
-		ReturnStmt: 
-			VariableExpression: a
+		ExpressionStatement: 
+			CallExpression: output ( 
+			 )
+
+
 	else
 }
 

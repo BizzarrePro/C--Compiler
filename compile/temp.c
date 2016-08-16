@@ -1,6 +1,12 @@
-int a(int b){
-	if (a == 5)
-		return a;
-	else
-		;
+//hello
+/*
+lalala
+*/
+int main(void){
+int a;
+a = 5;
+if ( a >= 3 )
+ output();
+else
+ ;
 }
