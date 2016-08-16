@@ -78,15 +78,19 @@ public class FrameDesign extends JFrame {
 				if(contentPane.getTabCount() > 0){
 					File dir = new File(".\\storage");
 					FileWriter fw = null;
-					if(!dir.exists()){
-						dir.mkdir();
-						String attr = "attrib +H " + dir.getAbsolutePath();
-						try {
-							Process pro = Runtime.getRuntime().exec(attr);
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+					
+					if(dir.exists()){
+						File[] fileList = dir.listFiles();
+						for(File f : fileList)
+							f.delete();
+					}
+					dir.mkdir();
+					String attr = "attrib +H " + dir.getAbsolutePath();
+					try {
+						Process pro = Runtime.getRuntime().exec(attr);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 					for(int i = 0; i < contentPane.getTabCount(); i++){
 						JTextArea text = (JTextArea) ((JScrollPane) contentPane.getComponentAt(i)).getViewport().getView();

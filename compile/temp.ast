@@ -1,0 +1,15 @@
+FunctionDeclaration: INT a ( 
+Variable: b
+)
+CompoundStatement: {
+	SelectionStmt: if (
+		BinaryExpression: 
+			VariableExpression: a
+			EQUAL
+			LiteralExpression: 5
+	 )
+		ReturnStmt: 
+			VariableExpression: a
+	else
+}
+

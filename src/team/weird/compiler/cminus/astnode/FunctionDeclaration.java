@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,15 +38,22 @@ public class FunctionDeclaration extends Declaration implements PrintASTree, Int
 		this.statement = statement;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
-		System.out.println("FunctionDeclaration: " + getType() + " " + getId() + " ( ");
-		for(Variable v : parameters) {
-			v.print(tab);
+		try {
+			System.out.println("FunctionDeclaration: " + getType() + " " + getId() + " ( ");
+			fw.write("FunctionDeclaration: " + getType() + " " + getId() + " ( \r\n");
+			for(Variable v : parameters) {
+				v.print(tab, fw);
+			}
+			System.out.println(")");
+			fw.write(")\r\n");
+			statement.print(tab, fw);
+			System.out.println();
+			fw.write("\r\n");
+		} catch (IOException e){
+			e.printStackTrace();
 		}
-		System.out.println(")");
-		statement.print(tab);
-		System.out.println();
 	}
 	@Override
 	public Instruction generateIntermediateCode() {

@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Operand;
 import team.weird.compiler.cminus.codegen.OperandType;
@@ -33,13 +36,29 @@ public class AssignExpression extends Expression{
 		this.rex = rex;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
 		System.out.println(tab+"AssignExpression: ");
-		lex.print(tab+"\t");
+		try {
+			fw.write(tab+"AssignExpression: \r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		lex.print(tab+"\t", fw);
 		System.out.println("\n" + tab +  "\t=");
-		rex.print(tab + "\t");
+		try {
+			fw.write("\n" + tab +  "\t=\r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		rex.print(tab + "\t", fw);
 		System.out.println();
+		try {
+			fw.write("\r\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public Type generateIntermediateCode(Function fun) {

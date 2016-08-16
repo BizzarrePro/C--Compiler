@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import team.weird.compiler.cminus.codegen.BasicBlock;
 import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Operand;
@@ -32,15 +35,22 @@ public class SelectionStatement extends Statement{
 		this.elseStmt = elseStmt;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
-		System.out.println(tab + "SelectionStmt: if (");
-		condition.print(tab + "\t");
-		System.out.println(tab + " )");
-		ifStmt.print(tab + "\t");
-		if(elseStmt != null) {
-			System.out.println("\n" + tab + "else");
-			elseStmt.print(tab + "\t");
+		try {
+			System.out.println(tab + "SelectionStmt: if (");
+			fw.write(tab + "SelectionStmt: if (\r\n");
+			condition.print(tab + "\t", fw);
+			System.out.println(tab + " )");
+			fw.write(tab + " )\r\n");
+			ifStmt.print(tab + "\t", fw);
+			if(elseStmt != null) {
+				System.out.println("\n" + tab + "else");
+				fw.write("\n" + tab + "else\r\n");
+				elseStmt.print(tab + "\t", fw);
+			}
+		} catch (IOException e){
+			e.printStackTrace();
 		}
 	}
 	@Override

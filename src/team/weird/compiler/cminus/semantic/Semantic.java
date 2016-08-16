@@ -49,7 +49,6 @@ public class Semantic {
 	public void init() throws Throwable{
 		program(root);
 //		err.throwsAllExceptions();
-//		System.out.println("OK");
 		program.printASTree();
 	}
 	private void program(Node currNode){

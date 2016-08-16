@@ -55,7 +55,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 			fw.write("|               Predictive Analytics               |\r\n");
 			fw.write(" --------------------------------------------------\r\n");
 			while (!stack.isEmpty() && index < token.length) {
-				fw.write("Top of Stack\r\n");
+				fw.write("-Top of Stack-\r\n");
 				for(Node a : stack)
 					fw.write("["+a.getSymbol()+"]\r\n");
 	//		 For debugging
@@ -66,21 +66,27 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 	//				System.out.println(((Word)token[index]).getId());
 	//			else 
 	//				System.out.println(token[index]);
-				fw.write("Bottom of Stack\r\n");
+				fw.write("-Bottom of Stack-\r\n");
+				fw.write("\r\n");
 				String peek = stack.peek().getSymbol();
-				if (peek.equals(token[index].toString())) {
+				if (peek.equals(token[index].getWord())) {
 					leafNodeStack.pop().setToken(token[index]);
 					fw.write("["+peek+"] matches ["+token[index]+"] "+"Pop!\r\n");
 					stack.pop();
 					index++;
 				} 
-				else if (TermSymbolSet.contains(peek))
-					err.addException(new SemanticException(token[index].toString(), token[index].getLineNum(), 1));
+				else if (TermSymbolSet.contains(peek)){
+					err.addException(new SemanticException(token[index].getWord(), token[index].getLineNum(), 1));
+					throw new SemanticException(token[index].getWord(), token[index].getLineNum(), 1);
+				}
 				else if (UntermSymbolMap.get(peek).predictiveMap.get(token[index]
-						.toString()) == null)
-					err.addException(new SemanticException(token[index].toString(), token[index].getLineNum(), 1));
+						.getWord()) == null){
+					System.out.println(token[index]);
+					err.addException(new SemanticException(token[index].getWord(), token[index].getLineNum(), 1));
+					throw new SemanticException(token[index].getWord(), token[index].getLineNum(), 1);
+				}
 				else if (UntermSymbolMap.get(peek).predictiveMap
-						.get(token[index].toString()).get(0).equals("empty")){
+						.get(token[index].getWord()).get(0).equals("empty")){
 					fw.write("empty entry,Pop!\r\n");
 					stack.pop();
 				}
@@ -88,7 +94,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 					Node peekElement = stack.pop();
 					fw.write("Push:\r\n");
 					LinkedList<String> production = UntermSymbolMap.get(peek).predictiveMap
-							.get(token[index].toString());
+							.get(token[index].getWord());
 					ListIterator<String> productionIter = production
 							.listIterator(production.size());
 					while (productionIter.hasPrevious()) {
@@ -102,8 +108,9 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 						}
 						((SyntaxTreeNode) peekElement).addNewNode(childNode);
 						stack.push(childNode);
-						fw.write(childNode.getSymbol()+"\r\n");
+						fw.write("\t"+childNode.getSymbol()+"\r\n");
 					}
+					fw.write("\r\n");
 				}
 			}
 		} catch (Exception e){

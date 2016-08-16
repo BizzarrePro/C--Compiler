@@ -1,21 +1,34 @@
 package team.weird.compiler.cminus.lexer;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
-public class Lexer {
+public class Lexer implements PrintTokenStream{
 	private static final Lexer INSTANCE = new Lexer();
 	
 	public StringBuffer fullLine = new StringBuffer();
 	public ArrayList<Token> tokenList = new ArrayList<Token>();
-	
+	private static InputStream input = null;
 	private boolean exitTag = false;
 	private int line = 1;
 	private char temp = ' ';
 	private ReservedWord table = new ReservedWord();
-	
 	public Lexer() {}
 	public static Lexer getInstance() { return INSTANCE; }
+	static {
+		File file = new File("./compile/temp.c");
+		try {
+			input = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public int getLine(){
 		return line;
 	}
@@ -32,9 +45,10 @@ public class Lexer {
 		return tokenStream;
 	}
 	public void getChar() throws IOException{
-		temp = (char)System.in.read();
-		if(temp == '$')
+		int read = input.read();
+		if(read == -1)
 			exitTag = true;
+		temp = (char)read;
 		fullLine.append(temp);
 	}
 	public boolean getNextChar(char ch) throws IOException{
@@ -141,15 +155,39 @@ public class Lexer {
 		
 			String str = buf.toString();	
 			Token value = table.lookUpTable(str);
-			if(value == null){
+			if(value == null)
 				return new Word(str, "ID");
-				
-			}
 			else
 				return value;
 		}
 		Token bo = new Token(""+temp);
 		temp = ' ';
 		return bo;
+	}
+	@Override
+	public void print(Token[] token) {
+		// TODO Auto-generated method stub
+		FileWriter fw = null;
+		File fi = new File("./compile/temp.tok");
+		try{
+			fw = new FileWriter(fi);
+			fw.write(" --------------------------------------------------\r\n");
+			fw.write("|                   Token Stream                   |\r\n");
+			fw.write(" --------------------------------------------------\r\n");
+			for(Token t : token){
+				System.out.println(t);
+				fw.write(t.toString());
+				fw.write("\r\n");
+			}
+		} catch(IOException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

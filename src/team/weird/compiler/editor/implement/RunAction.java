@@ -1,12 +1,18 @@
 package team.weird.compiler.editor.implement;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 
 import team.weird.compiler.editor.function.RunMenuItemFunc;
+import team.weird.compiler.editor.util.RunActionUtil;
 
 
 public class RunAction extends AbstractAction implements RunMenuItemFunc{
@@ -28,7 +34,12 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 		String command = e.getActionCommand();
 		switch(command){
 		case "run":	
-			runCode();
+			try {
+				runCode();
+			} catch (Throwable e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			break;
 		case "syntax":
 			showLexerAnalysis();
@@ -44,9 +55,44 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	}
 
 	@Override
-	public void runCode() {
+	public void runCode(){
 		// TODO Auto-generated method stub
-		
+		FileWriter fw = null;
+		File fi = new File("./compile/temp.c");
+		File dir = new File("./compile");
+		JTextArea temp = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
+		try{
+			if(!dir.exists()){
+				dir.mkdir();
+				String attr = "attrib +H " + dir.getAbsolutePath();
+				Runtime.getRuntime().exec(attr);
+				fw = new FileWriter(fi);
+				String stream = temp.getText();
+				if(stream != null)
+					fw.write(stream);
+			} 
+			else {
+				fw = new FileWriter(fi);
+				String stream = temp.getText();
+				if(stream != null)
+					fw.write(stream);
+			}
+		} catch(IOException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			RunActionUtil.run();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

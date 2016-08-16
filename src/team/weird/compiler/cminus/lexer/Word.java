@@ -17,4 +17,7 @@ public class Word extends Token{
 	public String getType(){
 		return type;
 	}
+	public String toString(){
+		return "Token: [ "+type+" ] Identify: [ "+id+" ] Line: "+super.lineNum;
+	}
 }

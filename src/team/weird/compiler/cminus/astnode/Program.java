@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -22,9 +25,22 @@ public class Program {
 		this.declarations = declarations;
 	}
 	public void printASTree(){
+		FileWriter fw = null;
+		File fi = new File("./compile/temp.ast");
 		Iterator<Declaration> iter = declarations.iterator();
-		while(iter.hasNext()){
-			iter.next().print("");
+		try{
+			fw = new FileWriter(fi);
+			while(iter.hasNext()){
+				iter.next().print("", fw);
+			}
+		} catch (IOException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException ex){
+				ex.printStackTrace();
+			}
 		}
 	}
 	public void declareVarAndFun(){

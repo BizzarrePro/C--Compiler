@@ -14,4 +14,7 @@ public class Number extends Token{
 	public String getType(){
 		return type;
 	}
+	public String toString(){
+		return "Token: [ "+ type+" ] Integer Value: [ "+num+" ] Line: "+super.lineNum;
+	}
 }

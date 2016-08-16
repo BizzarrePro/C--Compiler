@@ -9,7 +9,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import team.weird.compiler.editor.implement.RunAction;
-import team.weird.compiler.editor.implement.ToolsAction;
 
 public class RunMenuItem {
 	private JMenuBar menuBar = null; 
@@ -25,10 +24,10 @@ public class RunMenuItem {
 		menuBar.add(runMenu);
 		RunAction runCode =new RunAction("Run",contentPane, frame);
 		RunAction showSyntax = new RunAction("Original Syntax", contentPane, frame);
-		RunAction showLexer = new RunAction("After Lexer", contentPane, frame);
-		RunAction showParser = new RunAction("Parser Procedure", contentPane, frame);
-		RunAction showIntermediateCode = new RunAction("Intermediate Code", contentPane, frame);
-		RunAction showASM = new RunAction("Assembler", contentPane, frame);
+		RunAction showLexer = new RunAction("Print Lexer Result", contentPane, frame);
+		RunAction showParser = new RunAction("Print Parser Procedure", contentPane, frame);
+		RunAction showIntermediateCode = new RunAction("Print Intermediate Code", contentPane, frame);
+		RunAction showASM = new RunAction("Print Assembler", contentPane, frame);
 		JMenuItem runItem = new JMenuItem(runCode);
 		JMenuItem syntaxItem = new JMenuItem(showSyntax);
 		JMenuItem lexerItem = new JMenuItem(showLexer);

@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import team.weird.compiler.cminus.codegen.Function;
@@ -31,14 +33,21 @@ public class CallExpression extends Expression{
 		this.argsList = argsList;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
 		System.out.println(tab + "CallExpression: " + id + " ( ");
-		for(Expression exp : argsList) {
-			exp.print(tab + "\t");
-			System.out.println();
+		try{
+			fw.write(tab + "CallExpression: " + id + " ( \r\n");
+			for(Expression exp : argsList) {
+				exp.print(tab + "\t", fw);
+				System.out.println();
+				fw.write("\r\n");
+			}
+			System.out.println(tab + " )");
+			fw.write(tab + " )\r\n");
+		} catch (IOException e){
+			e.printStackTrace();
 		}
-		System.out.println(tab + " )");
 	}
 	@Override
 	public Type generateIntermediateCode(Function fun) {

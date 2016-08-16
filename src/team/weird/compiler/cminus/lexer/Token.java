@@ -33,7 +33,7 @@ public class Token {
 		return word.hashCode();
 	}
 	public String toString(){
-		return word;
+		return "Token: [ "+word+" ] Line: "+lineNum ;
 	}
 	
 }

@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.OperandType;
 import team.weird.compiler.cminus.semantic.Type;
@@ -17,9 +20,14 @@ public class LiteralExpression extends Expression {
 		this.number = number;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
 		System.out.println(tab + "LiteralExpression: " + number.toString());
+		try {
+			fw.write(tab + "LiteralExpression: " + number.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public Type generateIntermediateCode(Function fun) {

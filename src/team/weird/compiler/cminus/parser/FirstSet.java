@@ -109,6 +109,7 @@ public class FirstSet implements PrintParserProcedure{
 			}
 		} catch (IOException io){
 			io.printStackTrace();
+		} finally {
 			try {
 				fw.close();
 			} catch (IOException e) {

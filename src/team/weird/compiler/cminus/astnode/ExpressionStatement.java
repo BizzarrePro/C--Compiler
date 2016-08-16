@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import team.weird.compiler.cminus.codegen.Function;
 
 public class ExpressionStatement extends Statement{
@@ -17,12 +20,18 @@ public class ExpressionStatement extends Statement{
 		this.exp = exp;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
 		if(exp != null) {
-			System.out.println(tab + "ExpressionStatement: ");
-			exp.print(tab + "\t");
-			System.out.println();
+			try{
+				System.out.println(tab + "ExpressionStatement: ");
+				fw.write(tab + "ExpressionStatement: \r\n");
+				exp.print(tab + "\t", fw);
+				System.out.println();
+				fw.write("\r\n");
+			} catch (IOException e){
+				e.printStackTrace();
+			}
 		}
 	}
 	@Override

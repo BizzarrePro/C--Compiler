@@ -135,6 +135,7 @@ public class FollowSet {
 			}
 		} catch (IOException e){
 			e.printStackTrace();
+		} finally {
 			try {
 				fw.close();
 			} catch (IOException e1) {

@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import team.weird.compiler.cminus.codegen.Function;
@@ -20,17 +22,23 @@ public class CompoundStatement extends Statement{
 			statements.add(stmt);
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
-		System.out.println(tab + "CompoundStatement: {");
-		for(VariableDeclaration vd : varDeclarations) {
-			vd.print(tab + "\t");
-		}
+		try{
+			System.out.println(tab + "CompoundStatement: {");
+			fw.write(tab + "CompoundStatement: {\r\n");
+			for(VariableDeclaration vd : varDeclarations) {
+				vd.print(tab + "\t", fw);
+			}
 		
-		for(Statement s : statements) {
-			s.print(tab + "\t");
+			for(Statement s : statements) {
+				s.print(tab + "\t", fw);
+			}
+			System.out.println(tab + "}");
+			fw.write(tab + "}\r\n");
+		} catch (IOException e){
+			e.printStackTrace();
 		}
-		System.out.println(tab + "}");
 	}
 	@Override
 	public void generateIntermediateCode(Function fun) {

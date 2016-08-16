@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Operand;
 import team.weird.compiler.cminus.codegen.OperandType;
@@ -40,13 +43,29 @@ public class BinaryExpression extends Expression {
 		this.rChild = rChild;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
 		System.out.println(tab + "BinaryExpression: ");
-		lChild.print(tab + "\t");
+		try {
+			fw.write(tab + "BinaryExpression: \r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		lChild.print(tab + "\t", fw);
 		System.out.println("\n" + tab + "\t" + operator.toString());
-		rChild.print(tab + "\t");
+		try {
+			fw.write("\n" + tab + "\t" + operator.toString()+"\r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		rChild.print(tab + "\t", fw);
 		System.out.println();
+		try {
+			fw.write("\r\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public Type generateIntermediateCode(Function fun) {

@@ -1,0 +1,44 @@
+ --------------------------------------------------
+|               Compute Follow Set                 |
+ --------------------------------------------------
+param-list Size: 2 ^^ {$ )}
+expression Size: 5 ^^ {$ ; ] ) ,}
+additive-expression-temp Size: 11 ^^ {== <= $ != ; ] >= ) > , <}
+param-temp Size: 3 ^^ {$ ) ,}
+expression-sub-sub Size: 5 ^^ {$ ; ] ) ,}
+param Size: 3 ^^ {$ ) ,}
+expression-sub Size: 5 ^^ {$ ] ; ) ,}
+args Size: 2 ^^ {$ )}
+var Size: 16 ^^ {$ * + ) >= / , - == <= != ] ; > = <}
+relop Size: 4 ^^ {$ ID ( NUM}
+type-specifier Size: 2 ^^ {$ ID}
+compound-stmt Size: 17 ^^ {else $ int return void ( double float while if empty ID ; } bool { NUM}
+addop Size: 4 ^^ {$ ID ( NUM}
+arg-list` Size: 2 ^^ {$ )}
+var-declaration Size: 15 ^^ {$ int return void ( double float while if ; ID } bool { NUM}
+local-declarations` Size: 10 ^^ {$ if ; ID return ( } { NUM while}
+simple-expression Size: 5 ^^ {$ ; ] ) ,}
+factor-temp Size: 15 ^^ {$ * + >= ) / , - == <= != ; ] > <}
+statement-list Size: 2 ^^ {$ }}
+additive-expression Size: 5 ^^ {$ ] ; ) ,}
+term-temp Size: 13 ^^ {$ + >= ) , - == <= != ; ] > <}
+iteration-stmt Size: 10 ^^ {$ if ; ID return ( } { NUM while}
+declaration Size: 6 ^^ {$ int void bool double float}
+selection-stmt Size: 12 ^^ {else $ if ; ID return empty ( } { NUM while}
+declaration-list Size: 1 ^^ {$}
+arg-list Size: 2 ^^ {$ )}
+factor Size: 15 ^^ {$ * + >= ) / , - == <= != ] ; > <}
+params Size: 2 ^^ {$ )}
+general-declaration Size: 6 ^^ {$ int void bool double float}
+selection-stmt-temp Size: 12 ^^ {else $ if empty return ID ; } ( { NUM while}
+statement Size: 12 ^^ {else $ if empty return ID ; } ( { NUM while}
+expression-stmt Size: 12 ^^ {else if $ ; ID return empty ( } { NUM while}
+expression-none Size: 5 ^^ {$ ] ; ) ,}
+term Size: 13 ^^ {$ + >= ) , - == <= != ; ] > <}
+program Size: 1 ^^ {$}
+declaration-list` Size: 1 ^^ {$}
+local-declarations Size: 10 ^^ {$ if return ID ; } ( { NUM while}
+var-declaration-sub Size: 15 ^^ {$ int return void ( double float while if ; ID } bool { NUM}
+return-stmt Size: 12 ^^ {else if $ ; ID return empty ( } { NUM while}
+mulop Size: 4 ^^ {$ ID ( NUM}
+param-list` Size: 2 ^^ {$ )}

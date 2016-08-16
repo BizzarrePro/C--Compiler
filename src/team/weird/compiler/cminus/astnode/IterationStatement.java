@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import team.weird.compiler.cminus.codegen.BasicBlock;
 import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Operand;
@@ -32,12 +35,18 @@ public class IterationStatement extends Statement{
 		this.state = state;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
-		System.out.println(tab + "IterationStmt: ");
-		iteration.print(tab + "\t");
-		state.print(tab + "\t");
-		System.out.println();
+		try{
+			System.out.println(tab + "IterationStmt: ");
+			fw.write(tab + "IterationStmt: \r\n");
+			iteration.print(tab + "\t", fw);
+			state.print(tab + "\t", fw);
+			System.out.println();
+			fw.write("\r\n");
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 	@Override
 	public void generateIntermediateCode(Function fun) {

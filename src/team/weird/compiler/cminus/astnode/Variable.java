@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import team.weird.compiler.cminus.semantic.Type;
 
 public class Variable implements PrintASTree{
@@ -33,8 +36,13 @@ public class Variable implements PrintASTree{
 		return "["+type+"]"+" '"+id+"'";
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
 		System.out.println(tab + "Variable: " + id );
+		try {
+			fw.write(tab + "Variable: " + id + "\r\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

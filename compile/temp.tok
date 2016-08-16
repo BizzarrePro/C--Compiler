@@ -1,0 +1,22 @@
+ --------------------------------------------------
+|                   Token Stream                   |
+ --------------------------------------------------
+Token: [ int ] Line: 1
+Token: [ ID ] Identify: [ a ] Line: 1
+Token: [ ( ] Line: 1
+Token: [ int ] Line: 1
+Token: [ ID ] Identify: [ b ] Line: 1
+Token: [ ) ] Line: 1
+Token: [ { ] Line: 1
+Token: [ if ] Line: 2
+Token: [ ( ] Line: 2
+Token: [ ID ] Identify: [ a ] Line: 2
+Token: [ == ] Line: 2
+Token: [ NUM ] Integer Value: [ 5 ] Line: 2
+Token: [ ) ] Line: 2
+Token: [ return ] Line: 3
+Token: [ ID ] Identify: [ a ] Line: 3
+Token: [ ; ] Line: 3
+Token: [ else ] Line: 4
+Token: [ ; ] Line: 5
+Token: [ } ] Line: 6

@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 import team.weird.compiler.cminus.codegen.Function;
 import team.weird.compiler.cminus.codegen.Operand;
 import team.weird.compiler.cminus.codegen.OperandType;
@@ -20,10 +23,16 @@ public class ReturnStatement extends Statement{
 		this.ret = ret;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
 		System.out.println(tab + "ReturnStmt: ");
-		ret.print(tab + "\t");
+		try {
+			fw.write(tab + "ReturnStmt: \r\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ret.print(tab + "\t", fw);
 	}
 	@Override
 	public void generateIntermediateCode(Function fun) {

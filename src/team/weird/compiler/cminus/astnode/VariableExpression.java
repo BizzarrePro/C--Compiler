@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.astnode;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 import team.weird.compiler.cminus.codegen.Function;
@@ -29,13 +31,20 @@ public class VariableExpression extends Expression {
 		this.array = array;
 	}
 	@Override
-	public void print(String tab) {
+	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
-		System.out.print(tab + "VariableExpression: " + getId());
-		if(array != null) {
-			System.out.println("[ ");
-			array.print(tab + "\t");
-			System.out.println("\n" + tab + "]");
+		try{
+			System.out.print(tab + "VariableExpression: " + getId());
+			fw.write(tab + "VariableExpression: " + getId());
+			if(array != null) {
+				System.out.println("[ ");
+				fw.write("[ \r\n");
+				array.print(tab + "\t", fw);
+				System.out.println("\n" + tab + "]");
+				fw.write("\n" + tab + "] \r\n");
+			}
+		} catch (IOException e){
+			e.printStackTrace();
 		}
 	}
 	@Override
