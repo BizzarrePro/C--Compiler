@@ -88,7 +88,12 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		this.line = line;
 		this.column = column;
 	}
-	
+	public FileAction(String name, JTabbedPane tab, JLabel line, JLabel column) {
+		super(name);
+		this.tab = tab;
+		this.line = line;
+		this.column = column;
+	}
 	public FileAction(String name, JTabbedPane tab) {
 		super(name);
 		this.tab = tab;
@@ -165,8 +170,8 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 				try {
 					int lineNum = text.getLineOfOffset(e.getDot());
 					list.setSelectedIndex(lineNum);
-//					line.setText(""+lineNum);
-//					column.setText(""+(e.getDot() - text.getLineStartOffset(lineNum)));
+					line.setText(""+lineNum);
+					column.setText(""+(e.getDot() - text.getLineStartOffset(lineNum)));
 				} catch (BadLocationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -190,7 +195,12 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Undo");
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()), "Redo");
 		am.put("Undo", new AbstractAction() {
-		    @Override
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
 		    public void actionPerformed(ActionEvent e) {
 		        try {
 		            if (umList.get(tab.getSelectedIndex()).canUndo()) {
@@ -202,7 +212,12 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		    }
 		});
 		am.put("Redo", new AbstractAction() {
-		    @Override
+		    /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
 		    public void actionPerformed(ActionEvent e) {
 		        try {
 		            if (umList.get(tab.getSelectedIndex()).canRedo()) {
@@ -366,6 +381,7 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 						}
 						JTextArea text = newFileAction(title);
 						text.setText(sb.toString());
+						id++;
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

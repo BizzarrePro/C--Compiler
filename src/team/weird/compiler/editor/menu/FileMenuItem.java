@@ -50,25 +50,21 @@ public class FileMenuItem{
 		JMenu fileMenu = new JMenu("File");
 		
 		JPanel statePanel = new JPanel();
-		statePanel.setPreferredSize(new Dimension(pan.getWidth(), 20));
+		statePanel.setPreferredSize(new Dimension(pan.getWidth(), 22));
 		statePanel.setBackground(pan.getBackground());
 		pan.add(statePanel, BorderLayout.SOUTH);
 		statePanel.setLayout(new FlowLayout(pan.getWidth()));
-		final JLabel Line = new JLabel("Line ");
-		final JLabel lineValue = new JLabel("0");
-		final JLabel Column = new JLabel(" Column ");
-		final JLabel columnValue = new JLabel("0");
 //		Line.setBackground(statePanel.getBackground());
 //		Column.setBackground(statePanel.getBackground());
-		statePanel.add(Line);
-		statePanel.add(lineValue);
-		statePanel.add(Column);
-		statePanel.add(columnValue);
+		statePanel.add(TextState.Line);
+		statePanel.add(TextState.lineValue);
+		statePanel.add(TextState.Column);
+		statePanel.add(TextState.columnValue);
 		/**
 		 * @description Create action for every menu item
 		 * @see FileAction: team.weird.texteditor.implement.FileAction.java
 		 */
-		FileAction newTxt = new FileAction("New File", contentPane, fileMap, lineValue, columnValue);
+		FileAction newTxt = new FileAction("New File", contentPane, fileMap, TextState.lineValue, TextState.columnValue);
 		FileAction newWin = new FileAction("New Windows", contentPane, fileMap);
 		FileAction closeWin = new FileAction("Close Windows", pan);
 		FileAction OpenFile = new FileAction("Open File..", contentPane, fileMap);

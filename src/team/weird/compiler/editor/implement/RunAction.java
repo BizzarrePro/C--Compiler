@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
 import team.weird.compiler.editor.function.RunMenuItemFunc;
+import team.weird.compiler.editor.menu.TextState;
 import team.weird.compiler.editor.util.RunActionUtil;
 
 
@@ -104,7 +107,7 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showLexerAnalysis() {
 		// TODO Auto-generated method stub
-		FileAction fileAction = new FileAction("", tab);
+		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
 		File file = new File("./compile/temp.tok");
 		JTextArea text = fileAction.newFileAction("temp.tok");
 		FileReader fr = null;
@@ -130,13 +133,64 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showParserAnalysis() {
 		// TODO Auto-generated method stub
-		
+		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
+		File dir = new File("./compile/");
+		File[] list = dir.listFiles();
+		Set<String> set = new HashSet<>();
+		set.add("temp.elr");
+		set.add("temp.fir");
+		set.add("temp.fol");
+		set.add("temp.pre");
+		set.add("temp.pa");
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			for(int i = 0; i < list.length; i++) {
+				if(set.contains(list[i].getName())){
+					JTextArea text = fileAction.newFileAction(list[i].getName());
+					fr = new FileReader(list[i]);
+					br = new BufferedReader(fr);
+					StringBuffer sb = new StringBuffer();
+					String content = br.readLine();
+					while(content != null){
+						sb.append(content);
+						sb.append("\r\n");
+						content = br.readLine();
+					}
+					text.setText(sb.toString());
+				}
+			}
+		} catch (FileNotFoundException fn){
+			fn.printStackTrace();
+		} catch (IOException ex){
+			ex.printStackTrace();
+		}
 	}
 
 	@Override
 	public void showIntermediateCode() {
 		// TODO Auto-generated method stub
-		
+		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
+		File file = new File("./compile/temp.ast");
+		JTextArea text = fileAction.newFileAction("temp.ast");
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			StringBuffer sb = new StringBuffer();
+			String content = br.readLine();
+			while(content != null){
+				sb.append(content);
+				sb.append("\r\n");
+				content = br.readLine();
+			}
+			text.setText(sb.toString());
+		} catch (FileNotFoundException fn){
+			fn.printStackTrace();
+		} catch (IOException ex){
+			ex.printStackTrace();
+		}
 	}
 
 	@Override
@@ -147,7 +201,27 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showOriginalSyntax() {
 		// TODO Auto-generated method stub
-		
+		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
+		File file = new File("./production.txt");
+		JTextArea text = fileAction.newFileAction("production.txt");
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			StringBuffer sb = new StringBuffer();
+			String content = br.readLine();
+			while(content != null){
+				sb.append(content);
+				sb.append("\r\n");
+				content = br.readLine();
+			}
+			text.setText(sb.toString());
+		} catch (FileNotFoundException fn){
+			fn.printStackTrace();
+		} catch (IOException ex){
+			ex.printStackTrace();
+		}
 	}
 
 }

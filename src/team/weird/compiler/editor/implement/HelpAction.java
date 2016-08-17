@@ -78,7 +78,7 @@ public class HelpAction extends AbstractAction implements HelpMenuItemFunc  {
 			text.setBorder(BorderFactory.createEmptyBorder());
 			text.setFont(new Font("Consolas", Font.PLAIN, 15));
 			add(text);
-			String line = "\r\n             C- Compiler & Weird Editor\r\n\r\n" +
+			String line = "\r\n            C- Compiler & Weird Editor\r\n\r\n" +
 					"          Code by Siyuan Liu & Qian Yang \r\n" +
 					"    Copyright (c) Weird Compiler Stable Channel";
 			text.setText(line);

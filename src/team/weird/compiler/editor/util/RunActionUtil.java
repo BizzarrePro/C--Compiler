@@ -11,15 +11,19 @@ import team.weird.compiler.cminus.parser.FollowSet;
 import team.weird.compiler.cminus.parser.OverlappedSyntaxException;
 import team.weird.compiler.cminus.parser.PredictiveAnalytics;
 import team.weird.compiler.cminus.parser.SelectSet;
+import team.weird.compiler.cminus.semantic.ErrorList;
 import team.weird.compiler.cminus.semantic.Semantic;
 import team.weird.compiler.cminus.semantic.SemanticException;
 
 public final class RunActionUtil {
 	public static void run() throws Throwable {
-		Lexer lex = Lexer.getInstance();
+		ErrorList err = ErrorList.getInstance();
+		err.clear();
+		Lexer lex = new Lexer();
 		Token[] token = lex.getTokenStream();
-		EliminationOfLeftRecursion removeLeftRecursion = EliminationOfLeftRecursion.getInstance();
 		lex.print(token);
+		EliminationOfLeftRecursion removeLeftRecursion = new EliminationOfLeftRecursion();
+		removeLeftRecursion.print();
 		FirstSet firstSet = new FirstSet(removeLeftRecursion.getSymbolMap());
 		firstSet.createFirstSet();
 		firstSet.print();

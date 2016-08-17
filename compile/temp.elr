@@ -1,0 +1,83 @@
+ --------------------------------------------------
+|              Remove Left Recursion               |
+ --------------------------------------------------
+param-list ::= param param-list` 
+expression ::= ID expression-sub 
+expression ::= ( expression ) expression-none 
+expression ::= NUM expression-none 
+additive-expression-temp ::= addop term additive-expression-temp 
+additive-expression-temp ::= empty 
+param-temp ::= empty 
+param-temp ::= [ ] 
+expression-sub-sub ::= expression-none 
+expression-sub-sub ::= = expression 
+param ::= type-specifier ID param-temp 
+expression-sub ::= var expression-sub-sub 
+expression-sub ::= ( args ) expression-none 
+args ::= arg-list 
+args ::= empty 
+var ::= empty 
+var ::= [ expression ] 
+relop ::= <= 
+relop ::= < 
+relop ::= > 
+relop ::= >= 
+relop ::= == 
+relop ::= != 
+type-specifier ::= int 
+type-specifier ::= double 
+type-specifier ::= bool 
+type-specifier ::= float 
+type-specifier ::= void 
+compound-stmt ::= { local-declarations statement-list } 
+addop ::= + 
+addop ::= - 
+arg-list` ::= , expression arg-list` 
+arg-list` ::= empty 
+var-declaration ::= ; 
+var-declaration ::= [ NUM ] ; 
+local-declarations` ::= var-declaration-sub local-declarations` 
+local-declarations` ::= empty 
+simple-expression ::= empty 
+simple-expression ::= relop additive-expression 
+factor-temp ::= var 
+factor-temp ::= ( args ) 
+statement-list ::= statement statement-list 
+statement-list ::= empty 
+additive-expression ::= term additive-expression-temp 
+term-temp ::= mulop factor term-temp 
+term-temp ::= empty 
+iteration-stmt ::= while ( expression ) statement 
+declaration ::= type-specifier ID general-declaration 
+selection-stmt ::= if ( expression ) statement selection-stmt-temp 
+declaration-list ::= declaration declaration-list` 
+arg-list ::= expression arg-list` 
+factor ::= ( expression ) 
+factor ::= ID factor-temp 
+factor ::= NUM 
+params ::= param-list 
+params ::= void 
+general-declaration ::= var-declaration 
+general-declaration ::= ( params ) compound-stmt 
+selection-stmt-temp ::= empty 
+selection-stmt-temp ::= else statement 
+statement ::= expression-stmt 
+statement ::= compound-stmt 
+statement ::= selection-stmt 
+statement ::= iteration-stmt 
+statement ::= return-stmt 
+expression-stmt ::= expression ; 
+expression-stmt ::= ; 
+expression-none ::= term-temp additive-expression-temp simple-expression 
+term ::= factor term-temp 
+program ::= declaration-list 
+declaration-list` ::= declaration declaration-list` 
+declaration-list` ::= empty 
+local-declarations ::= local-declarations` 
+var-declaration-sub ::= type-specifier ID var-declaration 
+return-stmt ::= return ; 
+return-stmt ::= return expression ; 
+mulop ::= * 
+mulop ::= / 
+param-list` ::= , param param-list` 
+param-list` ::= empty 

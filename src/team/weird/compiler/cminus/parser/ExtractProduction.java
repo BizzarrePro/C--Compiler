@@ -41,7 +41,7 @@ public class ExtractProduction {
 		BufferedReader br;
 		try {
 			//productionUsed.txt
-			fr = new FileReader(new File("productionUsed.txt"));
+			fr = new FileReader(new File("production.txt"));
 			br = new BufferedReader(fr);
 			Pattern pattern = Pattern.compile("(\\-|\\w)+(?=\\:)");
 			//Pattern epsilonPattern = Pattern.compile("(\\ *)^empty$");

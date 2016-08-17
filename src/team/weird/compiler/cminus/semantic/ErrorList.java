@@ -8,7 +8,7 @@ import java.util.List;
 public class ErrorList {
 	private static final ErrorList INSTANCE = new ErrorList();
 	private List<Throwable> errList = new ArrayList<Throwable>();
-	private ErrorList(){}
+	public ErrorList(){}
 	public static ErrorList getInstance(){
 		return INSTANCE;
 	}
@@ -28,5 +28,8 @@ public class ErrorList {
 				e.printStackTrace();
 			}
 		}
+	}
+	public void clear(){
+		errList.clear();
 	}
 }

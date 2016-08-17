@@ -9,8 +9,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class Lexer implements PrintTokenStream{
-	private static final Lexer INSTANCE = new Lexer();
-	
 	public StringBuffer fullLine = new StringBuffer();
 	public ArrayList<Token> tokenList = new ArrayList<Token>();
 	private static InputStream input = null;
@@ -19,7 +17,6 @@ public class Lexer implements PrintTokenStream{
 	private char temp = ' ';
 	private ReservedWord table = new ReservedWord();
 	public Lexer() {}
-	public static Lexer getInstance() { return INSTANCE; }
 	static {
 		File file = new File("./compile/temp.c");
 		try {

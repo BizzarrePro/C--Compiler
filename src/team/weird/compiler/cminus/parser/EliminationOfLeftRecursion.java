@@ -18,7 +18,6 @@ import java.util.Map;
 import team.weird.compiler.cminus.parser.Symbol.RightProduction;
 
 public class EliminationOfLeftRecursion extends ExtractProduction implements PrintParserProcedure{
-	private static final EliminationOfLeftRecursion INSTANCE = new EliminationOfLeftRecursion();
 	private static int count = 1;
 	public EliminationOfLeftRecursion() {
 		super();
@@ -30,7 +29,6 @@ public class EliminationOfLeftRecursion extends ExtractProduction implements Pri
 		createTerminatingSymbolTable();
 		//displayBeforeDepthFirstOrder();
 	}
-	public static EliminationOfLeftRecursion getInstance(){ return INSTANCE; }
 	private void reduceIndirectLeftRecursionToImmediateLeftRecursion() {
 		Iterator<Map.Entry<String, Symbol>> it = UnterminatingSymbolTable
 				.entrySet().iterator();
@@ -169,6 +167,7 @@ public class EliminationOfLeftRecursion extends ExtractProduction implements Pri
 			}
 		} catch (IOException io){
 			io.printStackTrace();
+		} finally {
 			try {
 				fw.close();
 			} catch (IOException e) {

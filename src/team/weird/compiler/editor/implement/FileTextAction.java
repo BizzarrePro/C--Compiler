@@ -19,14 +19,14 @@ public class FileTextAction implements DocumentListener{
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
-		if(model.getSize() < text.getLineCount())
+		while(model.getSize() < text.getLineCount())
 			model.addElement(cnt++);
 	}
 
 	@Override
 	public void removeUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
-		if(model.getSize() > text.getLineCount())
+		while(model.getSize() > text.getLineCount())
 			model.remove(--cnt);
 	}
 

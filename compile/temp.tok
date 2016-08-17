@@ -14,16 +14,4 @@ Token: [ ID ] Identify: [ a ] Line: 4
 Token: [ = ] Line: 4
 Token: [ NUM ] Integer Value: [ 5 ] Line: 4
 Token: [ ; ] Line: 4
-Token: [ if ] Line: 5
-Token: [ ( ] Line: 5
-Token: [ ID ] Identify: [ a ] Line: 5
-Token: [ >= ] Line: 5
-Token: [ NUM ] Integer Value: [ 3 ] Line: 5
-Token: [ ) ] Line: 5
-Token: [ ID ] Identify: [ output ] Line: 6
-Token: [ ( ] Line: 6
-Token: [ ) ] Line: 6
-Token: [ ; ] Line: 6
-Token: [ else ] Line: 7
-Token: [ ; ] Line: 8
-Token: [ } ] Line: 9
+Token: [ } ] Line: 5

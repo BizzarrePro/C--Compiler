@@ -8,17 +8,5 @@ CompoundStatement: {
 			=
 			LiteralExpression: 5
 
-	SelectionStmt: if (
-		BinaryExpression: 
-			VariableExpression: a
-			GTEQ
-			LiteralExpression: 3
-	 )
-		ExpressionStatement: 
-			CallExpression: output ( 
-			 )
-
-
-	else
 }
 

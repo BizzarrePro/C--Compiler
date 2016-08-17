@@ -32,7 +32,7 @@ import team.weird.compiler.cminus.semantic.SymbolAttr.Attribute;
 
 public class Semantic {
 	private Node root = null;
-	private static Program program = Program.getInstance();
+	private static Program program = new Program();
 	private ErrorList err = ErrorList.getInstance();
 	public static final HashMap<String, VariableDeclaration> globalSymbolTable = new HashMap<>();
 	public static final HashMap<String, FunctionDeclaration> globalFuntionTable = new HashMap<>();
