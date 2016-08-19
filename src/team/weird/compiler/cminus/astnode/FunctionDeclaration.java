@@ -19,7 +19,7 @@ import team.weird.compiler.cminus.semantic.Semantic;
 import team.weird.compiler.cminus.semantic.SemanticException;
 import team.weird.compiler.cminus.semantic.Type;
 
-public class FunctionDeclaration extends Declaration implements PrintASTree, IntermediateCodeGen{
+public class FunctionDeclaration extends Declaration implements PrintASTree{
 	private List<Variable> parameters = new ArrayList<Variable>();
 	private CompoundStatement statement;
 	public FunctionDeclaration(String id, Type type, int line){

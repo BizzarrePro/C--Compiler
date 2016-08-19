@@ -15,6 +15,6 @@ public class FloatNumber extends Token{
 		return type;
 	}
 	public String toString(){
-		return "Token: [ "+ type+" ] Double Value: [ "+flo+" ] Line: "+super.lineNum;
+		return "Number: [ "+ type+" ] Double Value: [ "+flo+" ] Line: "+super.lineNum;
 	}
 }

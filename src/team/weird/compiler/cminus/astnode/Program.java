@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Program {
+import team.weird.compiler.cminus.codegen.Instruction;
+import team.weird.compiler.cminus.codegen.IntermediateCodeGen;
+
+public class Program implements IntermediateCodeGen{
 	private ArrayList<Declaration> declarations = new ArrayList<Declaration>();
 	public void addDeclaration(Declaration dec) {
 		declarations.add(dec);
@@ -43,6 +46,39 @@ public class Program {
 		Iterator<Declaration> iter = declarations.iterator();
 		while(iter.hasNext()){
 			iter.next().declare();
+		}
+	}
+	@Override
+	public Instruction generateIntermediateCode() {
+		// TODO Auto-generated method stub
+		Instruction ins = null;
+		Instruction first = null;
+		for(Declaration e : declarations){
+			if(ins == null){
+				ins = e.generateIntermediateCode();
+				first = ins;
+			} else {
+				Instruction temp = e.generateIntermediateCode();
+				ins.setNextIns(temp);
+				ins = temp;
+			}
+		}
+		return first;
+	}
+	public void printIntermadiateCode(Instruction ins){
+		FileWriter fw = null;
+		try{
+			fw = new FileWriter(new File("./compile/temp.qua"));
+			ins.print(fw);
+		} catch (IOException e){
+			e.printStackTrace();
+		} finally {
+			try {
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }

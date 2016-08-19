@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.codegen;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 import team.weird.compiler.cminus.astnode.VariableDeclaration;
@@ -83,9 +85,31 @@ public class Function extends Instruction{
 		firstBlock.appendOperation(op);
 	}
 	@Override
-	public void print() {
+	public void print(FileWriter fw) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("(FUNCTION	"+name);
+		try{
+			fw.write("(FUNCTION	"+name+"\r\n");
+			Parameter temp = firstParam;
+			while(temp != null){
+				if(temp != firstParam){
+					System.out.print(" ");
+					fw.write(" ");
+				}
+				System.out.print(temp.getType()+" "+temp.getName());
+				fw.write(temp.getType()+" "+temp.getName());
+				temp = temp.getNextParam();
+			}
+			BasicBlock bb = firstBlock;
+			while(bb != null){
+				bb.print(fw);
+				bb = bb.getNextBlock();
+			}
+			System.out.println(")");
+			fw.write(")\r\n");
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 	public BasicBlock constructRetBlock() {
 		retBlock = new BasicBlock(this);

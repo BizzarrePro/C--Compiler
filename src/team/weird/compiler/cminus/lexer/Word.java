@@ -18,6 +18,6 @@ public class Word extends Token{
 		return type;
 	}
 	public String toString(){
-		return "Token: [ "+type+" ] Identify: [ "+id+" ] Line: "+super.lineNum;
+		return "Identify: [ "+type+" ] Identify: [ "+id+" ] Line: "+super.lineNum;
 	}
 }

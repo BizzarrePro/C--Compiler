@@ -2,16 +2,31 @@
 |                   Token Stream                   |
  --------------------------------------------------
 Token: [ int ] Line: 3
-Token: [ ID ] Identify: [ main ] Line: 2
+Identify: [ ID ] Identify: [ main ] Line: 2
 Token: [ ( ] Line: 2
 Token: [ void ] Line: 2
 Token: [ ) ] Line: 2
 Token: [ { ] Line: 2
 Token: [ int ] Line: 3
-Token: [ ID ] Identify: [ a ] Line: 3
+Identify: [ ID ] Identify: [ a ] Line: 3
 Token: [ ; ] Line: 3
-Token: [ ID ] Identify: [ a ] Line: 4
-Token: [ = ] Line: 4
-Token: [ NUM ] Integer Value: [ 5 ] Line: 4
+Identify: [ ID ] Identify: [ a ] Line: 4
+Token: [ = ] Line: 6
+Number: [ NUM ] Integer Value: [ 5 ] Line: 4
 Token: [ ; ] Line: 4
-Token: [ } ] Line: 5
+Token: [ while ] Line: 5
+Token: [ ( ] Line: 5
+Identify: [ ID ] Identify: [ a ] Line: 5
+Token: [ < ] Line: 5
+Number: [ NUM ] Integer Value: [ 10 ] Line: 5
+Token: [ ) ] Line: 5
+Identify: [ ID ] Identify: [ a ] Line: 6
+Token: [ = ] Line: 6
+Identify: [ ID ] Identify: [ a ] Line: 6
+Token: [ + ] Line: 6
+Number: [ NUM ] Integer Value: [ 5 ] Line: 6
+Token: [ ; ] Line: 6
+Token: [ return ] Line: 7
+Number: [ NUM ] Integer Value: [ 0 ] Line: 7
+Token: [ ; ] Line: 7
+Token: [ } ] Line: 8

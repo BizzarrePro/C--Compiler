@@ -50,7 +50,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Token: [ ID ] Identify: [ main ] Line: 2] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ main ] Line: 2] Pop!
 -Top of Stack-
 [declaration-list`]
 [general-declaration]
@@ -183,7 +183,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Token: [ ID ] Identify: [ a ] Line: 3] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 3] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -264,7 +264,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Token: [ ID ] Identify: [ a ] Line: 4] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 4] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -308,7 +308,7 @@ Push:
 [=]
 -Bottom of Stack-
 
-[=] matches [Token: [ = ] Line: 4] Pop!
+[=] matches [Token: [ = ] Line: 6] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -330,7 +330,7 @@ Push:
 [NUM]
 -Bottom of Stack-
 
-[NUM] matches [Token: [ NUM ] Integer Value: [ 5 ] Line: 4] Pop!
+[NUM] matches [Number: [ NUM ] Integer Value: [ 5 ] Line: 4] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -388,10 +388,683 @@ empty entry,Pop!
 [statement-list]
 -Bottom of Stack-
 
+Push:
+	statement-list
+	statement
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+-Bottom of Stack-
+
+Push:
+	iteration-stmt
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[iteration-stmt]
+-Bottom of Stack-
+
+Push:
+	statement
+	)
+	expression
+	(
+	while
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[expression]
+[(]
+[while]
+-Bottom of Stack-
+
+[while] matches [Token: [ while ] Line: 5] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[expression]
+[(]
+-Bottom of Stack-
+
+[(] matches [Token: [ ( ] Line: 5] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[expression]
+-Bottom of Stack-
+
+Push:
+	expression-sub
+	ID
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[expression-sub]
+[ID]
+-Bottom of Stack-
+
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 5] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[expression-sub]
+-Bottom of Stack-
+
+Push:
+	expression-sub-sub
+	var
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[expression-sub-sub]
+[var]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[expression-sub-sub]
+-Bottom of Stack-
+
+Push:
+	expression-none
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[expression-none]
+-Bottom of Stack-
+
+Push:
+	simple-expression
+	additive-expression-temp
+	term-temp
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[simple-expression]
+[additive-expression-temp]
+[term-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[simple-expression]
+[additive-expression-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[simple-expression]
+-Bottom of Stack-
+
+Push:
+	additive-expression
+	relop
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[additive-expression]
+[relop]
+-Bottom of Stack-
+
+Push:
+	<
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[additive-expression]
+[<]
+-Bottom of Stack-
+
+[<] matches [Token: [ < ] Line: 5] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[additive-expression]
+-Bottom of Stack-
+
+Push:
+	additive-expression-temp
+	term
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[additive-expression-temp]
+[term]
+-Bottom of Stack-
+
+Push:
+	term-temp
+	factor
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[additive-expression-temp]
+[term-temp]
+[factor]
+-Bottom of Stack-
+
+Push:
+	NUM
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[additive-expression-temp]
+[term-temp]
+[NUM]
+-Bottom of Stack-
+
+[NUM] matches [Number: [ NUM ] Integer Value: [ 10 ] Line: 5] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[additive-expression-temp]
+[term-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+[additive-expression-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+[)]
+-Bottom of Stack-
+
+[)] matches [Token: [ ) ] Line: 5] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+-Bottom of Stack-
+
+Push:
+	expression-stmt
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[expression-stmt]
+-Bottom of Stack-
+
+Push:
+	;
+	expression
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression]
+-Bottom of Stack-
+
+Push:
+	expression-sub
+	ID
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-sub]
+[ID]
+-Bottom of Stack-
+
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 6] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-sub]
+-Bottom of Stack-
+
+Push:
+	expression-sub-sub
+	var
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-sub-sub]
+[var]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-sub-sub]
+-Bottom of Stack-
+
+Push:
+	expression
+	=
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression]
+[=]
+-Bottom of Stack-
+
+[=] matches [Token: [ = ] Line: 6] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression]
+-Bottom of Stack-
+
+Push:
+	expression-sub
+	ID
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-sub]
+[ID]
+-Bottom of Stack-
+
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 6] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-sub]
+-Bottom of Stack-
+
+Push:
+	expression-sub-sub
+	var
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-sub-sub]
+[var]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-sub-sub]
+-Bottom of Stack-
+
+Push:
+	expression-none
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-none]
+-Bottom of Stack-
+
+Push:
+	simple-expression
+	additive-expression-temp
+	term-temp
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+[term-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+-Bottom of Stack-
+
+Push:
+	additive-expression-temp
+	term
+	addop
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+[term]
+[addop]
+-Bottom of Stack-
+
+Push:
+	+
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+[term]
+[+]
+-Bottom of Stack-
+
+[+] matches [Token: [ + ] Line: 6] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+[term]
+-Bottom of Stack-
+
+Push:
+	term-temp
+	factor
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+[term-temp]
+[factor]
+-Bottom of Stack-
+
+Push:
+	NUM
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+[term-temp]
+[NUM]
+-Bottom of Stack-
+
+[NUM] matches [Number: [ NUM ] Integer Value: [ 5 ] Line: 6] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+[term-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+-Bottom of Stack-
+
+[;] matches [Token: [ ; ] Line: 6] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+-Bottom of Stack-
+
+Push:
+	statement-list
+	statement
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[statement]
+-Bottom of Stack-
+
+Push:
+	return-stmt
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[return-stmt]
+-Bottom of Stack-
+
+Push:
+	;
+	expression
+	return
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression]
+[return]
+-Bottom of Stack-
+
+[return] matches [Token: [ return ] Line: 7] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression]
+-Bottom of Stack-
+
+Push:
+	expression-none
+	NUM
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-none]
+[NUM]
+-Bottom of Stack-
+
+[NUM] matches [Number: [ NUM ] Integer Value: [ 0 ] Line: 7] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[expression-none]
+-Bottom of Stack-
+
+Push:
+	simple-expression
+	additive-expression-temp
+	term-temp
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+[term-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+[additive-expression-temp]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+[simple-expression]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[;]
+-Bottom of Stack-
+
+[;] matches [Token: [ ; ] Line: 7] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+-Bottom of Stack-
+
 empty entry,Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
 -Bottom of Stack-
 
-[}] matches [Token: [ } ] Line: 5] Pop!
+[}] matches [Token: [ } ] Line: 8] Pop!

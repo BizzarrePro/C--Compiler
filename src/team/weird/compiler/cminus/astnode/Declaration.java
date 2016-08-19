@@ -1,5 +1,6 @@
 package team.weird.compiler.cminus.astnode;
 
+import team.weird.compiler.cminus.codegen.Instruction;
 import team.weird.compiler.cminus.semantic.Type;
 
 public abstract class Declaration implements PrintASTree{
@@ -36,4 +37,5 @@ public abstract class Declaration implements PrintASTree{
 		return getClass().getSimpleName();
 	}
 	public abstract void declare();
+	public abstract Instruction generateIntermediateCode();
 }

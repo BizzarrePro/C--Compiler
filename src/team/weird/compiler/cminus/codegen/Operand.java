@@ -1,6 +1,9 @@
 package team.weird.compiler.cminus.codegen;
 
-public class Operand {
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Operand implements printIntermadiateCode{
 	private Object operand;
 	private OperandType opType;
 	
@@ -23,6 +26,17 @@ public class Operand {
 
 	public void setOpType(OperandType opType) {
 		this.opType = opType;
+	}
+
+	@Override
+	public void print(FileWriter fw) {
+		// TODO Auto-generated method stub
+		try{
+			System.out.print(opType + " " + operand);
+			fw.write(opType + " " + operand);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

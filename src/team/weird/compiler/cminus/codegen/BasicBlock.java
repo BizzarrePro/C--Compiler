@@ -1,6 +1,9 @@
 package team.weird.compiler.cminus.codegen;
 
-public class BasicBlock {
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class BasicBlock implements printIntermadiateCode{
 	private Function function;
 	private BasicBlock prevBlock;
 	private BasicBlock nextBlock;
@@ -13,11 +16,10 @@ public class BasicBlock {
 	public BasicBlock(Function func, BasicBlock prev){
 		this.function = func;
 		this.prevBlock = prev;
-		this.BlockID = prev.incBlockId();
+		this.BlockID = func.getNewRegisterNum();
 		if(prev != null)
 			prev.setNextBlock(this);
-		
-		
+
 	}
 	public BasicBlock getPrevBlock() {
 		return prevBlock;
@@ -67,6 +69,20 @@ public class BasicBlock {
 			firstOper = op;
 			lastOper = op;
 		}
-		
+	}
+	@Override
+	public void print(FileWriter fw) {
+		// TODO Auto-generated method stub
+		System.out.println("BLOCK " + this.getBlockID()+": ");
+		try{
+			fw.write("BLOCK " + this.getBlockID()+"\r\n");
+			Operation op = firstOper;
+			while(op != null){
+				op.print(fw);
+				op = op.getNextOper();
+			}
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 }

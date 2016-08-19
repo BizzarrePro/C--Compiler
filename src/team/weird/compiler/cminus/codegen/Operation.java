@@ -1,5 +1,8 @@
 package team.weird.compiler.cminus.codegen;
 
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class Operation extends Instruction{
 	private static final int MAX_DEST_OPERAND_NUM = 2;
@@ -78,9 +81,29 @@ public class Operation extends Instruction{
 			destNum = index;
 	}
 	@Override
-	public void print() {
+	public void print(FileWriter fw) {
 		// TODO Auto-generated method stub
-		
+		try{
+			System.out.print("\t"+getOpType()+" [");
+			fw.write(getOpType()+" [");
+			for(int i = 0; i <= destNum; i++) 
+				if(dest[i] != null){
+					if(i != 0)
+						System.out.print(" ");
+					dest[i].print(fw);	
+				}
+			System.out.print("]  [");
+			for(int i = 0; i <=srcNum; i++)
+				if(src[i] != null){
+					if(i != 0)
+						System.out.print(" ");
+					src[i].print(fw);
+				}
+			System.out.print("]\r\n");
+			fw.write("]\r\n");
+		} catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 
 }

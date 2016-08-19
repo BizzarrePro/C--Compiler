@@ -1,5 +1,7 @@
 package team.weird.compiler.cminus.codegen;
 
+import java.io.FileWriter;
+
 public abstract class Instruction {
 	private Instruction nextIns;
 	public Instruction(){
@@ -11,5 +13,5 @@ public abstract class Instruction {
 	public void setNextIns(Instruction nextIns) {
 		this.nextIns = nextIns;
 	}
-	public abstract void print();
+	public abstract void print(FileWriter fw);
 }

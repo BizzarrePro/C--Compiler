@@ -2,6 +2,7 @@ package team.weird.compiler.editor.util;
 
 import java.io.IOException;
 
+import team.weird.compiler.cminus.codegen.Instruction;
 import team.weird.compiler.cminus.lexer.Lexer;
 import team.weird.compiler.cminus.lexer.Token;
 import team.weird.compiler.cminus.parser.EliminationOfLeftRecursion;
@@ -40,6 +41,8 @@ public final class RunActionUtil {
 		analysic.print();
 		Semantic semantic = Semantic.getInstance(analysic.PredictAndAnalyze(token));
 		semantic.init();
+		Instruction ins = semantic.program.generateIntermediateCode();
+		semantic.program.printIntermadiateCode(ins);
 	}
 	//Test Case 1
 /**		

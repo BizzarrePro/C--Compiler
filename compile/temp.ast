@@ -8,5 +8,22 @@ CompoundStatement: {
 			=
 			LiteralExpression: 5
 
-}
+	IterationStmt: 
+		BinaryExpression: 
+			VariableExpression: a
+			LTHAN
+			LiteralExpression: 10
+		ExpressionStatement: 
+			AssignExpression: 
+				VariableExpression: a
+				=
+				BinaryExpression: 
+					VariableExpression: a
+					ADD
+					LiteralExpression: 5
+
+
+
+	ReturnStmt: 
+		LiteralExpression: 0}
 

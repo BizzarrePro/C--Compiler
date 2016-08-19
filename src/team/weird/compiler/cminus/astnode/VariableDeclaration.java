@@ -10,7 +10,7 @@ import team.weird.compiler.cminus.semantic.Semantic;
 import team.weird.compiler.cminus.semantic.SemanticException;
 import team.weird.compiler.cminus.semantic.Type;
 
-public class VariableDeclaration extends Declaration implements PrintASTree, IntermediateCodeGen{
+public class VariableDeclaration extends Declaration implements PrintASTree {
 	public VariableDeclaration(String id, Type type, int line){
 		super(id, type, line);
 	}
