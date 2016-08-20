@@ -9,6 +9,7 @@ import team.weird.compiler.cminus.codegen.OperandType;
 import team.weird.compiler.cminus.codegen.Operation;
 import team.weird.compiler.cminus.lexer.Number;
 import team.weird.compiler.cminus.semantic.ErrorList;
+import team.weird.compiler.cminus.semantic.Semantic;
 import team.weird.compiler.cminus.semantic.SemanticException;
 import team.weird.compiler.cminus.semantic.Type;
 
@@ -59,10 +60,10 @@ public class AssignExpression extends Expression{
 		Type rightType = rex.generateIntermediateCode(fun);
 		if(leftType != rightType)
 			err.addException(new SemanticException(leftType, rightType, lex.getLine()));
-		Operation op = new Operation(OperandType.ASSIGN, fun.getCurrBlock());
+		Operation op = new Operation(OperandType.MOV, fun.getCurrBlock());
 		fun.getCurrBlock().appendOperation(op);
 		Operand dest = new Operand(OperandType.REG, lex.getRegNum());
-		op.setDestinationReg(dest);
+		op.setDestOperand(0, dest);
 		Operand src = null;
 		if(rex.getClass() != LiteralExpression.class)
 			src = new Operand(OperandType.REG, rex.getRegNum());
@@ -74,7 +75,14 @@ public class AssignExpression extends Expression{
 				src = new Operand(OperandType.FLOAT, (double)obj);
 
 		}
-		op.setSourceReg(src);	
+		op.setSrcOperand(0, src);	
+		if(Semantic.globalSymbolTable.containsKey(lex.getId())) {
+			Operation st = new Operation(OperandType.STORE, fun.getCurrBlock());
+			fun.getCurrBlock().appendOperation(st);
+			
+			st.setSrcOperand(0, new Operand(OperandType.REG, lex.getRegNum()));
+			st.setSrcOperand(1, new Operand(OperandType.VAR_NAME, lex.getId()));
+		}
 		return leftType;
 	}
 	

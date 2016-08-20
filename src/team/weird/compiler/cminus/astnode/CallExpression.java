@@ -87,7 +87,7 @@ public class CallExpression extends Expression{
 		op.setSrcOperand(0, oper);
 		fun.getCurrBlock().appendOperation(op);
 		
-		op = new Operation(OperandType.ASSIGN, fun.getCurrBlock());
+		op = new Operation(OperandType.MOV, fun.getCurrBlock());
 		oper = new Operand(OperandType.RET, "ret");
 		op.setSrcOperand(0, oper);
 		

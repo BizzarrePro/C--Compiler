@@ -54,8 +54,9 @@ public class IterationStatement extends Statement{
 		ErrorList err = ErrorList.getInstance();
 		BasicBlock loop = new BasicBlock(fun);
 		BasicBlock condition = new BasicBlock(fun);
+		
 		BasicBlock post = new BasicBlock(fun);
-		fun.appendBlock(condition);
+		fun.appendToCurrBlock(condition);
 		fun.setCurrBlock(condition);
 		Type iterType = iteration.generateIntermediateCode(fun);
 		if(iteration.getClass() != BinaryExpression.class)
@@ -67,10 +68,10 @@ public class IterationStatement extends Statement{
 		op.setSrcOperand(1, oper);
 		oper = new Operand(OperandType.BLOCK, post.getBlockID());
 		op.setSrcOperand(2, oper);
-		//?
 		condition.appendOperation(op);
+		
 		fun.appendToCurrBlock(loop);
-		fun.appendToCurrBlock(loop);
+		fun.setCurrBlock(loop);
 		state.generateIntermediateCode(fun);
 		op = new Operation(OperandType.JMP, fun.getCurrBlock());
 		oper = new Operand(OperandType.BLOCK, condition.getBlockID());

@@ -72,7 +72,7 @@ public class BinaryExpression extends Expression {
 		// TODO Auto-generated method stub
 		ErrorList err = ErrorList.getInstance();
 		Type ltype = lChild.generateIntermediateCode(fun);
-		Type rtype = lChild.generateIntermediateCode(fun);
+		Type rtype = rChild.generateIntermediateCode(fun);
 		if(ltype != rtype)
 			err.addException(new SemanticException(ltype, rtype, lChild.getLine()));
 		Operation op = new Operation(OperandType.typeConvert(this.operator), fun.getCurrBlock());
@@ -82,14 +82,14 @@ public class BinaryExpression extends Expression {
 		op.setDestOperand(0, oper);
 		if(lChild instanceof LiteralExpression){
 			LiteralExpression lexp = (LiteralExpression)lChild;
-			oper = new Operand(OperandType.literalConvert(lexp.getNumber()), lChild.getRegNum());
+			oper = new Operand(OperandType.literalConvert(lexp.getNumber()), lexp.getNumber());
 		}
 		else
 			oper = new Operand(OperandType.REG, lChild.getRegNum());
 		op.setSrcOperand(0, oper);
 		if(rChild instanceof LiteralExpression){
 			LiteralExpression rexp = (LiteralExpression)rChild;
-			oper = new Operand(OperandType.literalConvert(rexp.getNumber()), rChild.getRegNum());
+			oper = new Operand(OperandType.literalConvert(rexp.getNumber()), rexp.getNumber());
 		}
 		else
 			oper = new Operand(OperandType.REG, rChild.getRegNum());

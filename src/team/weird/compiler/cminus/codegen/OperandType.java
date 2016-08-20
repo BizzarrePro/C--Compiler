@@ -4,9 +4,9 @@ import team.weird.compiler.cminus.astnode.Operator;
 import team.weird.compiler.cminus.semantic.Type;
 
 public enum OperandType {
-	FUNC_DEC, FUNC_EXIT, ASSIGN, INT, FLOAT, REG, BLOCK, ADD, SUB, MUL, DIV,
+	FUNC_DEC, FUNC_EXIT, MOV, INT, FLOAT, REG, BLOCK, ADD, SUB, MUL, DIV,
 	EQUAL, GTH, LTH, GETH, LETH, NOTEQ, NULL, PUSH, CALL, FUNC_NAME, RET, BEQ,
-	BNE, JMP, LOAD, VAR_NAME;
+	BNE, JMP, LOAD, VAR_NAME, STORE;
 	public static OperandType typeConvert(Operator opera){
 		switch(opera){
 			case MUL:	return MUL;

@@ -73,9 +73,9 @@ public class BasicBlock implements printIntermadiateCode{
 	@Override
 	public void print(FileWriter fw) {
 		// TODO Auto-generated method stub
-		System.out.println("BLOCK " + this.getBlockID()+": ");
+		System.out.println("  BLOCK " + this.getBlockID()+": ");
 		try{
-			fw.write("BLOCK " + this.getBlockID()+"\r\n");
+			fw.write("  BLOCK " + this.getBlockID()+": \r\n");
 			Operation op = firstOper;
 			while(op != null){
 				op.print(fw);

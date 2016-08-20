@@ -85,7 +85,7 @@ public class Operation extends Instruction{
 		// TODO Auto-generated method stub
 		try{
 			System.out.print("\t"+getOpType()+" [");
-			fw.write(getOpType()+" [");
+			fw.write("\t"+getOpType()+" [");
 			for(int i = 0; i <= destNum; i++) 
 				if(dest[i] != null){
 					if(i != 0)
@@ -93,10 +93,13 @@ public class Operation extends Instruction{
 					dest[i].print(fw);	
 				}
 			System.out.print("]  [");
+			fw.write("]  [");
 			for(int i = 0; i <=srcNum; i++)
 				if(src[i] != null){
-					if(i != 0)
+					if(i != 0){
 						System.out.print(" ");
+						fw.write(" ");
+					}
 					src[i].print(fw);
 				}
 			System.out.print("]\r\n");

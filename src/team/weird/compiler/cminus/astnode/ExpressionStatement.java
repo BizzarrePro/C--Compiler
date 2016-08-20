@@ -37,7 +37,9 @@ public class ExpressionStatement extends Statement{
 	@Override
 	public void generateIntermediateCode(Function fun) {
 		// TODO Auto-generated method stub
-		
+		if(exp != null) {
+			exp.generateIntermediateCode(fun);
+		}
 	}
 	
 }

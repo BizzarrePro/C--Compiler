@@ -171,21 +171,29 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	public void showIntermediateCode() {
 		// TODO Auto-generated method stub
 		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
-		File file = new File("./compile/temp.ast");
-		JTextArea text = fileAction.newFileAction("temp.ast");
+		File dir = new File("./compile/");
+		File[] list = dir.listFiles();
+		Set<String> set = new HashSet<>();
+		set.add("temp.ast");
+		set.add("temp.qua");
 		FileReader fr = null;
 		BufferedReader br = null;
 		try {
-			fr = new FileReader(file);
-			br = new BufferedReader(fr);
-			StringBuffer sb = new StringBuffer();
-			String content = br.readLine();
-			while(content != null){
-				sb.append(content);
-				sb.append("\r\n");
-				content = br.readLine();
+			for(int i = 0; i < list.length; i++) {
+				if(set.contains(list[i].getName())){
+					JTextArea text = fileAction.newFileAction(list[i].getName());
+					fr = new FileReader(list[i]);
+					br = new BufferedReader(fr);
+					StringBuffer sb = new StringBuffer();
+					String content = br.readLine();
+					while(content != null){
+						sb.append(content);
+						sb.append("\r\n");
+						content = br.readLine();
+					}
+					text.setText(sb.toString());
+				}
 			}
-			text.setText(sb.toString());
 		} catch (FileNotFoundException fn){
 			fn.printStackTrace();
 		} catch (IOException ex){

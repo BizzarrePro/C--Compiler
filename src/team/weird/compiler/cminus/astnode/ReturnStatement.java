@@ -38,7 +38,7 @@ public class ReturnStatement extends Statement{
 	public void generateIntermediateCode(Function fun) {
 		// TODO Auto-generated method stub
 		ret.generateIntermediateCode(fun);
-		Operation assign = new Operation(OperandType.ASSIGN, fun.getCurrBlock());
+		Operation assign = new Operation(OperandType.MOV, fun.getCurrBlock());
 		Operand oper = new Operand(OperandType.REG, ret.getRegNum());
 		assign.setSrcOperand(0, oper);
 		oper = new Operand(OperandType.RET, "ret");
