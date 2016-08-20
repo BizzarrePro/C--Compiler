@@ -58,11 +58,12 @@ public class FunctionDeclaration extends Declaration implements PrintASTree{
 	@Override
 	public Instruction generateIntermediateCode() {
 		// TODO Auto-generated method stub
+		
 		Function fun = new Function(type, id);
 		fun.createBlock();
 		Parameter param = null;
 		for(Variable temp : parameters){
-			if(temp == null){
+			if(param == null){
 				param = new Parameter(temp.getType(), temp.getId(), temp.isArray());
 				fun.setFirstParam(param);
 			} 
@@ -91,20 +92,12 @@ public class FunctionDeclaration extends Declaration implements PrintASTree{
 		Set<String> paramsPool = new HashSet<String>();
 		Iterator<Variable> iter = parameters.iterator();
 		while(iter.hasNext()){
-			if(param != null){
-				temp = iter.next();
-				if(!paramsPool.contains(temp.getId()))
-					paramsPool.add(temp.getId());
-				else
-					err.addException(new SemanticException(temp.getId(), getLine(), 2));
-			}
-			else {
-				temp = iter.next();
-				if(!paramsPool.contains(temp.getId()))
-					paramsPool.add(temp.getId());
-				else
-					err.addException(new SemanticException(temp.getId(), getLine(), 2));
-			}
+			temp = iter.next();
+//			fun.getSymbolTable().put(temp.getId(), new SymbolAttribute(id, type, temp.isArray(), fun.getRegisterNum()));
+			if(!paramsPool.contains(temp.getId()))
+				paramsPool.add(temp.getId());
+			else
+				err.addException(new SemanticException(temp.getId(), getLine(), 2));
 		}
 		Semantic.globalFuntionTable.put(getId(), this);
 			

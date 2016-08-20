@@ -64,7 +64,8 @@ public class CallExpression extends Expression{
 			Type paramType = argsList.get(i).generateIntermediateCode(fun);
 			if(funDec != null){
 				if(funDec.getParameters().get(i) == null || funDec.getParameters().get(i).getType() != paramType ||
-						funDec.getParameters().get(i).isArray() != fun.getSymbolTable().get(i).isArray()){
+						(fun.getSymbolTable().get(id) != null && (funDec.getParameters().get(i).isArray() != 
+						fun.getSymbolTable().get(id).isArray()))){
 					err.addException(new SemanticException(id, super.getLine(), 11));
 				}
 			}

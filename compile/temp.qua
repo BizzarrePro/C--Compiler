@@ -1,17 +1,112 @@
+(FUNCTION	minloc
+INT a INT low INT high  BLOCK 0: 
+	FUNC_DEC []  []
+  BLOCK 4: 
+	MOV [REG 8]  [REG 0]
+	MOV [REG 7]  [REG 1]
+	STORE []  [REG 7 VAR_NAME x]
+	ADD [REG 9]  [REG 2 INT 1]
+	MOV [REG 6]  [REG 9]
+  BLOCK 11: 
+	LTH [REG 13]  [REG 6 REG 3]
+	BEQ []  [REG 13 INT 0 BLOCK 12]
+  BLOCK 10: 
+	JMP []  [BLOCK 11]
+  BLOCK 16: 
+	LTH [REG 18]  [REG 1 REG 7]
+	BNE []  [REG 18 INT 0 BLOCK 15]
+  BLOCK 14: 
+	MOV [REG 7]  [REG 1]
+	STORE []  [REG 7 VAR_NAME x]
+	MOV [REG 8]  [REG 6]
+	ADD [REG 19]  [REG 6 INT 1]
+	MOV [REG 6]  [REG 19]
+  BLOCK 12: 
+	MOV [RET ret]  [REG 8]
+  BLOCK 5: 
+	FUNC_EXIT []  []
+	RET []  [RET ret]
+)
+(FUNCTION	sort
+INT a INT low INT high  BLOCK 0: 
+	FUNC_DEC []  []
+  BLOCK 4: 
+	MOV [REG 6]  [REG 2]
+  BLOCK 9: 
+	SUB [REG 11]  [REG 3 INT 1]
+	LTH [REG 12]  [REG 6 REG 11]
+	BEQ []  [REG 12 INT 0 BLOCK 10]
+  BLOCK 8: 
+	PUSH []  [REG 3]
+	PUSH []  [REG 6]
+	PUSH []  [REG 1]
+	CALL []  [FUNC_NAME minloc]
+	MOV [REG 14]  [RET ret]
+	MOV [REG 7]  [REG 14]
+	MOV [REG 13]  [REG 1]
+	MOV [REG 1]  [REG 1]
+	MOV [REG 1]  [REG 13]
+	ADD [REG 15]  [REG 6 INT 1]
+	MOV [REG 6]  [REG 15]
+	JMP []  [BLOCK 9]
+  BLOCK 10: 
+  BLOCK 5: 
+	FUNC_EXIT []  []
+	RET []  [RET ret]
+)
+(FUNCTION	output
+INT a  BLOCK 0: 
+	FUNC_DEC []  []
+  BLOCK 2: 
+  BLOCK 3: 
+	FUNC_EXIT []  []
+	RET []  [RET ret]
+)
+(FUNCTION	input
+  BLOCK 0: 
+	FUNC_DEC []  []
+  BLOCK 1: 
+  BLOCK 2: 
+	FUNC_EXIT []  []
+	RET []  [RET ret]
+)
 (FUNCTION	main
   BLOCK 0: 
 	FUNC_DEC []  []
   BLOCK 1: 
-	MOV [REG 3]  [INT 5]
+	MOV [REG 3]  [INT 0]
   BLOCK 5: 
 	LTH [REG 7]  [REG 3 INT 10]
 	BEQ []  [REG 7 INT 0 BLOCK 6]
   BLOCK 4: 
-	ADD [REG 8]  [REG 3 INT 5]
-	MOV [REG 3]  [REG 8]
+	LOAD [REG 8]  []
+	CALL []  [FUNC_NAME input]
+	MOV [REG 9]  [RET ret]
+	MOV [REG 8]  [REG 9]
+	STORE []  [REG 8 VAR_NAME x]
+	ADD [REG 10]  [REG 3 INT 1]
+	MOV [REG 3]  [REG 10]
+	PUSH []  [INT 10]
+	PUSH []  [INT 0]
+	LOAD [REG 11]  []
+	PUSH []  [REG 11]
+	CALL []  [FUNC_NAME sort]
+	MOV [REG 12]  [RET ret]
+	MOV [REG 3]  [INT 0]
 	JMP []  [BLOCK 5]
+  BLOCK 14: 
+	LTH [REG 16]  [REG 3 INT 10]
+	BEQ []  [REG 16 INT 0 BLOCK 15]
+  BLOCK 13: 
+	LOAD [REG 17]  []
+	PUSH []  [REG 17]
+	CALL []  [FUNC_NAME output]
+	MOV [REG 18]  [RET ret]
+	ADD [REG 19]  [REG 3 INT 1]
+	MOV [REG 3]  [REG 19]
+	JMP []  [BLOCK 14]
+  BLOCK 15: 
   BLOCK 6: 
-	MOV [RET ret]  [REG 0]
   BLOCK 2: 
 	FUNC_EXIT []  []
 	RET []  [RET ret]

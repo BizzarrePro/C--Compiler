@@ -138,4 +138,39 @@ while(!Stack.isEmpty){
 }
 </pre></code>
 
-### 构建抽象语法树
+### 抽象语法树构建
+
+##### &emsp;AST结构
+
+&emsp;&emsp;由于C-语言是面向过程语言，因此可看成是`Function_Declaration`与`Global_Variable_Declaration`组成的链表。另外，每个函数中还应该具有`Local_Variable_Declaration`、`Expression`以及`Statement`，故C-语言AST节点结构如下：<br>
+<pre>
+<code>&emsp;        Declaration
+    ---------------------			
+&emsp;&emsp;&emsp;|   ArrayDeclaration  |
+&emsp;&emsp;&emsp;| FunctionDeclaration |
+&emsp;&emsp;&emsp;| VariableDeclaration |
+    ---------------------
+&emsp;	  Statement	
+    ---------------------			
+&emsp;&emsp;&emsp;|  CompoundStatement  |
+&emsp;&emsp;&emsp;| ExpressionStatement |
+&emsp;&emsp;&emsp;|  IterationStatement |
+&emsp;&emsp;&emsp;|   ReturnStatement   |
+    ---------------------	
+&emsp;	 Expression	
+    ---------------------			
+&emsp;&emsp;&emsp;|   AssignExpression  |
+&emsp;&emsp;&emsp;|   BinaryExpression  |
+&emsp;&emsp;&emsp;|  LiteralExpression  |
+&emsp;&emsp;&emsp;|  VariableExpression |
+    ---------------------	
+</pre>
+</code>
+<br>
+这样的结构借鉴了*Luke van der Hoeven* 团队实现的编译器构建AST的思想，在此感谢大神。
+##### &emsp;AST建立
+&emsp;&emsp;由于LL(1)文法输出的是一棵语法分析树，树中含有大量无关节点，譬如epsilon和一些中间转换的非终结符等，故必须将这些无关枝节剪去，从而生成一棵全新的AST，之后的代码生成可直接在AST上进行操作，成为相对独立的过程。<br>
+&emsp;&emsp;本项目中采用递归下降的思想，通过拓扑排序的方式对语法树节点挨个遍历，通过函数参数传递综合属性，函数返回值传递继承属性，生成AST。
+
+
+### 中间代码生成

@@ -43,6 +43,7 @@ public final class RunActionUtil {
 		semantic.init();
 		Instruction ins = semantic.program.generateIntermediateCode();
 		semantic.program.printIntermadiateCode(ins);
+		err.throwsAllExceptions();
 	}
 	//Test Case 1
 /**		
