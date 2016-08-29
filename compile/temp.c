@@ -1,53 +1,23 @@
-	int x;
-	int minloc ( int a[], int low, int high )
-	{ 
-		int i; int x; int k;
-		k = lo;
-		x = a[low];
-		i = low + 1;
-		while (i < high)
-		{ 
-			if (a[i] < x)
-			{ 
-				x = a[i];
-				k = i; 
-			}
-			else
-				;
-			i = i + 1;
-		}
-			return k;
-	}
-	void sort ( int a[], int low, int high )
-	{ 
-		int i; int k;
-		i = low;
-		while (i < high-1)
-		{ 
-			int t;
-			k = minloc (a,i,high);
-			t =a[k];
-			a[k] = a[i];
-			a[i] = t;
-			i = i + 1;
-		}
-	}
-	void output(int a[]){}
-	int input(void){}
-	void main (void)
-	{ 	
-		int i;
-		i = 0;
-		while (i < 10)
-		{ 
-			x[i] = input();
-			i = i + 1;
-			sort (x,0,10);
-			i = 0;
-			while (i < 10)
-			{ 
-				output(x[i]);
-				i = i + 1;
-			}
-		}
-	}
+int a;
+int fun(void){
+    a = a * a - a;
+    return a/2;
+}
+int fun1(int a, double b){
+    while(a < 10)
+	a=a+1;
+    return a;
+}
+void output(int a){
+}
+int main(void){
+    int d;
+    int c;
+    double e;
+    if(a == 5)
+       d = fun() + 1;
+    else
+       d = fun1(d, e);
+    output(d);
+    return 0;
+}

@@ -81,6 +81,8 @@ public class FunctionDeclaration extends Declaration implements PrintASTree{
 		statement.generateIntermediateCode(fun);
 		fun.appendBlock(basic);
 		fun.appendBlock(ret);
+		if(fun.getFirstUnreachableBlock() != null)
+			fun.appendBlock(fun.getFirstUnreachableBlock());
 		return fun;
 	}
 	@Override

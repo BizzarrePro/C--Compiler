@@ -62,6 +62,7 @@ public class SelectionStatement extends Statement{
 		BasicBlock post = new BasicBlock(fun);
 		fun.appendToCurrBlock(condition);
 		fun.setCurrBlock(condition);
+		
 		this.condition.generateIntermediateCode(fun);
 		Operation op = new Operation(OperandType.BNE, fun.getCurrBlock());
 		Operand oper = new Operand(OperandType.REG, this.condition.getRegNum());
@@ -70,20 +71,29 @@ public class SelectionStatement extends Statement{
 		op.setSrcOperand(1, oper);
 		oper = new Operand(OperandType.BLOCK, elseBlock.getBlockID());
 		op.setSrcOperand(2, oper);
+		
 		condition.appendOperation(op);
+		
 		fun.appendToCurrBlock(ifBlock);
 		fun.setCurrBlock(ifBlock);
 		ifStmt.generateIntermediateCode(fun);
 		//!!
 		BasicBlock curr = fun.getCurrBlock();
-		fun.appendToCurrBlock(elseBlock);
+		//
+		fun.appendExtraBlock(elseBlock);
+		//fun.appendToCurrBlock(elseBlock);
 		fun.setCurrBlock(elseBlock);
 		elseStmt.generateIntermediateCode(fun);
+		
 		op = new Operation(OperandType.JMP, fun.getCurrBlock());
 		oper = new Operand(OperandType.BLOCK, post.getBlockID());
 		op.setSrcOperand(0, oper);
+		
 		elseBlock.appendOperation(op);
 		fun.setCurrBlock(curr);
+		
+		fun.appendToCurrBlock(post);
+		fun.setCurrBlock(post);
 	}
 	
 }

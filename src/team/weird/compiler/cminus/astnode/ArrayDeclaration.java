@@ -25,9 +25,9 @@ public class ArrayDeclaration extends VariableDeclaration implements PrintASTree
 	@Override
 	public void print(String tab, FileWriter fw) {
 		// TODO Auto-generated method stub
-		System.out.println(tab + "VariableDeclaration: " + getId()+"[ " + length + " ]");
+		System.out.println(tab + "ArrayDeclaration: " + getId()+"[ " + length + " ]");
 		try {
-			fw.write(tab + "VariableDeclaration: " + getId()+"[ " + length + " ]\r\n");
+			fw.write(tab + "ArrayDeclaration: " + getId()+"[ " + length + " ]\r\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,11 +36,14 @@ public class ArrayDeclaration extends VariableDeclaration implements PrintASTree
 	@Override
 	public Instruction generateIntermediateCode() {
 		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void declare(){
 		ErrorList err = ErrorList.getInstance();
 		if(!Semantic.globalSymbolTable.containsKey(id))
 			Semantic.globalSymbolTable.put(id, this);
 		else
 			err.addException(new SemanticException(id, line, 2));
-		return null;
 	}
 }

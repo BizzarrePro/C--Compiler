@@ -16,6 +16,8 @@ public class Function extends Instruction{
 	private BasicBlock lastBlock;
 	private BasicBlock currBlock;
 	private BasicBlock retBlock;
+	private BasicBlock maybeUnreachableBlock;
+	private BasicBlock firstUnreachableBlock;
 	private int registerNum;
 	private HashMap<String, SymbolAttribute> symbolTable;
 	public Function(){
@@ -84,6 +86,13 @@ public class Function extends Instruction{
 		Operation op = new Operation(OperandType.FUNC_DEC, firstBlock);
 		firstBlock.appendOperation(op);
 	}
+	public BasicBlock getFirstUnreachableBlock(){
+		return firstUnreachableBlock;
+	}
+	public void setFirstUnreachableBlock(BasicBlock block){
+		firstUnreachableBlock = block;
+		maybeUnreachableBlock = block;
+	}
 	@Override
 	public void print(FileWriter fw) {
 		// TODO Auto-generated method stub
@@ -138,7 +147,32 @@ public class Function extends Instruction{
 			last = last.getNextBlock();
 		if (this.lastBlock == currBlock)
 			this.lastBlock = last;
-		//
+		if (maybeUnreachableBlock == currBlock)
+			maybeUnreachableBlock = last;
+	}
+	public void appendExtraBlock(BasicBlock elseBlock) {
+		// TODO Auto-generated method stub
+		if (maybeUnreachableBlock != null) {
+			maybeUnreachableBlock.setNextBlock(elseBlock);
+			elseBlock.setPrevBlock(maybeUnreachableBlock);
+		}
+		else
+			firstUnreachableBlock = elseBlock;
+		BasicBlock last = elseBlock;
+		
+		while (last.getNextBlock() != null)
+			last = last.getNextBlock();
+		
+		maybeUnreachableBlock = last;
+		
+	}
+	public void removeBlock(BasicBlock block) {
+		if (block.getPrevBlock() != null) {
+	      block.getPrevBlock().setNextBlock(block.getNextBlock());
+	    }
+	    if (block.getNextBlock() != null) {
+	      block.getNextBlock().setPrevBlock(block.getPrevBlock());
+	    }
 	}
 
 }

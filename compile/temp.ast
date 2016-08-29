@@ -1,166 +1,47 @@
-VariableDeclaration: x
-FunctionDeclaration: INT minloc ( 
-Variable: a
-Variable: low
-Variable: high
+VariableDeclaration: a
+FunctionDeclaration: INT fun ( 
 )
 CompoundStatement: {
-	VariableDeclaration: i
-	VariableDeclaration: x
-	VariableDeclaration: k
 	ExpressionStatement: 
 		AssignExpression: 
-			VariableExpression: k
-			=
-			VariableExpression: lo
-
-	ExpressionStatement: 
-		AssignExpression: 
-			VariableExpression: x
-			=
-			VariableExpression: a[ 
-				VariableExpression: low
-			] 
-
-
-	ExpressionStatement: 
-		AssignExpression: 
-			VariableExpression: i
+			VariableExpression: a
 			=
 			BinaryExpression: 
-				VariableExpression: low
-				ADD
-				LiteralExpression: 1
-
-
-	IterationStmt: 
-		BinaryExpression: 
-			VariableExpression: i
-			LTHAN
-			VariableExpression: high
-		CompoundStatement: {
-			SelectionStmt: if (
 				BinaryExpression: 
-					VariableExpression: a[ 
-						VariableExpression: i
-					] 
+					VariableExpression: a
+					MUL
+					VariableExpression: a
 
-					LTHAN
-					VariableExpression: x
-			 )
-				CompoundStatement: {
-					ExpressionStatement: 
-						AssignExpression: 
-							VariableExpression: x
-							=
-							VariableExpression: a[ 
-								VariableExpression: i
-							] 
+				SUB
+				VariableExpression: a
 
-
-					ExpressionStatement: 
-						AssignExpression: 
-							VariableExpression: k
-							=
-							VariableExpression: i
-
-				}
-
-			else
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: i
-					=
-					BinaryExpression: 
-						VariableExpression: i
-						ADD
-						LiteralExpression: 1
-
-
-		}
 
 	ReturnStmt: 
-		VariableExpression: k}
+		VariableExpression: a}
 
-FunctionDeclaration: VOID sort ( 
+FunctionDeclaration: INT fun1 ( 
 Variable: a
-Variable: low
-Variable: high
+Variable: b
 )
 CompoundStatement: {
-	VariableDeclaration: i
-	VariableDeclaration: k
-	ExpressionStatement: 
-		AssignExpression: 
-			VariableExpression: i
-			=
-			VariableExpression: low
-
 	IterationStmt: 
 		BinaryExpression: 
-			VariableExpression: i
+			VariableExpression: a
 			LTHAN
-			BinaryExpression: 
-				VariableExpression: high
-				SUB
-				LiteralExpression: 1
-
-		CompoundStatement: {
-			VariableDeclaration: t
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: k
-					=
-					CallExpression: minloc ( 
-						VariableExpression: a
-						VariableExpression: i
-						VariableExpression: high
-					 )
+			LiteralExpression: 10
+		ExpressionStatement: 
+			AssignExpression: 
+				VariableExpression: a
+				=
+				BinaryExpression: 
+					VariableExpression: a
+					ADD
+					LiteralExpression: 1
 
 
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: t
-					=
-					VariableExpression: a[ 
-						VariableExpression: k
-					] 
 
-
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: a[ 
-						VariableExpression: k
-					] 
-
-					=
-					VariableExpression: a[ 
-						VariableExpression: i
-					] 
-
-
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: a[ 
-						VariableExpression: i
-					] 
-
-					=
-					VariableExpression: t
-
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: i
-					=
-					BinaryExpression: 
-						VariableExpression: i
-						ADD
-						LiteralExpression: 1
-
-
-		}
-
-}
+	ReturnStmt: 
+		VariableExpression: a}
 
 FunctionDeclaration: VOID output ( 
 Variable: a
@@ -168,88 +49,43 @@ Variable: a
 CompoundStatement: {
 }
 
-FunctionDeclaration: INT input ( 
+FunctionDeclaration: INT main ( 
 )
 CompoundStatement: {
-}
-
-FunctionDeclaration: VOID main ( 
-)
-CompoundStatement: {
-	VariableDeclaration: i
-	ExpressionStatement: 
-		AssignExpression: 
-			VariableExpression: i
-			=
-			LiteralExpression: 0
-
-	IterationStmt: 
+	VariableDeclaration: d
+	VariableDeclaration: c
+	VariableDeclaration: e
+	SelectionStmt: if (
 		BinaryExpression: 
-			VariableExpression: i
-			LTHAN
-			LiteralExpression: 10
-		CompoundStatement: {
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: x[ 
-						VariableExpression: i
-					] 
-
-					=
-					CallExpression: input ( 
-					 )
-
-
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: i
-					=
-					BinaryExpression: 
-						VariableExpression: i
-						ADD
-						LiteralExpression: 1
-
-
-			ExpressionStatement: 
-				CallExpression: sort ( 
-					VariableExpression: x
-					LiteralExpression: 0
-					LiteralExpression: 10
+			VariableExpression: a
+			EQUAL
+			LiteralExpression: 5
+	 )
+		ExpressionStatement: 
+			AssignExpression: 
+				VariableExpression: d
+				=
+				CallExpression: fun ( 
 				 )
 
-			ExpressionStatement: 
-				AssignExpression: 
-					VariableExpression: i
-					=
-					LiteralExpression: 0
-
-			IterationStmt: 
-				BinaryExpression: 
-					VariableExpression: i
-					LTHAN
-					LiteralExpression: 10
-				CompoundStatement: {
-					ExpressionStatement: 
-						CallExpression: output ( 
-							VariableExpression: x[ 
-								VariableExpression: i
-							] 
-
-						 )
-
-					ExpressionStatement: 
-						AssignExpression: 
-							VariableExpression: i
-							=
-							BinaryExpression: 
-								VariableExpression: i
-								ADD
-								LiteralExpression: 1
 
 
-				}
+	else
+		ExpressionStatement: 
+			AssignExpression: 
+				VariableExpression: d
+				=
+				CallExpression: fun1 ( 
+					VariableExpression: d
+					VariableExpression: e
+				 )
 
-		}
 
-}
+	ExpressionStatement: 
+		CallExpression: output ( 
+			VariableExpression: d
+		 )
+
+	ReturnStmt: 
+		LiteralExpression: 0}
 

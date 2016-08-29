@@ -1,258 +1,106 @@
  --------------------------------------------------
 |                   Token Stream                   |
  --------------------------------------------------
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ x ] Line: 1
+Token: [ int ] Line: 15
+Identify: [ ID ] Identify: [ a ] Line: 1
 Token: [ ; ] Line: 1
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ minloc ] Line: 2
+Token: [ int ] Line: 15
+Identify: [ ID ] Identify: [ fun ] Line: 2
 Token: [ ( ] Line: 2
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ a ] Line: 2
-Token: [ [ ] Line: 2
-Token: [ ] ] Line: 2
-Token: [ , ] Line: 2
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ low ] Line: 2
-Token: [ , ] Line: 2
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ high ] Line: 2
+Token: [ void ] Line: 13
 Token: [ ) ] Line: 2
-Token: [ { ] Line: 3
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ i ] Line: 4
+Token: [ { ] Line: 2
+Identify: [ ID ] Identify: [ a ] Line: 3
+Token: [ = ] Line: 20
+Identify: [ ID ] Identify: [ a ] Line: 3
+Token: [ * ] Line: 3
+Identify: [ ID ] Identify: [ a ] Line: 3
+Token: [ - ] Line: 3
+Identify: [ ID ] Identify: [ a ] Line: 3
+Token: [ ; ] Line: 3
+Token: [ return ] Line: 22
+Identify: [ ID ] Identify: [ a ] Line: 4
 Token: [ ; ] Line: 4
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ x ] Line: 4
-Token: [ ; ] Line: 4
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ k ] Line: 4
-Token: [ ; ] Line: 4
-Identify: [ ID ] Identify: [ k ] Line: 5
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ lo ] Line: 5
-Token: [ ; ] Line: 5
-Identify: [ ID ] Identify: [ x ] Line: 6
-Token: [ = ] Line: 50
+Token: [ } ] Line: 5
+Token: [ int ] Line: 15
+Identify: [ ID ] Identify: [ fun1 ] Line: 6
+Token: [ ( ] Line: 6
+Token: [ int ] Line: 15
 Identify: [ ID ] Identify: [ a ] Line: 6
-Token: [ [ ] Line: 6
-Identify: [ ID ] Identify: [ low ] Line: 6
-Token: [ ] ] Line: 6
-Token: [ ; ] Line: 6
-Identify: [ ID ] Identify: [ i ] Line: 7
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ low ] Line: 7
-Token: [ + ] Line: 7
-Number: [ NUM ] Integer Value: [ 1 ] Line: 7
-Token: [ ; ] Line: 7
-Token: [ while ] Line: 47
-Token: [ ( ] Line: 8
-Identify: [ ID ] Identify: [ i ] Line: 8
-Token: [ < ] Line: 47
-Identify: [ ID ] Identify: [ high ] Line: 8
-Token: [ ) ] Line: 8
-Token: [ { ] Line: 9
-Token: [ if ] Line: 10
-Token: [ ( ] Line: 10
-Identify: [ ID ] Identify: [ a ] Line: 10
-Token: [ [ ] Line: 10
-Identify: [ ID ] Identify: [ i ] Line: 10
-Token: [ ] ] Line: 10
-Token: [ < ] Line: 47
-Identify: [ ID ] Identify: [ x ] Line: 10
-Token: [ ) ] Line: 10
+Token: [ , ] Line: 6
+Token: [ double ] Line: 16
+Identify: [ ID ] Identify: [ b ] Line: 6
+Token: [ ) ] Line: 6
+Token: [ { ] Line: 6
+Token: [ while ] Line: 7
+Token: [ ( ] Line: 7
+Identify: [ ID ] Identify: [ a ] Line: 7
+Token: [ < ] Line: 7
+Number: [ NUM ] Integer Value: [ 10 ] Line: 7
+Token: [ ) ] Line: 7
+Identify: [ ID ] Identify: [ a ] Line: 8
+Token: [ = ] Line: 20
+Identify: [ ID ] Identify: [ a ] Line: 8
+Token: [ + ] Line: 8
+Number: [ NUM ] Integer Value: [ 1 ] Line: 8
+Token: [ ; ] Line: 8
+Token: [ return ] Line: 22
+Identify: [ ID ] Identify: [ a ] Line: 9
+Token: [ ; ] Line: 9
+Token: [ } ] Line: 10
+Token: [ void ] Line: 13
+Identify: [ ID ] Identify: [ output ] Line: 11
+Token: [ ( ] Line: 11
+Token: [ int ] Line: 15
+Identify: [ ID ] Identify: [ a ] Line: 11
+Token: [ ) ] Line: 11
 Token: [ { ] Line: 11
-Identify: [ ID ] Identify: [ x ] Line: 12
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ a ] Line: 12
-Token: [ [ ] Line: 12
-Identify: [ ID ] Identify: [ i ] Line: 12
-Token: [ ] ] Line: 12
-Token: [ ; ] Line: 12
-Identify: [ ID ] Identify: [ k ] Line: 13
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ i ] Line: 13
-Token: [ ; ] Line: 13
-Token: [ } ] Line: 14
-Token: [ else ] Line: 15
+Token: [ } ] Line: 12
+Token: [ int ] Line: 15
+Identify: [ ID ] Identify: [ main ] Line: 13
+Token: [ ( ] Line: 13
+Token: [ void ] Line: 13
+Token: [ ) ] Line: 13
+Token: [ { ] Line: 13
+Token: [ int ] Line: 15
+Identify: [ ID ] Identify: [ d ] Line: 14
+Token: [ ; ] Line: 14
+Token: [ int ] Line: 15
+Identify: [ ID ] Identify: [ c ] Line: 15
+Token: [ ; ] Line: 15
+Token: [ double ] Line: 16
+Identify: [ ID ] Identify: [ e ] Line: 16
 Token: [ ; ] Line: 16
-Identify: [ ID ] Identify: [ i ] Line: 17
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ i ] Line: 17
-Token: [ + ] Line: 17
-Number: [ NUM ] Integer Value: [ 1 ] Line: 17
-Token: [ ; ] Line: 17
-Token: [ } ] Line: 18
-Token: [ return ] Line: 19
-Identify: [ ID ] Identify: [ k ] Line: 19
-Token: [ ; ] Line: 19
-Token: [ } ] Line: 20
-Token: [ void ] Line: 37
-Identify: [ ID ] Identify: [ sort ] Line: 21
+Token: [ if ] Line: 17
+Token: [ ( ] Line: 17
+Identify: [ ID ] Identify: [ a ] Line: 17
+Token: [ == ] Line: 17
+Number: [ NUM ] Integer Value: [ 5 ] Line: 17
+Token: [ ) ] Line: 17
+Identify: [ ID ] Identify: [ d ] Line: 18
+Token: [ = ] Line: 20
+Identify: [ ID ] Identify: [ fun ] Line: 18
+Token: [ ( ] Line: 18
+Token: [ ) ] Line: 18
+Token: [ + ] Line: 18
+Number: [ NUM ] Integer Value: [ 1 ] Line: 18
+Token: [ ; ] Line: 18
+Token: [ else ] Line: 19
+Identify: [ ID ] Identify: [ d ] Line: 20
+Token: [ = ] Line: 20
+Identify: [ ID ] Identify: [ fun1 ] Line: 20
+Token: [ ( ] Line: 20
+Identify: [ ID ] Identify: [ d ] Line: 20
+Token: [ , ] Line: 20
+Identify: [ ID ] Identify: [ e ] Line: 20
+Token: [ ) ] Line: 20
+Token: [ ; ] Line: 20
+Identify: [ ID ] Identify: [ output ] Line: 21
 Token: [ ( ] Line: 21
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ a ] Line: 21
-Token: [ [ ] Line: 21
-Token: [ ] ] Line: 21
-Token: [ , ] Line: 21
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ low ] Line: 21
-Token: [ , ] Line: 21
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ high ] Line: 21
+Identify: [ ID ] Identify: [ d ] Line: 21
 Token: [ ) ] Line: 21
-Token: [ { ] Line: 22
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ i ] Line: 23
-Token: [ ; ] Line: 23
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ k ] Line: 23
-Token: [ ; ] Line: 23
-Identify: [ ID ] Identify: [ i ] Line: 24
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ low ] Line: 24
-Token: [ ; ] Line: 24
-Token: [ while ] Line: 47
-Token: [ ( ] Line: 25
-Identify: [ ID ] Identify: [ i ] Line: 25
-Token: [ < ] Line: 47
-Identify: [ ID ] Identify: [ high ] Line: 25
-Token: [ - ] Line: 25
-Number: [ NUM ] Integer Value: [ 1 ] Line: 25
-Token: [ ) ] Line: 25
-Token: [ { ] Line: 26
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ t ] Line: 27
-Token: [ ; ] Line: 27
-Identify: [ ID ] Identify: [ k ] Line: 28
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ minloc ] Line: 28
-Token: [ ( ] Line: 28
-Identify: [ ID ] Identify: [ a ] Line: 28
-Token: [ , ] Line: 28
-Identify: [ ID ] Identify: [ i ] Line: 28
-Token: [ , ] Line: 28
-Identify: [ ID ] Identify: [ high ] Line: 28
-Token: [ ) ] Line: 28
-Token: [ ; ] Line: 28
-Identify: [ ID ] Identify: [ t ] Line: 29
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ a ] Line: 29
-Token: [ [ ] Line: 29
-Identify: [ ID ] Identify: [ k ] Line: 29
-Token: [ ] ] Line: 29
-Token: [ ; ] Line: 29
-Identify: [ ID ] Identify: [ a ] Line: 30
-Token: [ [ ] Line: 30
-Identify: [ ID ] Identify: [ k ] Line: 30
-Token: [ ] ] Line: 30
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ a ] Line: 30
-Token: [ [ ] Line: 30
-Identify: [ ID ] Identify: [ i ] Line: 30
-Token: [ ] ] Line: 30
-Token: [ ; ] Line: 30
-Identify: [ ID ] Identify: [ a ] Line: 31
-Token: [ [ ] Line: 31
-Identify: [ ID ] Identify: [ i ] Line: 31
-Token: [ ] ] Line: 31
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ t ] Line: 31
-Token: [ ; ] Line: 31
-Identify: [ ID ] Identify: [ i ] Line: 32
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ i ] Line: 32
-Token: [ + ] Line: 32
-Number: [ NUM ] Integer Value: [ 1 ] Line: 32
-Token: [ ; ] Line: 32
-Token: [ } ] Line: 33
-Token: [ } ] Line: 34
-Token: [ void ] Line: 37
-Identify: [ ID ] Identify: [ output ] Line: 35
-Token: [ ( ] Line: 35
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ a ] Line: 35
-Token: [ [ ] Line: 35
-Token: [ ] ] Line: 35
-Token: [ ) ] Line: 35
-Token: [ { ] Line: 35
-Token: [ } ] Line: 35
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ input ] Line: 36
-Token: [ ( ] Line: 36
-Token: [ void ] Line: 37
-Token: [ ) ] Line: 36
-Token: [ { ] Line: 36
-Token: [ } ] Line: 36
-Token: [ void ] Line: 37
-Identify: [ ID ] Identify: [ main ] Line: 37
-Token: [ ( ] Line: 37
-Token: [ void ] Line: 37
-Token: [ ) ] Line: 37
-Token: [ { ] Line: 38
-Token: [ int ] Line: 39
-Identify: [ ID ] Identify: [ i ] Line: 39
-Token: [ ; ] Line: 39
-Identify: [ ID ] Identify: [ i ] Line: 40
-Token: [ = ] Line: 50
-Number: [ NUM ] Integer Value: [ 0 ] Line: 40
-Token: [ ; ] Line: 40
-Token: [ while ] Line: 47
-Token: [ ( ] Line: 41
-Identify: [ ID ] Identify: [ i ] Line: 41
-Token: [ < ] Line: 47
-Number: [ NUM ] Integer Value: [ 10 ] Line: 41
-Token: [ ) ] Line: 41
-Token: [ { ] Line: 42
-Identify: [ ID ] Identify: [ x ] Line: 43
-Token: [ [ ] Line: 43
-Identify: [ ID ] Identify: [ i ] Line: 43
-Token: [ ] ] Line: 43
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ input ] Line: 43
-Token: [ ( ] Line: 43
-Token: [ ) ] Line: 43
-Token: [ ; ] Line: 43
-Identify: [ ID ] Identify: [ i ] Line: 44
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ i ] Line: 44
-Token: [ + ] Line: 44
-Number: [ NUM ] Integer Value: [ 1 ] Line: 44
-Token: [ ; ] Line: 44
-Identify: [ ID ] Identify: [ sort ] Line: 45
-Token: [ ( ] Line: 45
-Identify: [ ID ] Identify: [ x ] Line: 45
-Token: [ , ] Line: 45
-Number: [ NUM ] Integer Value: [ 0 ] Line: 45
-Token: [ , ] Line: 45
-Number: [ NUM ] Integer Value: [ 10 ] Line: 45
-Token: [ ) ] Line: 45
-Token: [ ; ] Line: 45
-Identify: [ ID ] Identify: [ i ] Line: 46
-Token: [ = ] Line: 50
-Number: [ NUM ] Integer Value: [ 0 ] Line: 46
-Token: [ ; ] Line: 46
-Token: [ while ] Line: 47
-Token: [ ( ] Line: 47
-Identify: [ ID ] Identify: [ i ] Line: 47
-Token: [ < ] Line: 47
-Number: [ NUM ] Integer Value: [ 10 ] Line: 47
-Token: [ ) ] Line: 47
-Token: [ { ] Line: 48
-Identify: [ ID ] Identify: [ output ] Line: 49
-Token: [ ( ] Line: 49
-Identify: [ ID ] Identify: [ x ] Line: 49
-Token: [ [ ] Line: 49
-Identify: [ ID ] Identify: [ i ] Line: 49
-Token: [ ] ] Line: 49
-Token: [ ) ] Line: 49
-Token: [ ; ] Line: 49
-Identify: [ ID ] Identify: [ i ] Line: 50
-Token: [ = ] Line: 50
-Identify: [ ID ] Identify: [ i ] Line: 50
-Token: [ + ] Line: 50
-Number: [ NUM ] Integer Value: [ 1 ] Line: 50
-Token: [ ; ] Line: 50
-Token: [ } ] Line: 51
-Token: [ } ] Line: 52
-Token: [ } ] Line: 53
+Token: [ ; ] Line: 21
+Token: [ return ] Line: 22
+Number: [ NUM ] Integer Value: [ 0 ] Line: 22
+Token: [ ; ] Line: 22
+Token: [ } ] Line: 23

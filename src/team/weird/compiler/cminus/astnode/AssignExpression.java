@@ -58,6 +58,8 @@ public class AssignExpression extends Expression{
 		ErrorList err = ErrorList.getInstance();
 		Type leftType = lex.generateIntermediateCode(fun);
 		Type rightType = rex.generateIntermediateCode(fun);
+		if(lex instanceof CallExpression)
+			err.addException(new SemanticException(lex.getId(), lex.getLine(), 18));
 		if(leftType != rightType)
 			err.addException(new SemanticException(leftType, rightType, lex.getLine()));
 		Operation op = new Operation(OperandType.MOV, fun.getCurrBlock());

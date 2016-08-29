@@ -54,6 +54,13 @@ public class VariableExpression extends Expression {
 		HashMap<String, SymbolAttribute> local = fun.getSymbolTable();
 		if(local.containsKey(super.getId())){
 			setRegNum(local.get(getId()).getRegNum());
+			if(local.get(super.getId()).isArray() 
+					&& array instanceof LiteralExpression){
+				if((( LiteralExpression )array).getNumber() instanceof Double)
+					err.addException(new SemanticException(getId(), getLine(), 5));
+				else if(( int )(( LiteralExpression )array).getNumber() >= local.get(super.getId()).getLength())
+					err.addException(new SemanticException(getId(), getLine(), 16));
+			}
 			return local.get(getId()).getType();
 		}
 		else if(Semantic.globalSymbolTable.containsKey(getId())){
@@ -62,6 +69,7 @@ public class VariableExpression extends Expression {
 			Operand oper = new Operand(OperandType.REG, getRegNum());
 			fun.getCurrBlock().appendOperation(op);
 			op.setDestOperand(0, oper);
+			op.setSrcOperand(0, new Operand(OperandType.VAR_NAME, getId()));
 			oper = new Operand(OperandType.VAR_NAME, getId());
 			return Semantic.globalSymbolTable.get(getId()).getType();
 		}

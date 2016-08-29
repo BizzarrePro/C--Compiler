@@ -65,6 +65,12 @@ public class SemanticException extends Exception {
 			case 15:
 				this.message ="Expression '"+ args +"': Iterator statement condition '" + args + "' error at line " + line;
 				break;
+			case 16:
+				this.message = "Array '" + args + "': Array index out of bounds at line " + line;
+				break;
+			case 17:
+				this.message = "Method '" + args + "': Method return value couldn't be assigned at line " + line;
+				break;
 		}
 	}
 	

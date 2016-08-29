@@ -140,7 +140,7 @@ public class Semantic {
 			return new VariableDeclaration(identify, type, line);
 		}
 		else {
-			Node child = ((SyntaxTreeNode)currNode).getChild(1);
+			Node child = ((SyntaxTreeNode)currNode).getChild(2);
 			int length = 0;
 			Token tok = ((SyntaxLeafNode)child).getToken();
 			length = ((Number)tok).getNum();

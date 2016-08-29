@@ -46,7 +46,7 @@ public class CompoundStatement extends Statement{
 		for(VariableDeclaration v : varDeclarations)
 			fun.getSymbolTable().put(v.getId(), 
 					new SymbolAttribute(v.getId(), v.getType(), 
-							v.getClass() == ArrayDeclaration.class ? true : false, fun.getNewRegisterNum()));
+							v.getClass() == ArrayDeclaration.class, fun.getNewRegisterNum()));
 		for(Statement s : statements)
 			s.generateIntermediateCode(fun);
 	}
