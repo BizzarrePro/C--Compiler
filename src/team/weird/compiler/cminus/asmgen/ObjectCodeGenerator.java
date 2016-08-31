@@ -21,6 +21,113 @@ public class ObjectCodeGenerator {
 		convertOperations();
 	}
 	private void convertOperations() {
+		for(Instruction curr = ins; curr != null; curr = curr.getNextIns()) {
+			Function fun = (Function)curr;
+			for(BasicBlock currBlock = fun.getFirstBlock(); currBlock != null;
+					currBlock = currBlock.getNextBlock()){
+				for(Operation currOp = currBlock.getFirstOper(); currOp != null;
+					currOp = currOp.getNextOper()){
+					switch (currOp.getOpType()) {
+					case LTH:
+					case LETH:
+					case GTH:
+					case GETH:
+					case EQUAL:
+					case NOTEQ:
+						convertComparison(currOp);
+						break;
+					case BEQ:
+					case BNE:
+						convertBranch(currOp);
+						break;
+					case ADD:
+						convertAdd(currOp);
+						break;
+					case SUB:
+						convertSubtract(currOp);
+						break;
+					case MUL:
+						convertMultiply(currOp);
+						break;
+					case DIV:
+						convertDivide(currOp);
+						break;
+					case CALL:
+						convertCall(currOp);
+						break;
+					default:
+					}
+				}
+			}
+		}
+		
+	}
+	private void convertCall(Operation currOp) {
+		
+	}
+	private void convertSubtract(Operation currOp) {
+		
+		
+	}
+	private void convertAdd(Operation currOp) {
+		
+		
+	}
+	private void convertDivide(Operation currOp) {
+		BasicBlock block = currOp.getOwnBlock();
+		Operation mov1 = new Operation(OperandType.MOV, block);
+		mov1.setSrcOperand(0, currOp.getSrcOperand(0));
+		mov1.setDestOperand(0, new Operand(OperandType.GR, "AX"));
+		block.InsertOper(currOp, mov1);
+		
+		if (currOp.getSrcOperand(1).getOpType() == OperandType.INT) {
+			Operation mov2 = new Operation(OperandType.MOV, block);
+			mov2.setSrcOperand(0, currOp.getSrcOperand(1));
+			int regNum = block.getFunction().getNewRegisterNum();
+			mov2.setDestOperand(0, new Operand(OperandType.REG, regNum));
+			block.InsertOper(currOp, mov2);
+			currOp.setSrcOperand(1, new Operand(mov2.getOpType(), mov2.getDestOperand(0)));
+		}
+		
+		currOp.setSrcOperand(0, new Operand(OperandType.GR, "AX"));
+		Operation postMov = new Operation(OperandType.MOV, block);
+		postMov.setDestOperand(0, currOp.getDestOperand(0));
+		postMov.setSrcOperand(0, new Operand(OperandType.GR, "AX"));
+		block.InsertOper(currOp, postMov);
+		currOp.setDestOperand(0, new Operand(OperandType.GR, "AX"));
+		currOp.setDestOperand(1, new Operand(OperandType.GR, "DX"));
+		
+	}
+	private void convertMultiply(Operation currOp) {
+		BasicBlock block = currOp.getOwnBlock();
+		Operation mov1 = new Operation(OperandType.MOV, block);
+		mov1.setSrcOperand(0, currOp.getSrcOperand(0));
+		mov1.setDestOperand(0, new Operand(OperandType.GR, "AX"));
+		block.InsertOper(currOp, mov1);
+		
+		if (currOp.getSrcOperand(1).getOpType() == OperandType.INT) {
+			Operation mov2 = new Operation(OperandType.MOV, block);
+			mov2.setSrcOperand(0, currOp.getSrcOperand(1));
+			int regNum = block.getFunction().getNewRegisterNum();
+			mov2.setDestOperand(0, new Operand(OperandType.REG, regNum));
+			block.InsertOper(currOp, mov2);
+			currOp.setSrcOperand(1, new Operand(mov2.getOpType(), mov2.getDestOperand(0)));
+		}
+		
+		currOp.setSrcOperand(0, new Operand(OperandType.GR, "AX"));
+		Operation postMov = new Operation(OperandType.MOV, block);
+		postMov.setDestOperand(0, currOp.getDestOperand(0));
+		postMov.setSrcOperand(0, new Operand(OperandType.GR, "AX"));
+		block.InsertOper(currOp, postMov);
+		currOp.setDestOperand(0, new Operand(OperandType.GR, "AX"));
+		currOp.setDestOperand(1, new Operand(OperandType.GR, "DX"));
+		
+	}
+	private void convertBranch(Operation currOp) {
+		
+		
+	}
+	private void convertComparison(Operation currOp) {
 		
 		
 	}
