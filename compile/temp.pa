@@ -43,7 +43,7 @@ Push:
 [int]
 -Bottom of Stack-
 
-[int] matches [Token: [ int ] Line: 15] Pop!
+[int] matches [Token: [ int ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [general-declaration]
@@ -108,7 +108,7 @@ Push:
 [int]
 -Bottom of Stack-
 
-[int] matches [Token: [ int ] Line: 15] Pop!
+[int] matches [Token: [ int ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [general-declaration]
@@ -153,7 +153,7 @@ Push:
 [void]
 -Bottom of Stack-
 
-[void] matches [Token: [ void ] Line: 13] Pop!
+[void] matches [Token: [ void ] Line: 16] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -295,7 +295,7 @@ Push:
 [=]
 -Bottom of Stack-
 
-[=] matches [Token: [ = ] Line: 20] Pop!
+[=] matches [Token: [ = ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -659,7 +659,7 @@ Push:
 [return]
 -Bottom of Stack-
 
-[return] matches [Token: [ return ] Line: 22] Pop!
+[return] matches [Token: [ return ] Line: 25] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -814,7 +814,7 @@ Push:
 [int]
 -Bottom of Stack-
 
-[int] matches [Token: [ int ] Line: 15] Pop!
+[int] matches [Token: [ int ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [general-declaration]
@@ -899,7 +899,7 @@ Push:
 [int]
 -Bottom of Stack-
 
-[int] matches [Token: [ int ] Line: 15] Pop!
+[int] matches [Token: [ int ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -977,7 +977,7 @@ Push:
 [double]
 -Bottom of Stack-
 
-[double] matches [Token: [ double ] Line: 16] Pop!
+[double] matches [Token: [ double ] Line: 19] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -1332,10 +1332,266 @@ empty entry,Pop!
 -Bottom of Stack-
 
 Push:
+	compound-stmt
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[compound-stmt]
+-Bottom of Stack-
+
+Push:
+	}
+	statement-list
+	local-declarations
+	{
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations]
+[{]
+-Bottom of Stack-
+
+[{] matches [Token: [ { ] Line: 7] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations]
+-Bottom of Stack-
+
+Push:
+	local-declarations`
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+-Bottom of Stack-
+
+Push:
+	local-declarations`
+	var-declaration-sub
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration-sub]
+-Bottom of Stack-
+
+Push:
+	var-declaration
+	ID
+	type-specifier
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration]
+[ID]
+[type-specifier]
+-Bottom of Stack-
+
+Push:
+	int
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration]
+[ID]
+[int]
+-Bottom of Stack-
+
+[int] matches [Token: [ int ] Line: 18] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration]
+[ID]
+-Bottom of Stack-
+
+[ID] matches [Identify: [ ID ] Identify: [ b ] Line: 8] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration]
+-Bottom of Stack-
+
+Push:
+	;
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[;]
+-Bottom of Stack-
+
+[;] matches [Token: [ ; ] Line: 8] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+-Bottom of Stack-
+
+Push:
+	local-declarations`
+	var-declaration-sub
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration-sub]
+-Bottom of Stack-
+
+Push:
+	var-declaration
+	ID
+	type-specifier
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration]
+[ID]
+[type-specifier]
+-Bottom of Stack-
+
+Push:
+	int
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration]
+[ID]
+[int]
+-Bottom of Stack-
+
+[int] matches [Token: [ int ] Line: 18] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration]
+[ID]
+-Bottom of Stack-
+
+[ID] matches [Identify: [ ID ] Identify: [ b ] Line: 9] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[var-declaration]
+-Bottom of Stack-
+
+Push:
+	;
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+[;]
+-Bottom of Stack-
+
+[;] matches [Token: [ ; ] Line: 9] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[local-declarations`]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+-Bottom of Stack-
+
+Push:
+	statement-list
+	statement
+
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+[statement]
+-Bottom of Stack-
+
+Push:
 	expression-stmt
 
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [expression-stmt]
@@ -1347,6 +1603,8 @@ Push:
 
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1361,14 +1619,18 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [expression-sub]
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 8] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 10] Pop!
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1383,6 +1645,8 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [expression-sub-sub]
 [var]
@@ -1391,6 +1655,8 @@ Push:
 empty entry,Pop!
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1405,14 +1671,18 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [expression]
 [=]
 -Bottom of Stack-
 
-[=] matches [Token: [ = ] Line: 20] Pop!
+[=] matches [Token: [ = ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1427,14 +1697,18 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [expression-sub]
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 8] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 10] Pop!
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1449,6 +1723,8 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [expression-sub-sub]
 [var]
@@ -1457,6 +1733,8 @@ Push:
 empty entry,Pop!
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1468,6 +1746,8 @@ Push:
 
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1483,6 +1763,8 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [simple-expression]
 [additive-expression-temp]
@@ -1492,6 +1774,8 @@ Push:
 empty entry,Pop!
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1508,6 +1792,8 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [simple-expression]
 [additive-expression-temp]
@@ -1522,6 +1808,8 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [simple-expression]
 [additive-expression-temp]
@@ -1529,9 +1817,11 @@ Push:
 [+]
 -Bottom of Stack-
 
-[+] matches [Token: [ + ] Line: 8] Pop!
+[+] matches [Token: [ + ] Line: 10] Pop!
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1548,6 +1838,8 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [simple-expression]
 [additive-expression-temp]
@@ -1562,6 +1854,8 @@ Push:
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [simple-expression]
 [additive-expression-temp]
@@ -1569,9 +1863,11 @@ Push:
 [NUM]
 -Bottom of Stack-
 
-[NUM] matches [Number: [ NUM ] Integer Value: [ 1 ] Line: 8] Pop!
+[NUM] matches [Number: [ NUM ] Integer Value: [ 1 ] Line: 10] Pop!
 -Top of Stack-
 [declaration-list`]
+[}]
+[statement-list]
 [}]
 [statement-list]
 [;]
@@ -1585,6 +1881,8 @@ empty entry,Pop!
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [simple-expression]
 [additive-expression-temp]
@@ -1595,6 +1893,8 @@ empty entry,Pop!
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 [simple-expression]
 -Bottom of Stack-
@@ -1604,10 +1904,29 @@ empty entry,Pop!
 [declaration-list`]
 [}]
 [statement-list]
+[}]
+[statement-list]
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 8] Pop!
+[;] matches [Token: [ ; ] Line: 10] Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+[statement-list]
+-Bottom of Stack-
+
+empty entry,Pop!
+-Top of Stack-
+[declaration-list`]
+[}]
+[statement-list]
+[}]
+-Bottom of Stack-
+
+[}] matches [Token: [ } ] Line: 11] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -1649,7 +1968,7 @@ Push:
 [return]
 -Bottom of Stack-
 
-[return] matches [Token: [ return ] Line: 22] Pop!
+[return] matches [Token: [ return ] Line: 25] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -1671,7 +1990,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 9] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 12] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -1755,7 +2074,7 @@ empty entry,Pop!
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 9] Pop!
+[;] matches [Token: [ ; ] Line: 12] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -1768,7 +2087,7 @@ empty entry,Pop!
 [}]
 -Bottom of Stack-
 
-[}] matches [Token: [ } ] Line: 10] Pop!
+[}] matches [Token: [ } ] Line: 13] Pop!
 -Top of Stack-
 [declaration-list`]
 -Bottom of Stack-
@@ -1804,14 +2123,14 @@ Push:
 [void]
 -Bottom of Stack-
 
-[void] matches [Token: [ void ] Line: 13] Pop!
+[void] matches [Token: [ void ] Line: 16] Pop!
 -Top of Stack-
 [declaration-list`]
 [general-declaration]
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ output ] Line: 11] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ output ] Line: 14] Pop!
 -Top of Stack-
 [declaration-list`]
 [general-declaration]
@@ -1831,7 +2150,7 @@ Push:
 [(]
 -Bottom of Stack-
 
-[(] matches [Token: [ ( ] Line: 11] Pop!
+[(] matches [Token: [ ( ] Line: 14] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -1889,7 +2208,7 @@ Push:
 [int]
 -Bottom of Stack-
 
-[int] matches [Token: [ int ] Line: 15] Pop!
+[int] matches [Token: [ int ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -1899,7 +2218,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 11] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 14] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -1923,7 +2242,7 @@ empty entry,Pop!
 [)]
 -Bottom of Stack-
 
-[)] matches [Token: [ ) ] Line: 11] Pop!
+[)] matches [Token: [ ) ] Line: 14] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -1943,7 +2262,7 @@ Push:
 [{]
 -Bottom of Stack-
 
-[{] matches [Token: [ { ] Line: 11] Pop!
+[{] matches [Token: [ { ] Line: 14] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -1974,7 +2293,7 @@ empty entry,Pop!
 [}]
 -Bottom of Stack-
 
-[}] matches [Token: [ } ] Line: 12] Pop!
+[}] matches [Token: [ } ] Line: 15] Pop!
 -Top of Stack-
 [declaration-list`]
 -Bottom of Stack-
@@ -2010,14 +2329,14 @@ Push:
 [int]
 -Bottom of Stack-
 
-[int] matches [Token: [ int ] Line: 15] Pop!
+[int] matches [Token: [ int ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [general-declaration]
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ main ] Line: 13] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ main ] Line: 16] Pop!
 -Top of Stack-
 [declaration-list`]
 [general-declaration]
@@ -2037,7 +2356,7 @@ Push:
 [(]
 -Bottom of Stack-
 
-[(] matches [Token: [ ( ] Line: 13] Pop!
+[(] matches [Token: [ ( ] Line: 16] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -2055,14 +2374,14 @@ Push:
 [void]
 -Bottom of Stack-
 
-[void] matches [Token: [ void ] Line: 13] Pop!
+[void] matches [Token: [ void ] Line: 16] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
 [)]
 -Bottom of Stack-
 
-[)] matches [Token: [ ) ] Line: 13] Pop!
+[)] matches [Token: [ ) ] Line: 16] Pop!
 -Top of Stack-
 [declaration-list`]
 [compound-stmt]
@@ -2082,7 +2401,7 @@ Push:
 [{]
 -Bottom of Stack-
 
-[{] matches [Token: [ { ] Line: 13] Pop!
+[{] matches [Token: [ { ] Line: 16] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2140,7 +2459,7 @@ Push:
 [int]
 -Bottom of Stack-
 
-[int] matches [Token: [ int ] Line: 15] Pop!
+[int] matches [Token: [ int ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2150,7 +2469,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 14] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 17] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2170,7 +2489,7 @@ Push:
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 14] Pop!
+[;] matches [Token: [ ; ] Line: 17] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2218,7 +2537,7 @@ Push:
 [int]
 -Bottom of Stack-
 
-[int] matches [Token: [ int ] Line: 15] Pop!
+[int] matches [Token: [ int ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2228,7 +2547,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ c ] Line: 15] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ c ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2248,7 +2567,7 @@ Push:
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 15] Pop!
+[;] matches [Token: [ ; ] Line: 18] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2296,7 +2615,7 @@ Push:
 [double]
 -Bottom of Stack-
 
-[double] matches [Token: [ double ] Line: 16] Pop!
+[double] matches [Token: [ double ] Line: 19] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2306,7 +2625,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ e ] Line: 16] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ e ] Line: 19] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2326,7 +2645,7 @@ Push:
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 16] Pop!
+[;] matches [Token: [ ; ] Line: 19] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2382,7 +2701,7 @@ Push:
 [if]
 -Bottom of Stack-
 
-[if] matches [Token: [ if ] Line: 17] Pop!
+[if] matches [Token: [ if ] Line: 20] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2394,7 +2713,7 @@ Push:
 [(]
 -Bottom of Stack-
 
-[(] matches [Token: [ ( ] Line: 17] Pop!
+[(] matches [Token: [ ( ] Line: 20] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2420,7 +2739,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 17] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ a ] Line: 20] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2539,7 +2858,7 @@ Push:
 [==]
 -Bottom of Stack-
 
-[==] matches [Token: [ == ] Line: 17] Pop!
+[==] matches [Token: [ == ] Line: 20] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2596,7 +2915,7 @@ Push:
 [NUM]
 -Bottom of Stack-
 
-[NUM] matches [Number: [ NUM ] Integer Value: [ 5 ] Line: 17] Pop!
+[NUM] matches [Number: [ NUM ] Integer Value: [ 5 ] Line: 20] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2629,7 +2948,7 @@ empty entry,Pop!
 [)]
 -Bottom of Stack-
 
-[)] matches [Token: [ ) ] Line: 17] Pop!
+[)] matches [Token: [ ) ] Line: 20] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2676,7 +2995,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 18] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 21] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2724,7 +3043,7 @@ Push:
 [=]
 -Bottom of Stack-
 
-[=] matches [Token: [ = ] Line: 20] Pop!
+[=] matches [Token: [ = ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2748,7 +3067,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ fun ] Line: 18] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ fun ] Line: 21] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2776,7 +3095,7 @@ Push:
 [(]
 -Bottom of Stack-
 
-[(] matches [Token: [ ( ] Line: 18] Pop!
+[(] matches [Token: [ ( ] Line: 21] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2799,7 +3118,7 @@ empty entry,Pop!
 [)]
 -Bottom of Stack-
 
-[)] matches [Token: [ ) ] Line: 18] Pop!
+[)] matches [Token: [ ) ] Line: 21] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2868,7 +3187,7 @@ Push:
 [+]
 -Bottom of Stack-
 
-[+] matches [Token: [ + ] Line: 18] Pop!
+[+] matches [Token: [ + ] Line: 21] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2911,7 +3230,7 @@ Push:
 [NUM]
 -Bottom of Stack-
 
-[NUM] matches [Number: [ NUM ] Integer Value: [ 1 ] Line: 18] Pop!
+[NUM] matches [Number: [ NUM ] Integer Value: [ 1 ] Line: 21] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2953,7 +3272,7 @@ empty entry,Pop!
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 18] Pop!
+[;] matches [Token: [ ; ] Line: 21] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -2973,7 +3292,7 @@ Push:
 [else]
 -Bottom of Stack-
 
-[else] matches [Token: [ else ] Line: 19] Pop!
+[else] matches [Token: [ else ] Line: 22] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3016,7 +3335,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 20] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3060,7 +3379,7 @@ Push:
 [=]
 -Bottom of Stack-
 
-[=] matches [Token: [ = ] Line: 20] Pop!
+[=] matches [Token: [ = ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3082,7 +3401,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ fun1 ] Line: 20] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ fun1 ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3108,7 +3427,7 @@ Push:
 [(]
 -Bottom of Stack-
 
-[(] matches [Token: [ ( ] Line: 20] Pop!
+[(] matches [Token: [ ( ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3163,7 +3482,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 20] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3288,7 +3607,7 @@ Push:
 [,]
 -Bottom of Stack-
 
-[,] matches [Token: [ , ] Line: 20] Pop!
+[,] matches [Token: [ , ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3316,7 +3635,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ e ] Line: 20] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ e ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3434,7 +3753,7 @@ empty entry,Pop!
 [)]
 -Bottom of Stack-
 
-[)] matches [Token: [ ) ] Line: 20] Pop!
+[)] matches [Token: [ ) ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3485,7 +3804,7 @@ empty entry,Pop!
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 20] Pop!
+[;] matches [Token: [ ; ] Line: 23] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3538,7 +3857,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ output ] Line: 21] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ output ] Line: 24] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3564,7 +3883,7 @@ Push:
 [(]
 -Bottom of Stack-
 
-[(] matches [Token: [ ( ] Line: 21] Pop!
+[(] matches [Token: [ ( ] Line: 24] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3619,7 +3938,7 @@ Push:
 [ID]
 -Bottom of Stack-
 
-[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 21] Pop!
+[ID] matches [Identify: [ ID ] Identify: [ d ] Line: 24] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3737,7 +4056,7 @@ empty entry,Pop!
 [)]
 -Bottom of Stack-
 
-[)] matches [Token: [ ) ] Line: 21] Pop!
+[)] matches [Token: [ ) ] Line: 24] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3788,7 +4107,7 @@ empty entry,Pop!
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 21] Pop!
+[;] matches [Token: [ ; ] Line: 24] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3830,7 +4149,7 @@ Push:
 [return]
 -Bottom of Stack-
 
-[return] matches [Token: [ return ] Line: 22] Pop!
+[return] matches [Token: [ return ] Line: 25] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3852,7 +4171,7 @@ Push:
 [NUM]
 -Bottom of Stack-
 
-[NUM] matches [Number: [ NUM ] Integer Value: [ 0 ] Line: 22] Pop!
+[NUM] matches [Number: [ NUM ] Integer Value: [ 0 ] Line: 25] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3903,7 +4222,7 @@ empty entry,Pop!
 [;]
 -Bottom of Stack-
 
-[;] matches [Token: [ ; ] Line: 22] Pop!
+[;] matches [Token: [ ; ] Line: 25] Pop!
 -Top of Stack-
 [declaration-list`]
 [}]
@@ -3916,4 +4235,4 @@ empty entry,Pop!
 [}]
 -Bottom of Stack-
 
-[}] matches [Token: [ } ] Line: 23] Pop!
+[}] matches [Token: [ } ] Line: 26] Pop!

@@ -70,6 +70,35 @@ public class BasicBlock implements printIntermadiateCode{
 			lastOper = op;
 		}
 	}
+	public static BasicBlock getBlockByBlockId(Function fun, int blockId){
+		for(BasicBlock curr = fun.getFirstBlock(); curr.getNextBlock() != null; curr = curr.getNextBlock()){
+			if( curr.getBlockID() == blockId )
+				return curr;
+		}
+		return null;
+	}
+	public void removeOper(Operation op){
+		if(op == firstOper)
+			firstOper = op.getNextOper();
+		else 
+			op.getPrevOper().setNextOper(op.getNextOper());
+		if(op == lastOper)
+			lastOper = op.getPrevOper();
+		else 
+			op.getNextOper().setPrevOper(op.getPrevOper());
+		System.gc();
+	}
+	public void InsertOper(Operation op, Operation insertOp){
+		insertOp.setNextIns(op.getNextOper());
+		if (op == lastOper){
+			lastOper = insertOp;
+		}
+		else {
+			insertOp.getNextOper().setPrevOper(insertOp);
+		}
+		op.setNextOper(insertOp);
+		insertOp.setPrevOper(op);
+	}
 	@Override
 	public void print(FileWriter fw) {
 		// TODO Auto-generated method stub

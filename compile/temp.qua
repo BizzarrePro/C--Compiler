@@ -24,8 +24,8 @@ INT a FLOAT b  BLOCK 0:
 	LTH [REG 8]  [REG 1 INT 10]
 	BEQ []  [REG 8 INT 0 BLOCK 7]
   BLOCK 5: 
-	ADD [REG 9]  [REG 1 INT 1]
-	MOV [REG 1]  [REG 9]
+	ADD [REG 11]  [REG 1 INT 1]
+	MOV [REG 1]  [REG 11]
 	STORE []  [REG 1 VAR_NAME a]
 	JMP []  [BLOCK 6]
   BLOCK 7: 
@@ -54,10 +54,14 @@ INT a  BLOCK 0:
 	CALL []  [FUNC_NAME fun]
 	MOV [REG 12]  [RET ret]
 	MOV [REG 3]  [REG 12]
+  BLOCK 9: 
 	PUSH []  [REG 3]
 	CALL []  [FUNC_NAME output]
 	MOV [REG 14]  [RET ret]
 	MOV [RET ret]  [REG 0]
+  BLOCK 2: 
+	FUNC_EXIT []  []
+	RET []  [RET ret]
   BLOCK 7: 
 	PUSH []  [REG 5]
 	PUSH []  [REG 3]
@@ -65,7 +69,4 @@ INT a  BLOCK 0:
 	MOV [REG 13]  [RET ret]
 	MOV [REG 3]  [REG 13]
 	JMP []  [BLOCK 9]
-  BLOCK 2: 
-	FUNC_EXIT []  []
-	RET []  [RET ret]
 )

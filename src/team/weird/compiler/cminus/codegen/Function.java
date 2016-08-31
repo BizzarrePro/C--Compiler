@@ -174,5 +174,11 @@ public class Function extends Instruction{
 	      block.getNextBlock().setPrevBlock(block.getPrevBlock());
 	    }
 	}
+	public int getBlockNum(){
+		int count = 0;
+		for(BasicBlock b = firstBlock; b.getNextBlock() != null; b = b.getNextBlock())
+			count++;
+		return count;
+	}
 
 }

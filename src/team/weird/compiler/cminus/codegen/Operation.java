@@ -5,8 +5,8 @@ import java.io.IOException;
 
 
 public class Operation extends Instruction{
-	private static final int MAX_DEST_OPERAND_NUM = 2;
-	private static final int MAX_SRC_OPERAND_NUM = 4;
+	public static final int MAX_DEST_OPERAND_NUM = 2;
+	public static final int MAX_SRC_OPERAND_NUM = 4;
 	private BasicBlock ownBlock;
 	private Operation prevOper;
 	private Operation nextOper;
@@ -75,10 +75,30 @@ public class Operation extends Instruction{
 		if(srcNum < index)
 			srcNum = index;
 	}
+	public Operand getSrcOperand(int index){
+		return src[index];
+	}
 	public void setDestOperand(int index, Operand op){
 		dest[index] = op;
 		if(destNum < index)
 			destNum = index;
+	}
+	public Operand getDestOperand(int index){
+		return dest[index];
+	}
+	public void decSrcNum(){
+		--srcNum;
+	}
+	public void incSrcNum(){
+		++srcNum;
+	}
+	public void removeOperation() {
+		if(this.getPrevOper() == null){
+			this.getNextOper().setPrevOper(null);
+		}
+		else{
+			this.getPrevOper().setNextOper(this.getNextOper());
+		}
 	}
 	@Override
 	public void print(FileWriter fw) {
@@ -108,5 +128,4 @@ public class Operation extends Instruction{
 			e.printStackTrace();
 		}
 	}
-
 }

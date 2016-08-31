@@ -5,7 +5,10 @@ int fun(void){
 }
 int fun1(int a, double b){
     while(a < 10)
-	a=a+1;
+    {
+	   int b;
+	   a=a+1;
+    }
     return a;
 }
 void output(int a){
