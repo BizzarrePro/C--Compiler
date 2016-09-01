@@ -8,6 +8,7 @@ import team.weird.compiler.cminus.codegen.OperandType;
 import team.weird.compiler.cminus.codegen.Operation;
 import team.weird.compiler.cminus.codegen.Parameter;
 import team.weird.compiler.cminus.parser.FirstSet;
+import team.weird.compiler.cminus.semantic.Semantic;
 
 public class ObjectCodeGenerator {
 	private static final int PARAM_OFFSET = 8;
@@ -63,15 +64,86 @@ public class ObjectCodeGenerator {
 		
 	}
 	private void convertCall(Operation currOp) {
-		
+		if(currOp.getSrcOperand(0).getOpType() != OperandType.FUNC_NAME)
+			return;
+		String funcName = (String)currOp.getSrcOperand(0).getOperand();
+		int paramsNum = Semantic.globalFuntionTable.get(funcName).getParameters().size();
+		int offset = paramsNum << 2;
+		if(paramsNum > 0){
+			BasicBlock block = currOp.getOwnBlock();
+			Operation op = new Operation(OperandType.ADD, block);
+			Operand src0 = new Operand(OperandType.GR, "SP");
+			op.setSrcOperand(0, src0);
+			Operand src1 = new Operand(OperandType.INT, offset);
+			op.setSrcOperand(1, src1);
+			Operand dest0 = new Operand(OperandType.GR, "SP");
+			op.setDestOperand(0, dest0);
+			block.InsertOper(currOp, op);
+		}
 	}
 	private void convertSubtract(Operation currOp) {
-		
-		
+		BasicBlock block = currOp.getOwnBlock();
+		Operand dest = currOp.getDestOperand(0);
+		if (dest.getOpType() == OperandType.REG){
+			int destReg = (int)currOp.getDestOperand(0).getOperand();
+			if(currOp.getSrcOperand(0).getOpType() == OperandType.REG &&
+					destReg == (int)currOp.getSrcOperand(0).getOperand())
+				return;
+		}
+		else if (dest.getOpType() == OperandType.GR) {
+			String destGR = (String) currOp.getDestOperand(0).getOperand();
+			if(currOp.getSrcOperand(0).getOpType() == OperandType.GR &&
+					destGR.equals((String)currOp.getSrcOperand(0).getOperand()))
+				return;
+		}
+		Operation mov1 = new Operation(OperandType.MOV, block);
+		mov1.setSrcOperand(0, currOp.getSrcOperand(0));
+		//int regNum = block.getFunction().getNewRegisterNum();
+		mov1.setDestOperand(0, new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0).getOperand()));
+		block.InsertOper(currOp, mov1);
+		currOp.setSrcOperand(0, new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0).getOperand()));
 	}
 	private void convertAdd(Operation currOp) {
+		BasicBlock block = currOp.getOwnBlock();
+		Operand dest = currOp.getDestOperand(0);
 		
-		
+		if (dest.getOpType() == OperandType.REG){
+			int destReg = (int)currOp.getDestOperand(0).getOperand();
+			if(currOp.getSrcOperand(0).getOpType() == OperandType.REG) {
+				if(destReg == (int)currOp.getSrcOperand(0).getOperand())
+					return;
+			}
+			
+			if (currOp.getSrcOperand(1).getOpType() == OperandType.REG &&
+					destReg == (int)currOp.getSrcOperand(1).getOperand()){
+				Operand temp = currOp.getSrcOperand(0);
+				currOp.setSrcOperand(0, currOp.getSrcOperand(1));
+				currOp.setSrcOperand(1, temp);
+				return;
+			}
+		}
+		else if(dest.getOpType() == OperandType.GR) {
+			String destGR = (String) currOp.getDestOperand(0).getOperand();
+			if(currOp.getSrcOperand(0).getOpType() == OperandType.GR){
+				if (destGR.equals((String)currOp.getSrcOperand(0).getOperand())){
+					return;
+				}
+			}
+			if(currOp.getSrcOperand(1).getOpType() == OperandType.GR &&
+					destGR.equals((String)currOp.getSrcOperand(1).getOperand())){
+				Operand temp = currOp.getSrcOperand(0);
+				currOp.setSrcOperand(0, currOp.getSrcOperand(1));
+				currOp.setSrcOperand(1, temp);
+				return;
+			}
+		}
+		//
+		Operation mov1 = new Operation(OperandType.MOV, block);
+		mov1.setSrcOperand(0, currOp.getSrcOperand(0));
+		int regNum = block.getFunction().getNewRegisterNum();
+		mov1.setDestOperand(0,  new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0).getOperand()));
+		block.InsertOper(currOp, mov1);
+		currOp.setSrcOperand(0, new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0)));
 	}
 	private void convertDivide(Operation currOp) {
 		BasicBlock block = currOp.getOwnBlock();
@@ -86,7 +158,7 @@ public class ObjectCodeGenerator {
 			int regNum = block.getFunction().getNewRegisterNum();
 			mov2.setDestOperand(0, new Operand(OperandType.REG, regNum));
 			block.InsertOper(currOp, mov2);
-			currOp.setSrcOperand(1, new Operand(mov2.getOpType(), mov2.getDestOperand(0)));
+			currOp.setSrcOperand(1, new Operand(mov2.getDestOperand(0).getOpType(), mov2.getDestOperand(0).getOperand()));
 		}
 		
 		currOp.setSrcOperand(0, new Operand(OperandType.GR, "AX"));
@@ -111,7 +183,7 @@ public class ObjectCodeGenerator {
 			int regNum = block.getFunction().getNewRegisterNum();
 			mov2.setDestOperand(0, new Operand(OperandType.REG, regNum));
 			block.InsertOper(currOp, mov2);
-			currOp.setSrcOperand(1, new Operand(mov2.getOpType(), mov2.getDestOperand(0)));
+			currOp.setSrcOperand(1, new Operand(mov2.getDestOperand(0).getOpType(), mov2.getDestOperand(0).getOperand()));
 		}
 		
 		currOp.setSrcOperand(0, new Operand(OperandType.GR, "AX"));
