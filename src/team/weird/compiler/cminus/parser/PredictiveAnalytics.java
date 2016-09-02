@@ -43,7 +43,7 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 	}
 
 	public Node PredictAndAnalyze(Token[] token)
-			throws SemanticException {
+			throws Throwable {
 		FileWriter fw = null;
 		File pa = new File("./compile/temp.pa");
 		int index = 0;
@@ -77,13 +77,12 @@ public class PredictiveAnalytics extends PredictAnalyticalTable {
 				} 
 				else if (TermSymbolSet.contains(peek)){
 					err.addException(new SemanticException(token[index].getWord(), token[index].getLineNum(), 1));
-					throw new SemanticException(token[index].getWord(), token[index].getLineNum(), 1);
+					err.throwsAllExceptions();
 				}
 				else if (UntermSymbolMap.get(peek).predictiveMap.get(token[index]
 						.getWord()) == null){
-					System.out.println(token[index]);
 					err.addException(new SemanticException(token[index].getWord(), token[index].getLineNum(), 1));
-					throw new SemanticException(token[index].getWord(), token[index].getLineNum(), 1);
+					err.throwsAllExceptions();
 				}
 				else if (UntermSymbolMap.get(peek).predictiveMap
 						.get(token[index].getWord()).get(0).equals("empty")){

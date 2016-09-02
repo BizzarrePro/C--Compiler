@@ -64,7 +64,6 @@ Token: [ ) ] Line: 13
 Token: [ { ] Line: 13
 Token: [ int ] Line: 15
 Identify: [ ID ] Identify: [ d ] Line: 14
-Token: [ ; ] Line: 14
 Token: [ int ] Line: 15
 Identify: [ ID ] Identify: [ c ] Line: 15
 Token: [ ; ] Line: 15

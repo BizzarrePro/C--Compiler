@@ -107,7 +107,7 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showLexerAnalysis() {
 		// TODO Auto-generated method stub
-		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
+		FileAction fileAction = new FileAction("", tab);
 		File file = new File("./compile/temp.tok");
 		JTextArea text = fileAction.newFileAction("temp.tok");
 		FileReader fr = null;
@@ -133,7 +133,7 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showParserAnalysis() {
 		// TODO Auto-generated method stub
-		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
+		FileAction fileAction = new FileAction("", tab);
 		File dir = new File("./compile/");
 		File[] list = dir.listFiles();
 		Set<String> set = new HashSet<>();
@@ -170,7 +170,7 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showIntermediateCode() {
 		// TODO Auto-generated method stub
-		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
+		FileAction fileAction = new FileAction("", tab);
 		File dir = new File("./compile/");
 		File[] list = dir.listFiles();
 		Set<String> set = new HashSet<>();
@@ -209,7 +209,7 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showOriginalSyntax() {
 		// TODO Auto-generated method stub
-		FileAction fileAction = new FileAction("", tab, TextState.Line, TextState.Column);
+		FileAction fileAction = new FileAction("", tab);
 		File file = new File("./production.txt");
 		JTextArea text = fileAction.newFileAction("production.txt");
 		FileReader fr = null;

@@ -3,12 +3,14 @@ package team.weird.compiler.editor.menu;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -17,6 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
+import javax.swing.border.EtchedBorder;
 
 import team.weird.compiler.editor.implement.FileAction;
 import team.weird.compiler.editor.attribute.FileAttribute;
@@ -48,14 +51,30 @@ public class FileMenuItem{
 	}
 	public void initFileMenuItem(){
 		JMenu fileMenu = new JMenu("File");
-		
+		JPanel south = new JPanel();
 		JPanel statePanel = new JPanel();
+		BorderLayout bord = new BorderLayout();
+		bord.setHgap(0);
+		south.setLayout(bord);
 		statePanel.setPreferredSize(new Dimension(pan.getWidth(), 22));
+		statePanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		statePanel.setBackground(pan.getBackground());
-		pan.add(statePanel, BorderLayout.SOUTH);
-		statePanel.setLayout(new FlowLayout(pan.getWidth()));
+		south.add(statePanel, BorderLayout.SOUTH);
+		south.add(ExitStatePanel.getInstance(), BorderLayout.NORTH);
+		south.add(ThrowExceptionPanel.getInstance(), BorderLayout.CENTER);
+		ThrowExceptionPanel.getInstance().setVisible(false);
+		ExitStatePanel.getInstance().setVisible(false);
+		pan.add(south, BorderLayout.SOUTH);
+		FlowLayout flow = new FlowLayout(0);
+		flow.setVgap(1);
+		statePanel.setLayout(flow);
+		
 //		Line.setBackground(statePanel.getBackground());
 //		Column.setBackground(statePanel.getBackground());
+		TextState.Line.setFont(new Font("Courier", Font.PLAIN, 13));
+		TextState.lineValue.setFont(new Font("Courier", Font.PLAIN, 13));
+		TextState.Column.setFont(new Font("Courier", Font.PLAIN, 13));
+		TextState.columnValue.setFont(new Font("Courier", Font.PLAIN, 13));
 		statePanel.add(TextState.Line);
 		statePanel.add(TextState.lineValue);
 		statePanel.add(TextState.Column);
@@ -64,7 +83,7 @@ public class FileMenuItem{
 		 * @description Create action for every menu item
 		 * @see FileAction: team.weird.texteditor.implement.FileAction.java
 		 */
-		FileAction newTxt = new FileAction("New File", contentPane, fileMap, TextState.lineValue, TextState.columnValue);
+		FileAction newTxt = new FileAction("New File", contentPane, fileMap);
 		FileAction newWin = new FileAction("New Windows", contentPane, fileMap);
 		FileAction closeWin = new FileAction("Close Windows", pan);
 		FileAction OpenFile = new FileAction("Open File..", contentPane, fileMap);

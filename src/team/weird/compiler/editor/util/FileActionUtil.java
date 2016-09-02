@@ -173,11 +173,11 @@ public class FileActionUtil {
 
 	public JList<Integer> initRowList(DefaultListModel<Integer> model) {
 		final JList<Integer> rowList = new JList<Integer>(model);
-		rowList.setFixedCellWidth(30);
+		rowList.setFixedCellWidth(35);
 		rowList.setBackground(new Color(80, 80, 80));
 		rowList.setFont(new Font("Consolas", Font.PLAIN, 12));
 		rowList.setForeground(new Color(248, 248, 242));
-		rowList.setAlignmentX(5);
+		rowList.setAlignmentX(8);
 		DefaultListCellRenderer renderer = (DefaultListCellRenderer) rowList
 				.getCellRenderer();
 		renderer.setHorizontalAlignment(JLabel.CENTER);

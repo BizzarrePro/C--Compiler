@@ -1,5 +1,5 @@
 (FUNCTION	fun
-  Params: NULL
+  PARAMS: NULL
   BLOCK 0: 
 	PUSH []  [GR BP]
 	MOV [GR BP]  [GR SP]
@@ -23,7 +23,7 @@
 	RET []  [GR AX]
 )
 (FUNCTION	fun1
-  Params: INT a | FLOAT b
+  PARAMS: INT a | FLOAT b
   BLOCK 0: 
 	PUSH []  [GR BP]
 	MOV [GR BP]  [GR SP]
@@ -46,7 +46,7 @@
 	RET []  [GR AX]
 )
 (FUNCTION	output
-  Params: INT a
+  PARAMS: INT a
   BLOCK 0: 
 	PUSH []  [GR BP]
 	MOV [GR BP]  [GR SP]
@@ -57,7 +57,7 @@
 	RET []  [GR AX]
 )
 (FUNCTION	main
-  Params: NULL
+  PARAMS: NULL
   BLOCK 0: 
 	PUSH []  [GR BP]
 	MOV [GR BP]  [GR SP]

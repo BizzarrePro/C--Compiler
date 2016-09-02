@@ -1,0 +1,8 @@
+#c_minus compiler gitignore
+/compiler/*
+/lib/*
+/recent/*
+/bin/*
+/.settings/*
+/AfterRemovingLeftRec.txt
+/productionTest.txt

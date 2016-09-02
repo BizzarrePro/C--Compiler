@@ -11,7 +11,7 @@ int fun1(int a, double b){
 void output(int a){
 }
 int main(void){
-    int d;
+    int d
     int c;
     double e;
     if(a == 5)

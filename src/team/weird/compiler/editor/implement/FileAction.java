@@ -56,6 +56,7 @@ import team.weird.compiler.editor.configure.FrameDesign;
 import team.weird.compiler.editor.configure.TabbedPanel;
 import team.weird.compiler.editor.attribute.FileAttribute;
 import team.weird.compiler.editor.function.FileMenuItemFunc;
+import team.weird.compiler.editor.menu.TextState;
 import team.weird.compiler.editor.util.FileActionUtil;
 
 /**
@@ -71,8 +72,6 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 	private JFrame pan;
 	private int id;
 	private FileActionUtil util = new FileActionUtil();
-	private JLabel line;
-	private JLabel column;
 	public FileAction(String name, JTabbedPane tab,
 			HashMap<String, FileAttribute> fileMap) {
 		super(name);
@@ -80,20 +79,6 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 		this.fileMap = fileMap;
 	}
 	private static final LinkedList<UndoManager> umList = new LinkedList<UndoManager>();
-	public FileAction(String name, JTabbedPane tab,
-			HashMap<String, FileAttribute> fileMap, JLabel line, JLabel column) {
-		super(name);
-		this.tab = tab;
-		this.fileMap = fileMap;
-		this.line = line;
-		this.column = column;
-	}
-	public FileAction(String name, JTabbedPane tab, JLabel line, JLabel column) {
-		super(name);
-		this.tab = tab;
-		this.line = line;
-		this.column = column;
-	}
 	public FileAction(String name, JTabbedPane tab) {
 		super(name);
 		this.tab = tab;
@@ -170,8 +155,8 @@ public class FileAction extends AbstractAction implements FileMenuItemFunc {
 				try {
 					int lineNum = text.getLineOfOffset(e.getDot());
 					list.setSelectedIndex(lineNum);
-					line.setText(""+lineNum);
-					column.setText(""+(e.getDot() - text.getLineStartOffset(lineNum)));
+					TextState.lineValue.setText(""+lineNum);
+					TextState.columnValue.setText(""+(e.getDot() - text.getLineStartOffset(lineNum)));
 				} catch (BadLocationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
