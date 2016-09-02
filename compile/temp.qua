@@ -1,4 +1,5 @@
 (FUNCTION	fun
+  Params: NULL
   BLOCK 0: 
 	FUNC_DEC []  []
   BLOCK 1: 
@@ -17,7 +18,8 @@
 	RET []  [RET ret]
 )
 (FUNCTION	fun1
-INT a FLOAT b  BLOCK 0: 
+  Params: INT a | FLOAT b
+  BLOCK 0: 
 	FUNC_DEC []  []
   BLOCK 1: 
   BLOCK 4: 
@@ -35,7 +37,8 @@ INT a FLOAT b  BLOCK 0:
 	RET []  [RET ret]
 )
 (FUNCTION	output
-INT a  BLOCK 0: 
+  Params: INT a
+  BLOCK 0: 
 	FUNC_DEC []  []
   BLOCK 1: 
   BLOCK 2: 
@@ -43,6 +46,7 @@ INT a  BLOCK 0:
 	RET []  [RET ret]
 )
 (FUNCTION	main
+  Params: NULL
   BLOCK 0: 
 	FUNC_DEC []  []
   BLOCK 1: 

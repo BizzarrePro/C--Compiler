@@ -71,6 +71,9 @@ public class Program implements IntermediateCodeGen{
 		}
 		return first;
 	}
+	public void printObjectCode(Instruction ins){
+		printIntermadiateCode(ins);
+	}
 	public void printIntermadiateCode(Instruction ins){
 		FileWriter fw = null;
 		try{

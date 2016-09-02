@@ -1,69 +1,91 @@
 (FUNCTION	fun
+  Params: NULL
   BLOCK 0: 
-	FUNC_DEC []  []
+	PUSH []  [GR BP]
+	MOV [GR BP]  [GR SP]
   BLOCK 1: 
 	LOAD [REG 0]  [VAR_NAME a]
 	LOAD [REG 1]  [VAR_NAME a]
 	LOAD [REG 2]  [VAR_NAME a]
-	MUL [REG 3]  [REG 1 REG 2]
+	MOV [GR AX]  [REG 1]
+	MUL [GR AXGR DX]  [GR AX REG 2]
+	MOV [REG 3]  [GR AX]
 	LOAD [REG 4]  [VAR_NAME a]
-	SUB [REG 5]  [REG 3 REG 4]
+	MOV [REG 5]  [REG 3]
+	SUB [REG 5]  [REG 5 REG 4]
 	MOV [REG 0]  [REG 5]
 	STORE []  [REG 0 VAR_NAME a]
 	LOAD [REG 6]  [VAR_NAME a]
-	MOV [RET ret]  [REG 6]
+	MOV [GR AX]  [REG 6]
   BLOCK 2: 
-	FUNC_EXIT []  []
-	RET []  [RET ret]
+	MOV [GR SP]  [GR BP]
+	POP [GR BP]  []
+	RET []  [GR AX]
 )
 (FUNCTION	fun1
-INT a FLOAT b  BLOCK 0: 
-	FUNC_DEC []  []
+  Params: INT a | FLOAT b
+  BLOCK 0: 
+	PUSH []  [GR BP]
+	MOV [GR BP]  [GR SP]
+	LOAD [REG 0]  [GR SP INT 8]
+	LOAD [REG 1]  [GR SP INT 12]
   BLOCK 4: 
-	LTH [REG 2]  [REG 0 INT 10]
-	BEQ []  [REG 2 INT 0 BLOCK 5]
+	CMP [FR Flag]  [REG 0 INT 10]
+	BLT []  [BLOCK 5 FR Flag]
   BLOCK 3: 
-	ADD [REG 3]  [REG 0 INT 1]
+	MOV [REG 3]  [REG 0]
+	ADD [REG 3]  [REG 3 INT 1]
 	MOV [REG 0]  [REG 3]
 	STORE []  [REG 0 VAR_NAME a]
 	JMP []  [BLOCK 4]
   BLOCK 5: 
-	MOV [RET ret]  [REG 0]
+	MOV [GR AX]  [REG 0]
   BLOCK 2: 
-	FUNC_EXIT []  []
-	RET []  [RET ret]
+	MOV [GR SP]  [GR BP]
+	POP [GR BP]  []
+	RET []  [GR AX]
 )
 (FUNCTION	output
-INT a  BLOCK 0: 
-	FUNC_DEC []  []
+  Params: INT a
+  BLOCK 0: 
+	PUSH []  [GR BP]
+	MOV [GR BP]  [GR SP]
+	LOAD [REG 0]  [GR SP INT 8]
   BLOCK 2: 
-	FUNC_EXIT []  []
-	RET []  [RET ret]
+	MOV [GR SP]  [GR BP]
+	POP [GR BP]  []
+	RET []  [GR AX]
 )
 (FUNCTION	main
+  Params: NULL
   BLOCK 0: 
-	FUNC_DEC []  []
+	PUSH []  [GR BP]
+	MOV [GR BP]  [GR SP]
   BLOCK 5: 
 	LOAD [REG 3]  [VAR_NAME a]
-	EQUAL [REG 4]  [REG 3 INT 5]
-	BNE []  [REG 4 INT 0 BLOCK 4]
+	CMP [FR Flag]  [REG 3 INT 5]
+	CMP [FR Flag]  [FR Flag]
+	BEQ []  [ FR Flag]
   BLOCK 3: 
 	CALL []  [FUNC_NAME fun]
-	MOV [REG 5]  [RET ret]
+	MOV [REG 5]  [GR AX]
 	MOV [REG 0]  [REG 5]
   BLOCK 6: 
 	PUSH []  [REG 0]
 	CALL []  [FUNC_NAME output]
-	MOV [REG 7]  [RET ret]
-	MOV [RET ret]  [REG 0]
+	ADD [GR SP]  [GR SP INT 4]
+	MOV [REG 7]  [GR AX]
+	MOV [GR AX]  [REG 0]
   BLOCK 2: 
-	FUNC_EXIT []  []
-	RET []  [RET ret]
+	MOV [GR SP]  [GR BP]
+	POP [GR BP]  []
+	RET []  [GR AX]
   BLOCK 4: 
 	PUSH []  [REG 2]
 	PUSH []  [REG 0]
 	CALL []  [FUNC_NAME fun1]
-	MOV [REG 6]  [RET ret]
+	ADD [GR SP]  [GR SP INT 8]
+	MOV [REG 6]  [GR AX]
 	MOV [REG 0]  [REG 6]
 	JMP []  [BLOCK 6]
 )

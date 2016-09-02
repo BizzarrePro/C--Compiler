@@ -109,15 +109,25 @@ public class Function extends Instruction{
 		try{
 			fw.write("(FUNCTION	"+name+"\r\n");
 			Parameter temp = firstParam;
+			if(temp == null){
+				System.out.print(" PARAMS: NULL");
+				fw.write("  PARAMS: NULL");
+			}
+			else{
+				System.out.print(" PARAMS: ");
+				fw.write("  PARAMS: ");
+			}
 			while(temp != null){
 				if(temp != firstParam){
-					System.out.print(" ");
-					fw.write(" ");
+					System.out.print(" | ");
+					fw.write(" | ");
 				}
 				System.out.print(temp.getType()+" "+temp.getName());
 				fw.write(temp.getType()+" "+temp.getName());
 				temp = temp.getNextParam();
 			}
+			System.out.println();
+			fw.write("\r\n");
 			BasicBlock bb = firstBlock;
 			while(bb != null){
 				bb.print(fw);

@@ -142,7 +142,7 @@ public class ObjectCodeGenerator {
 		int regNum = block.getFunction().getNewRegisterNum();
 		mov1.setDestOperand(0,  new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0).getOperand()));
 		block.insertOperBefore(currOp, mov1);
-		currOp.setSrcOperand(0, new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0)));
+		currOp.setSrcOperand(0, new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0).getOperand()));
 	}
 	private void convertDivide(Operation currOp) {
 		BasicBlock block = currOp.getOwnBlock();

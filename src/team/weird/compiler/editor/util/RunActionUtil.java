@@ -51,7 +51,8 @@ public final class RunActionUtil {
 		ObjectCodeGenerator obj = new ObjectCodeGenerator(ins);
 		obj.generateObjectCode();
 		semantic.program.setPrintTag(1);
-		semantic.program.printIntermadiateCode(ins);
+		semantic.program.printObjectCode(ins);
+		semantic.program.setPrintTag(0);
 	}
 	//Test Case 1
 /**		

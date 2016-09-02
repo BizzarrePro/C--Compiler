@@ -62,6 +62,7 @@ public class BasicBlock implements printIntermadiateCode{
 	}
 	public void appendOperation(Operation op) {
 		if(firstOper != null){
+			op.setPrevOper(lastOper);
 			lastOper.setNextOper(op);
 			lastOper = op;
 		} 
