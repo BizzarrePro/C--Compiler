@@ -16,7 +16,7 @@ public class BasicBlock implements printIntermadiateCode{
 	public BasicBlock(Function func, BasicBlock prev){
 		this.function = func;
 		this.prevBlock = prev;
-		this.BlockID = func.getNewRegisterNum();
+		this.BlockID = func.getNewBlockNum();
 		if(prev != null)
 			prev.setNextBlock(this);
 
@@ -86,10 +86,10 @@ public class BasicBlock implements printIntermadiateCode{
 			lastOper = op.getPrevOper();
 		else 
 			op.getNextOper().setPrevOper(op.getPrevOper());
-		System.gc();
+		//System.gc();
 	}
-	public void InsertOper(Operation op, Operation insertOp){
-		insertOp.setNextIns(op.getNextOper());
+	public void insertOperAfter(Operation op, Operation insertOp){
+		insertOp.setNextOper(op.getNextOper());
 		if (op == lastOper){
 			lastOper = insertOp;
 		}
@@ -99,6 +99,19 @@ public class BasicBlock implements printIntermadiateCode{
 		op.setNextOper(insertOp);
 		insertOp.setPrevOper(op);
 	}
+	public void insertOperBefore(Operation oper, Operation insertOper) {
+	    insertOper.setPrevOper(oper.getPrevOper());
+	    System.out.println(oper.getOwnBlock().getBlockID()+" "+oper.getOpType()+" "+oper.getOpId());
+	    if (oper == firstOper) {
+	    	firstOper = insertOper;
+	    }
+	    else {
+	    	System.out.println(insertOper.getOpType() + " " + insertOper.getOpId());
+	    	insertOper.getPrevOper().setNextOper(insertOper);
+	    }
+	    oper.setPrevOper(insertOper);
+	    insertOper.setNextOper(oper);
+	  }
 	@Override
 	public void print(FileWriter fw) {
 		// TODO Auto-generated method stub

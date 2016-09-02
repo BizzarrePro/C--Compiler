@@ -29,20 +29,16 @@ CompoundStatement: {
 			VariableExpression: a
 			LTHAN
 			LiteralExpression: 10
-		CompoundStatement: {
-			VariableDeclaration: b
-			VariableDeclaration: b
-			ExpressionStatement: 
-				AssignExpression: 
+		ExpressionStatement: 
+			AssignExpression: 
+				VariableExpression: a
+				=
+				BinaryExpression: 
 					VariableExpression: a
-					=
-					BinaryExpression: 
-						VariableExpression: a
-						ADD
-						LiteralExpression: 1
+					ADD
+					LiteralExpression: 1
 
 
-		}
 
 	ReturnStmt: 
 		VariableExpression: a}

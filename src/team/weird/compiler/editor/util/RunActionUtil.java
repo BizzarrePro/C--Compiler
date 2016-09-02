@@ -2,9 +2,11 @@ package team.weird.compiler.editor.util;
 
 import java.io.IOException;
 
+import team.weird.compiler.cminus.asmgen.ObjectCodeGenerator;
 import team.weird.compiler.cminus.codegen.Instruction;
 import team.weird.compiler.cminus.lexer.Lexer;
 import team.weird.compiler.cminus.lexer.Token;
+import team.weird.compiler.cminus.optimizer.AlgebraOptimize;
 import team.weird.compiler.cminus.parser.EliminationOfLeftRecursion;
 import team.weird.compiler.cminus.parser.ExtractProduction;
 import team.weird.compiler.cminus.parser.FirstSet;
@@ -44,6 +46,12 @@ public final class RunActionUtil {
 		Instruction ins = semantic.program.generateIntermediateCode();
 		semantic.program.printIntermadiateCode(ins);
 		err.throwsAllExceptions();
+		AlgebraOptimize algebra = new AlgebraOptimize(ins);
+		algebra.optimize();
+		ObjectCodeGenerator obj = new ObjectCodeGenerator(ins);
+		obj.generateObjectCode();
+		semantic.program.setPrintTag(1);
+		semantic.program.printIntermadiateCode(ins);
 	}
 	//Test Case 1
 /**		

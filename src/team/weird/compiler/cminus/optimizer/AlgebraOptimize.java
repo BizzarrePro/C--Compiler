@@ -19,6 +19,8 @@ public class AlgebraOptimize implements Optimize{
 		// TODO Auto-generated method stub
 		for(Instruction f = this.first; f != null; f = f.getNextIns()){
 			removeEmptyBlockOptimize((Function)f);
+			//justJumpBlockOptimize((Function)f);
+			unreachableBlockOptimize((Function)f);
 		}
 	}
 	//strength reduction
@@ -105,8 +107,8 @@ public class AlgebraOptimize implements Optimize{
 		op.setOpType(OperandType.MOV);
 	}
 	private void removeEmptyBlockOptimize(Function fun){
-		int maxBBNum = fun.getBlockNum();
-		int[] record = new int[maxBBNum];
+		int maxBBNum = fun.getMaxBlockNum();
+		int[] record = new int[maxBBNum + 1];
 		for(int i = 0; i < record.length; i++)
 			record[i] = 0;
 		//remove empty block
@@ -116,6 +118,7 @@ public class AlgebraOptimize implements Optimize{
 			if(b.getNextBlock() == null)
 				break;
 			int emptyBlockNum = b.getBlockID();
+			System.out.println("empty: "+ emptyBlockNum);
 			int nextBlockNum = b.getNextBlock().getBlockID();
 			record[emptyBlockNum] = nextBlockNum; 
 			fun.removeBlock(b);
@@ -186,7 +189,7 @@ public class AlgebraOptimize implements Optimize{
 		}
 	}
 	private void unreachableBlockOptimize(Function fun){
-		boolean[] passibleBlocks = new boolean[fun.getBlockNum()+1];
+		boolean[] passibleBlocks = new boolean[fun.getMaxBlockNum()+1];
 		for (BasicBlock b = fun.getFirstBlock(); b != null; b = b.getNextBlock()) {
 			if(b == fun.getFirstBlock())
 				continue;

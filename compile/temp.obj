@@ -19,7 +19,6 @@
 (FUNCTION	fun1
 INT a FLOAT b  BLOCK 0: 
 	FUNC_DEC []  []
-  BLOCK 1: 
   BLOCK 4: 
 	LTH [REG 2]  [REG 0 INT 10]
 	BEQ []  [REG 2 INT 0 BLOCK 5]
@@ -37,7 +36,6 @@ INT a FLOAT b  BLOCK 0:
 (FUNCTION	output
 INT a  BLOCK 0: 
 	FUNC_DEC []  []
-  BLOCK 1: 
   BLOCK 2: 
 	FUNC_EXIT []  []
 	RET []  [RET ret]
@@ -45,7 +43,6 @@ INT a  BLOCK 0:
 (FUNCTION	main
   BLOCK 0: 
 	FUNC_DEC []  []
-  BLOCK 1: 
   BLOCK 5: 
 	LOAD [REG 3]  [VAR_NAME a]
 	EQUAL [REG 4]  [REG 3 INT 5]

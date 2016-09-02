@@ -7,7 +7,6 @@ import team.weird.compiler.cminus.codegen.Operand;
 import team.weird.compiler.cminus.codegen.OperandType;
 import team.weird.compiler.cminus.codegen.Operation;
 import team.weird.compiler.cminus.codegen.Parameter;
-import team.weird.compiler.cminus.parser.FirstSet;
 import team.weird.compiler.cminus.semantic.Semantic;
 
 public class ObjectCodeGenerator {
@@ -16,7 +15,7 @@ public class ObjectCodeGenerator {
 	public ObjectCodeGenerator(Instruction ins){
 		this.ins = ins;
 	}
-	public void generateASM(){
+	public void generateObjectCode(){
 		convertFuncEntry();
 		convertRetReg();
 		convertOperations();
@@ -78,7 +77,7 @@ public class ObjectCodeGenerator {
 			op.setSrcOperand(1, src1);
 			Operand dest0 = new Operand(OperandType.GR, "SP");
 			op.setDestOperand(0, dest0);
-			block.InsertOper(currOp, op);
+			block.insertOperAfter(currOp, op);
 		}
 	}
 	private void convertSubtract(Operation currOp) {
@@ -100,7 +99,7 @@ public class ObjectCodeGenerator {
 		mov1.setSrcOperand(0, currOp.getSrcOperand(0));
 		//int regNum = block.getFunction().getNewRegisterNum();
 		mov1.setDestOperand(0, new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0).getOperand()));
-		block.InsertOper(currOp, mov1);
+		block.insertOperBefore(currOp, mov1);
 		currOp.setSrcOperand(0, new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0).getOperand()));
 	}
 	private void convertAdd(Operation currOp) {
@@ -142,22 +141,24 @@ public class ObjectCodeGenerator {
 		mov1.setSrcOperand(0, currOp.getSrcOperand(0));
 		int regNum = block.getFunction().getNewRegisterNum();
 		mov1.setDestOperand(0,  new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0).getOperand()));
-		block.InsertOper(currOp, mov1);
+		block.insertOperBefore(currOp, mov1);
 		currOp.setSrcOperand(0, new Operand(currOp.getDestOperand(0).getOpType(), currOp.getDestOperand(0)));
 	}
 	private void convertDivide(Operation currOp) {
 		BasicBlock block = currOp.getOwnBlock();
+		currOp.setOpType(OperandType.DIV);
+		
 		Operation mov1 = new Operation(OperandType.MOV, block);
 		mov1.setSrcOperand(0, currOp.getSrcOperand(0));
 		mov1.setDestOperand(0, new Operand(OperandType.GR, "AX"));
-		block.InsertOper(currOp, mov1);
-		
+		block.insertOperBefore(currOp, mov1);
+		////
 		if (currOp.getSrcOperand(1).getOpType() == OperandType.INT) {
 			Operation mov2 = new Operation(OperandType.MOV, block);
 			mov2.setSrcOperand(0, currOp.getSrcOperand(1));
 			int regNum = block.getFunction().getNewRegisterNum();
 			mov2.setDestOperand(0, new Operand(OperandType.REG, regNum));
-			block.InsertOper(currOp, mov2);
+			block.insertOperBefore(currOp, mov2);
 			currOp.setSrcOperand(1, new Operand(mov2.getDestOperand(0).getOpType(), mov2.getDestOperand(0).getOperand()));
 		}
 		
@@ -165,7 +166,7 @@ public class ObjectCodeGenerator {
 		Operation postMov = new Operation(OperandType.MOV, block);
 		postMov.setDestOperand(0, currOp.getDestOperand(0));
 		postMov.setSrcOperand(0, new Operand(OperandType.GR, "AX"));
-		block.InsertOper(currOp, postMov);
+		block.insertOperAfter(currOp, postMov);
 		currOp.setDestOperand(0, new Operand(OperandType.GR, "AX"));
 		currOp.setDestOperand(1, new Operand(OperandType.GR, "DX"));
 		
@@ -175,14 +176,14 @@ public class ObjectCodeGenerator {
 		Operation mov1 = new Operation(OperandType.MOV, block);
 		mov1.setSrcOperand(0, currOp.getSrcOperand(0));
 		mov1.setDestOperand(0, new Operand(OperandType.GR, "AX"));
-		block.InsertOper(currOp, mov1);
+		block.insertOperBefore(currOp, mov1);
 		
 		if (currOp.getSrcOperand(1).getOpType() == OperandType.INT) {
 			Operation mov2 = new Operation(OperandType.MOV, block);
 			mov2.setSrcOperand(0, currOp.getSrcOperand(1));
 			int regNum = block.getFunction().getNewRegisterNum();
 			mov2.setDestOperand(0, new Operand(OperandType.REG, regNum));
-			block.InsertOper(currOp, mov2);
+			block.insertOperBefore(currOp, mov2);
 			currOp.setSrcOperand(1, new Operand(mov2.getDestOperand(0).getOpType(), mov2.getDestOperand(0).getOperand()));
 		}
 		
@@ -190,18 +191,99 @@ public class ObjectCodeGenerator {
 		Operation postMov = new Operation(OperandType.MOV, block);
 		postMov.setDestOperand(0, currOp.getDestOperand(0));
 		postMov.setSrcOperand(0, new Operand(OperandType.GR, "AX"));
-		block.InsertOper(currOp, postMov);
+		block.insertOperAfter(currOp, postMov);
 		currOp.setDestOperand(0, new Operand(OperandType.GR, "AX"));
 		currOp.setDestOperand(1, new Operand(OperandType.GR, "DX"));
 		
 	}
 	private void convertBranch(Operation currOp) {
-		
-		
+		BasicBlock block = currOp.getOwnBlock();
+		Operation cmp = new Operation(OperandType.CMP, block);
+		if(currOp.getSrcOperand(0).getOpType() == OperandType.INT) {
+			Operation mov = new Operation(OperandType.MOV, block);
+			Operand src = new Operand(currOp.getSrcOperand(0).getOpType(), currOp.getSrcOperand(0).getOperand());
+			mov.setSrcOperand(0, src);
+			int regNum = block.getFunction().getNewRegisterNum();
+			Operand dest = new Operand(OperandType.REG, regNum);
+			mov.setDestOperand(0, dest);
+			block.insertOperBefore(currOp, mov);
+			cmp.setSrcOperand(0, new Operand(mov.getDestOperand(0).getOpType(), mov.getDestOperand(0).getOperand()));
+		}
+		else {
+			cmp.setSrcOperand(0, new Operand(currOp.getSrcOperand(0).getOpType(), currOp.getSrcOperand(0).getOperand()));
+		}
+		cmp.setSrcOperand(0, new Operand(currOp.getSrcOperand(1).getOpType(), currOp.getSrcOperand(1).getOperand()));
+		Operand dest = new Operand(OperandType.FR, "Flag");
+		cmp.setDestOperand(0, dest);
+		block.insertOperBefore(currOp, cmp);
+		currOp.setSrcOperand(0, currOp.getSrcOperand(2));
+		currOp.setSrcOperand(1, new Operand(OperandType.FR, "Flag"));
+		//currOp.setSrcOperand(2, null);
 	}
 	private void convertComparison(Operation currOp) {
+		BasicBlock block = currOp.getOwnBlock();
+		OperandType type = currOp.getOpType();
+		Operation cmp = new Operation(OperandType.CMP, block);
+		if(currOp.getSrcOperand(0).getOpType() == OperandType.INT){
+			Operation mov = new Operation(OperandType.MOV, block);
+			Operand src = new Operand(currOp.getSrcOperand(0).getOpType(), currOp.getSrcOperand(0).getOperand());
+			mov.setSrcOperand(0, src);
+			int regNum = block.getFunction().getNewRegisterNum();
+			Operand dest = new Operand(OperandType.REG, regNum);
+			mov.setDestOperand(0, dest);
+			block.insertOperBefore(currOp, mov);
+			
+			cmp.setSrcOperand(0, new Operand(mov.getDestOperand(0).getOpType(), mov.getDestOperand(0).getOperand()));
+		}
+		else {
+			cmp.setSrcOperand(0, new Operand(currOp.getSrcOperand(0).getOpType(), currOp.getSrcOperand(0).getOperand()));
+		}
 		
+		cmp.setSrcOperand(1, new Operand(currOp.getSrcOperand(1).getOpType(), currOp.getSrcOperand(1).getOperand()));
+		Operand dest = new Operand(OperandType.FR, "Flag");
+		cmp.setDestOperand(0, dest);
+		System.out.println(currOp.getOwnBlock().getBlockID()+ " " +currOp.getOpId()+ " " + currOp.getOpType());
 		
+		block.insertOperAfter(currOp, cmp);
+		block.removeOper(currOp);
+		
+		Operation oldBranch = cmp.getNextOper();
+		Operation newBranch = null;
+		if(oldBranch != null && oldBranch.getOpType() == OperandType.BEQ) {
+			newBranch = new Operation(getReverseBranchType(type), block);
+		}
+		else if(oldBranch != null && oldBranch.getOpType() == OperandType.BNE) {
+			newBranch = new Operation(getBranchType(type), block);
+		}
+		Operand flagOp = new Operand(OperandType.FR, "Flag");
+		if(newBranch != null){
+			newBranch.setSrcOperand(0,  oldBranch.getSrcOperand(2));
+			newBranch.setSrcOperand(1, flagOp);
+			block.insertOperAfter(cmp, newBranch);
+		}
+		block.removeOper(oldBranch);
+	}
+	private OperandType getBranchType(OperandType type) {
+		switch (type) {
+		case LTH:	return OperandType.BLT;
+		case LETH:	return OperandType.BLE;
+		case GTH:	return OperandType.BGT;
+		case GETH:	return OperandType.BGE;
+		case EQUAL:	return OperandType.BEQ;
+		case NOTEQ:	return OperandType.BNE;
+		default:	return OperandType.NULL;
+		}
+	}
+	private OperandType getReverseBranchType(OperandType type) {
+		switch (type) {
+		case LTH:	return OperandType.BLT;
+		case LETH:	return OperandType.BLE;
+		case GTH:	return OperandType.BGT;
+		case GETH:	return OperandType.BGE;
+		case EQUAL:	return OperandType.BNE;
+		case NOTEQ:	return OperandType.BEQ;
+		default:	return OperandType.NULL;
+		}
 	}
 	private void convertFuncExit(BasicBlock b) {
 		b.removeOper(b.getFirstOper());
@@ -210,12 +292,12 @@ public class ObjectCodeGenerator {
 		oper1.setSrcOperand(0, src0);
 		Operand dest0 = new Operand(OperandType.GR, "SP");
 		oper1.setDestOperand(0, dest0);
-		b.InsertOper(b.getFirstOper(), oper1);
+		b.insertOperBefore(b.getFirstOper(), oper1);
 		
 		Operation oper2 = new Operation(OperandType.POP, b);
 		dest0 = new Operand(OperandType.GR, "BP");
 		oper2.setDestOperand(0, dest0);
-		b.InsertOper(oper1, oper2);
+		b.insertOperAfter(oper1, oper2);
 		
 	}
 	private void convertFuncDec(BasicBlock b) {
@@ -227,7 +309,7 @@ public class ObjectCodeGenerator {
 			b.appendOperation(op1);
 		}
 		else {
-			b.InsertOper(b.getFirstOper(), op1);
+			b.insertOperBefore(b.getFirstOper(), op1);
 		}
 		
 		Operation op2 = new Operation(OperandType.MOV, b);
@@ -235,7 +317,7 @@ public class ObjectCodeGenerator {
 		op2.setSrcOperand(0, src0);
 		Operand dest0 = new Operand(OperandType.GR, "BP");
 		op2.setDestOperand(0, dest0);
-		b.InsertOper(op1, op2);
+		b.insertOperAfter(op1, op2);
 		
 		Operation insertedOp = op2;
 		
@@ -252,7 +334,7 @@ public class ObjectCodeGenerator {
 			loadOp.setSrcOperand(1, src1);
 			dest0 = new Operand(OperandType.REG, regNum);
 			loadOp.setDestOperand(0, dest0);
-			b.InsertOper(insertedOp, loadOp);
+			b.insertOperAfter(insertedOp, loadOp);
 			insertedOp = loadOp;
 			paramOffset += 4;
 		}
@@ -286,7 +368,7 @@ public class ObjectCodeGenerator {
 		
 	}
 	private void convertFuncEntry() {
-		for (Instruction curr = ins; curr != null; ins = ins.getNextIns()){
+		for (Instruction curr = ins; curr != null; curr = curr.getNextIns()){
 			Function fun = (Function)curr;
 			for(BasicBlock b = fun.getFirstBlock(); b != null; b = b.getNextBlock()){
 				if(b.getFirstOper() != null &&

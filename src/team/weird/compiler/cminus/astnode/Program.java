@@ -11,11 +11,15 @@ import team.weird.compiler.cminus.codegen.IntermediateCodeGen;
 
 public class Program implements IntermediateCodeGen{
 	private ArrayList<Declaration> declarations = new ArrayList<Declaration>();
+	private int printTag = 0;
 	public void addDeclaration(Declaration dec) {
 		declarations.add(dec);
 	}
 	public Program(){
 		
+	}
+	public void setPrintTag(int tag){
+		this.printTag = tag;
 	}
 	public ArrayList<Declaration> getDeclarations() {
 		return declarations;
@@ -70,7 +74,10 @@ public class Program implements IntermediateCodeGen{
 	public void printIntermadiateCode(Instruction ins){
 		FileWriter fw = null;
 		try{
-			fw = new FileWriter(new File("./compile/temp.qua"));
+			if(printTag == 0)
+				fw = new FileWriter(new File("./compile/temp.qua"));
+			else
+				fw = new FileWriter(new File("./compile/temp.obj"));
 			ins.print(fw);
 			Instruction temp = ins.getNextIns();
 			while(temp != null){

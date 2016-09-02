@@ -5,8 +5,8 @@ import team.weird.compiler.cminus.semantic.Type;
 
 public enum OperandType {
 	FUNC_DEC, FUNC_EXIT, MOV, INT, FLOAT, REG, BLOCK, ADD, SUB, MUL, DIV,
-	EQUAL, GTH, LTH, GETH, LETH, NOTEQ, NULL, PUSH, POP, CALL, FUNC_NAME, RET, BEQ,
-	BNE, JMP, LOAD, VAR_NAME, STORE, GR;
+	EQUAL, GTH, LTH, GETH, CMP, LETH, NOTEQ, NULL, PUSH, POP, CALL, FUNC_NAME, RET, BEQ,
+	BNE, JMP, LOAD, VAR_NAME, STORE, GR, FR, BLT, BLE, BGT, BGE;
 	public static OperandType typeConvert(Operator opera){
 		switch(opera){
 			case MUL:	return MUL;

@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.swing.text.MaskFormatter;
+
 import team.weird.compiler.cminus.astnode.VariableDeclaration;
 import team.weird.compiler.cminus.codegen.OperandType;
 import team.weird.compiler.cminus.semantic.Type;
@@ -19,6 +21,7 @@ public class Function extends Instruction{
 	private BasicBlock maybeUnreachableBlock;
 	private BasicBlock firstUnreachableBlock;
 	private int registerNum;
+	private int maxBlockNum;
 	private HashMap<String, SymbolAttribute> symbolTable;
 	public Function(){
 		
@@ -27,6 +30,7 @@ public class Function extends Instruction{
 		this.retType = retType;
 		this.name = name;
 		this.symbolTable = new HashMap<String, SymbolAttribute>();
+		this.maxBlockNum = -1;
 	}
 	public Type getRetType() {
 		return retType;
@@ -77,8 +81,13 @@ public class Function extends Instruction{
 		this.symbolTable = symbolTable;
 	}
 	public int getNewRegisterNum() {
-		// TODO Auto-generated method stub
 		return registerNum++;
+	}
+	public int getNewBlockNum() {
+		return ++maxBlockNum;
+	}
+	public int getMaxBlockNum(){
+		return maxBlockNum;
 	}
 	public void createBlock(){
 		firstBlock = new BasicBlock(this, null);
@@ -175,7 +184,7 @@ public class Function extends Instruction{
 	    }
 	}
 	public int getBlockNum(){
-		int count = 0;
+		int count = -1;
 		for(BasicBlock b = firstBlock; b.getNextBlock() != null; b = b.getNextBlock())
 			count++;
 		return count;
