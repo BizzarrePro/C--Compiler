@@ -1,76 +1,28 @@
-(FUNCTION	fun
-  PARAMS: NULL
-  BLOCK 0: 
-	FUNC_DEC []  []
-  BLOCK 1: 
-	LOAD [REG 0]  [VAR_NAME a]
-	LOAD [REG 1]  [VAR_NAME a]
-	LOAD [REG 2]  [VAR_NAME a]
-	MUL [REG 3]  [REG 1 REG 2]
-	LOAD [REG 4]  [VAR_NAME a]
-	SUB [REG 5]  [REG 3 REG 4]
-	MOV [REG 0]  [REG 5]
-	STORE []  [REG 0 VAR_NAME a]
-	LOAD [REG 6]  [VAR_NAME a]
-	MOV [RET ret]  [REG 6]
-  BLOCK 2: 
-	FUNC_EXIT []  []
-	RET []  [RET ret]
-)
-(FUNCTION	fun1
-  PARAMS: INT a | FLOAT b
-  BLOCK 0: 
-	FUNC_DEC []  []
-  BLOCK 1: 
-  BLOCK 4: 
-	LTH [REG 2]  [REG 0 INT 10]
-	BEQ []  [REG 2 INT 0 BLOCK 5]
-  BLOCK 3: 
-	ADD [REG 3]  [REG 0 INT 1]
-	MOV [REG 0]  [REG 3]
-	STORE []  [REG 0 VAR_NAME a]
-	JMP []  [BLOCK 4]
-  BLOCK 5: 
-	MOV [RET ret]  [REG 0]
-  BLOCK 2: 
-	FUNC_EXIT []  []
-	RET []  [RET ret]
-)
-(FUNCTION	output
-  PARAMS: INT a
-  BLOCK 0: 
-	FUNC_DEC []  []
-  BLOCK 1: 
-  BLOCK 2: 
-	FUNC_EXIT []  []
-	RET []  [RET ret]
-)
 (FUNCTION	main
   PARAMS: NULL
   BLOCK 0: 
 	FUNC_DEC []  []
   BLOCK 1: 
-  BLOCK 5: 
-	LOAD [REG 3]  [VAR_NAME a]
-	EQUAL [REG 4]  [REG 3 INT 5]
-	BNE []  [REG 4 INT 0 BLOCK 4]
+	MOV [REG 0]  [INT 5]
+  BLOCK 4: 
+	LTH [REG 2]  [REG 0 INT 10]
+	BEQ []  [REG 2 INT 0 BLOCK 5]
   BLOCK 3: 
-	CALL []  [FUNC_NAME fun]
-	MOV [REG 5]  [RET ret]
-	MOV [REG 0]  [REG 5]
-  BLOCK 6: 
 	PUSH []  [REG 0]
-	CALL []  [FUNC_NAME output]
-	MOV [REG 7]  [RET ret]
-	MOV [RET ret]  [REG 0]
+	CALL []  [FUNC_NAME printf]
+	MOV [REG 3]  [RET ret]
+	JMP []  [BLOCK 4]
+  BLOCK 5: 
   BLOCK 2: 
 	FUNC_EXIT []  []
 	RET []  [RET ret]
-  BLOCK 4: 
-	PUSH []  [REG 2]
-	PUSH []  [REG 0]
-	CALL []  [FUNC_NAME fun1]
-	MOV [REG 6]  [RET ret]
-	MOV [REG 0]  [REG 6]
-	JMP []  [BLOCK 6]
+)
+(FUNCTION	printf
+  PARAMS: INT i
+  BLOCK 0: 
+	FUNC_DEC []  []
+  BLOCK 1: 
+  BLOCK 2: 
+	FUNC_EXIT []  []
+	RET []  [RET ret]
 )

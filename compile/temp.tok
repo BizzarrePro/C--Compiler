@@ -1,105 +1,41 @@
  --------------------------------------------------
 |                   Token Stream                   |
  --------------------------------------------------
-Token: [ int ] Line: 15
-Identify: [ ID ] Identify: [ a ] Line: 1
-Token: [ ; ] Line: 1
-Token: [ int ] Line: 15
-Identify: [ ID ] Identify: [ fun ] Line: 2
-Token: [ ( ] Line: 2
-Token: [ void ] Line: 13
-Token: [ ) ] Line: 2
+Token: [ void ] Line: 10
+Identify: [ ID ] Identify: [ main ] Line: 1
+Token: [ ( ] Line: 1
+Token: [ void ] Line: 10
+Token: [ ) ] Line: 1
 Token: [ { ] Line: 2
-Identify: [ ID ] Identify: [ a ] Line: 3
-Token: [ = ] Line: 20
-Identify: [ ID ] Identify: [ a ] Line: 3
-Token: [ * ] Line: 3
-Identify: [ ID ] Identify: [ a ] Line: 3
-Token: [ - ] Line: 3
-Identify: [ ID ] Identify: [ a ] Line: 3
+Token: [ int ] Line: 10
+Identify: [ ID ] Identify: [ i ] Line: 3
 Token: [ ; ] Line: 3
-Token: [ return ] Line: 22
-Identify: [ ID ] Identify: [ a ] Line: 4
+Token: [ int ] Line: 10
+Identify: [ ID ] Identify: [ j ] Line: 4
 Token: [ ; ] Line: 4
-Token: [ } ] Line: 5
-Token: [ int ] Line: 15
-Identify: [ ID ] Identify: [ fun1 ] Line: 6
+Identify: [ ID ] Identify: [ i ] Line: 5
+Token: [ = ] Line: 5
+Number: [ NUM ] Integer Value: [ 5 ] Line: 5
+Token: [ ; ] Line: 5
+Token: [ while ] Line: 6
 Token: [ ( ] Line: 6
-Token: [ int ] Line: 15
-Identify: [ ID ] Identify: [ a ] Line: 6
-Token: [ , ] Line: 6
-Token: [ double ] Line: 16
-Identify: [ ID ] Identify: [ b ] Line: 6
+Identify: [ ID ] Identify: [ i ] Line: 6
+Token: [ < ] Line: 6
+Number: [ NUM ] Integer Value: [ 10 ] Line: 6
 Token: [ ) ] Line: 6
 Token: [ { ] Line: 6
-Token: [ while ] Line: 7
+Identify: [ ID ] Identify: [ printf ] Line: 7
 Token: [ ( ] Line: 7
-Identify: [ ID ] Identify: [ a ] Line: 7
-Token: [ < ] Line: 7
-Number: [ NUM ] Integer Value: [ 10 ] Line: 7
+Identify: [ ID ] Identify: [ i ] Line: 7
 Token: [ ) ] Line: 7
-Identify: [ ID ] Identify: [ a ] Line: 8
-Token: [ = ] Line: 20
-Identify: [ ID ] Identify: [ a ] Line: 8
-Token: [ + ] Line: 8
-Number: [ NUM ] Integer Value: [ 1 ] Line: 8
-Token: [ ; ] Line: 8
-Token: [ return ] Line: 22
-Identify: [ ID ] Identify: [ a ] Line: 9
-Token: [ ; ] Line: 9
-Token: [ } ] Line: 10
-Token: [ void ] Line: 13
-Identify: [ ID ] Identify: [ output ] Line: 11
-Token: [ ( ] Line: 11
-Token: [ int ] Line: 15
-Identify: [ ID ] Identify: [ a ] Line: 11
-Token: [ ) ] Line: 11
-Token: [ { ] Line: 11
+Token: [ ; ] Line: 7
+Token: [ } ] Line: 8
+Token: [ } ] Line: 9
+Token: [ void ] Line: 10
+Identify: [ ID ] Identify: [ printf ] Line: 10
+Token: [ ( ] Line: 10
+Token: [ int ] Line: 10
+Identify: [ ID ] Identify: [ i ] Line: 10
+Token: [ ) ] Line: 10
+Token: [ { ] Line: 10
 Token: [ } ] Line: 12
-Token: [ int ] Line: 15
-Identify: [ ID ] Identify: [ main ] Line: 13
-Token: [ ( ] Line: 13
-Token: [ void ] Line: 13
-Token: [ ) ] Line: 13
-Token: [ { ] Line: 13
-Token: [ int ] Line: 15
-Identify: [ ID ] Identify: [ d ] Line: 14
-Token: [ int ] Line: 15
-Identify: [ ID ] Identify: [ c ] Line: 15
-Token: [ ; ] Line: 15
-Token: [ double ] Line: 16
-Identify: [ ID ] Identify: [ e ] Line: 16
-Token: [ ; ] Line: 16
-Token: [ if ] Line: 17
-Token: [ ( ] Line: 17
-Identify: [ ID ] Identify: [ a ] Line: 17
-Token: [ == ] Line: 17
-Number: [ NUM ] Integer Value: [ 5 ] Line: 17
-Token: [ ) ] Line: 17
-Identify: [ ID ] Identify: [ d ] Line: 18
-Token: [ = ] Line: 20
-Identify: [ ID ] Identify: [ fun ] Line: 18
-Token: [ ( ] Line: 18
-Token: [ ) ] Line: 18
-Token: [ + ] Line: 18
-Number: [ NUM ] Integer Value: [ 1 ] Line: 18
-Token: [ ; ] Line: 18
-Token: [ else ] Line: 19
-Identify: [ ID ] Identify: [ d ] Line: 20
-Token: [ = ] Line: 20
-Identify: [ ID ] Identify: [ fun1 ] Line: 20
-Token: [ ( ] Line: 20
-Identify: [ ID ] Identify: [ d ] Line: 20
-Token: [ , ] Line: 20
-Identify: [ ID ] Identify: [ e ] Line: 20
-Token: [ ) ] Line: 20
-Token: [ ; ] Line: 20
-Identify: [ ID ] Identify: [ output ] Line: 21
-Token: [ ( ] Line: 21
-Identify: [ ID ] Identify: [ d ] Line: 21
-Token: [ ) ] Line: 21
-Token: [ ; ] Line: 21
-Token: [ return ] Line: 22
-Number: [ NUM ] Integer Value: [ 0 ] Line: 22
-Token: [ ; ] Line: 22
-Token: [ } ] Line: 23

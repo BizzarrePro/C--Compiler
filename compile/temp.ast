@@ -1,91 +1,32 @@
-VariableDeclaration: a
-FunctionDeclaration: INT fun ( 
+FunctionDeclaration: VOID main ( 
 )
 CompoundStatement: {
+	VariableDeclaration: i
+	VariableDeclaration: j
 	ExpressionStatement: 
 		AssignExpression: 
-			VariableExpression: a
+			VariableExpression: i
 			=
-			BinaryExpression: 
-				BinaryExpression: 
-					VariableExpression: a
-					MUL
-					VariableExpression: a
+			LiteralExpression: 5
 
-				SUB
-				VariableExpression: a
-
-
-	ReturnStmt: 
-		VariableExpression: a}
-
-FunctionDeclaration: INT fun1 ( 
-Variable: a
-Variable: b
-)
-CompoundStatement: {
 	IterationStmt: 
 		BinaryExpression: 
-			VariableExpression: a
+			VariableExpression: i
 			LTHAN
 			LiteralExpression: 10
-		ExpressionStatement: 
-			AssignExpression: 
-				VariableExpression: a
-				=
-				BinaryExpression: 
-					VariableExpression: a
-					ADD
-					LiteralExpression: 1
+		CompoundStatement: {
+			ExpressionStatement: 
+				CallExpression: printf ( 
+					VariableExpression: i
+				 )
 
+		}
 
+}
 
-	ReturnStmt: 
-		VariableExpression: a}
-
-FunctionDeclaration: VOID output ( 
-Variable: a
+FunctionDeclaration: VOID printf ( 
+Variable: i
 )
 CompoundStatement: {
 }
-
-FunctionDeclaration: INT main ( 
-)
-CompoundStatement: {
-	VariableDeclaration: d
-	VariableDeclaration: c
-	VariableDeclaration: e
-	SelectionStmt: if (
-		BinaryExpression: 
-			VariableExpression: a
-			EQUAL
-			LiteralExpression: 5
-	 )
-		ExpressionStatement: 
-			AssignExpression: 
-				VariableExpression: d
-				=
-				CallExpression: fun ( 
-				 )
-
-
-
-	else
-		ExpressionStatement: 
-			AssignExpression: 
-				VariableExpression: d
-				=
-				CallExpression: fun1 ( 
-					VariableExpression: d
-					VariableExpression: e
-				 )
-
-
-	ExpressionStatement: 
-		CallExpression: output ( 
-			VariableExpression: d
-		 )
-
-	ReturnStmt: 
-		LiteralExpression: 0}
 

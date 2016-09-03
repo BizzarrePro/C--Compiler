@@ -204,7 +204,27 @@ public class RunAction extends AbstractAction implements RunMenuItemFunc{
 	@Override
 	public void showAsmCode() {
 		// TODO Auto-generated method stub
-		
+		FileAction fileAction = new FileAction("", tab);
+		File file = new File("./compile/temp.obj");
+		JTextArea text = fileAction.newFileAction("temp.obj");
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			StringBuffer sb = new StringBuffer();
+			String content = br.readLine();
+			while(content != null){
+				sb.append(content);
+				sb.append("\r\n");
+				content = br.readLine();
+			}
+			text.setText(sb.toString());
+		} catch (FileNotFoundException fn){
+			fn.printStackTrace();
+		} catch (IOException ex){
+			ex.printStackTrace();
+		}
 	}
 	@Override
 	public void showOriginalSyntax() {

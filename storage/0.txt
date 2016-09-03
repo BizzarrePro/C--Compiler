@@ -1,24 +1,13 @@
 Untitle10
-int a;
-int fun(void){
-    a = a * a - a;
-    return a/2;
+void main(void)
+{
+  int i;
+  int j;
+  i = 5;
+  while(i < 10){
+    printf(i);
+  }
 }
-int fun1(int a, double b){
-    while(a < 10)
-	a=a+1;
-    return a;
-}
-void output(int a){
-}
-int main(void){
-    int d;
-    int c;
-    double e;
-    if(a == 5)
-       d = fun() + 1;
-    else
-       d = fun1(d, e);
-    output(d);
-    return 0;
+void printf(int i){
+  
 }
