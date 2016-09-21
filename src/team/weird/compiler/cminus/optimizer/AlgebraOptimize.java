@@ -20,7 +20,7 @@ public class AlgebraOptimize implements Optimize{
 		for(Instruction f = this.first; f != null; f = f.getNextIns()){
 			removeEmptyBlockOptimize((Function)f);
 			//justJumpBlockOptimize((Function)f);
-			unreachableBlockOptimize((Function)f);
+			//unreachableBlockOptimize((Function)f);
 		}
 	}
 	//strength reduction

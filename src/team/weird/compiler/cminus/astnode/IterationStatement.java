@@ -61,7 +61,8 @@ public class IterationStatement extends Statement{
 		Type iterType = iteration.generateIntermediateCode(fun);
 		if(iteration.getClass() != BinaryExpression.class)
 			err.addException(new SemanticException(iteration.getId(), iteration.getLine(), 15));
-		Operation op = new Operation(OperandType.BEQ, fun.getCurrBlock());
+		
+		Operation op = new Operation(OperandType.BNE, fun.getCurrBlock());
 		Operand oper = new Operand(OperandType.REG, iteration.getRegNum());
 		op.setSrcOperand(0, oper);
 		oper = new Operand(OperandType.typeConvert(iterType), 0);

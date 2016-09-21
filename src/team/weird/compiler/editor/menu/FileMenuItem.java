@@ -79,6 +79,7 @@ public class FileMenuItem{
 		statePanel.add(TextState.lineValue);
 		statePanel.add(TextState.Column);
 		statePanel.add(TextState.columnValue);
+		statePanel.add(TextState.translateResult);
 		/**
 		 * @description Create action for every menu item
 		 * @see FileAction: team.weird.texteditor.implement.FileAction.java

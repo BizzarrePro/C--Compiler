@@ -42,6 +42,8 @@ public final class RunActionUtil {
 				EliminationOfLeftRecursion.entrance);
 		analysic.print();
 		Semantic semantic = Semantic.getInstance(analysic.PredictAndAnalyze(token));
+		Semantic.globalFuntionTable.clear();
+		Semantic.globalSymbolTable.clear();
 		semantic.init();
 		Instruction ins = semantic.program.generateIntermediateCode();
 		semantic.program.printIntermadiateCode(ins);

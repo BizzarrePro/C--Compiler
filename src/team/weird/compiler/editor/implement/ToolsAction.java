@@ -8,6 +8,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -24,12 +28,14 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import chrriis.common.UIUtils;
@@ -37,13 +43,14 @@ import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 
 import team.weird.compiler.editor.function.ToolMenuItemFunc;
+import team.weird.compiler.editor.menu.TextState;
+import team.weird.compiler.editor.util.TranslateActionUtil;
 
 public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 	private JTabbedPane tab;
 	private JFrame frame;
 	private JTextField pathField;
 	private JTextField commentField;
-	private Thread t ;
 
 	public ToolsAction(String name, JTabbedPane tab) {
 		super(name);
@@ -63,12 +70,7 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 		String event = e.getActionCommand();
 		switch (event) {
 		case "Translation":
-			t = new Thread(new Runnable() {
-				public void run() {
-					translation();
-				}
-			});
-			t.start();
+			translation();
 			break;
 		case "Commitment":
 			commitToGithub();
@@ -79,17 +81,59 @@ public class ToolsAction extends AbstractAction implements ToolMenuItemFunc {
 	@Override
 	public void translation() {
 		// TODO Auto-generated method stub
-		final String url = "http://translate.google.cn/";
-		UIUtils.setPreferredLookAndFeel();
-		NativeInterface.open();
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				Browser fm = new Browser(url);				
+//		final String url = "http://translate.google.cn/";
+//		UIUtils.setPreferredLookAndFeel();
+//		NativeInterface.open();
+//		SwingUtilities.invokeLater(new Runnable() {
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				Browser fm = new Browser(url);				
+//			}
+//		});
+//		NativeInterface.runEventPump();
+		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		JTextArea temp = (JTextArea) ((JScrollPane) tab.getSelectedComponent()).getViewport().getView();
+		DataFlavor flavor = DataFlavor.stringFlavor;
+		String text = null;
+		if(clipboard.isDataFlavorAvailable(flavor)){
+			try{
+				text = (String) clipboard.getData(flavor);
+				temp.replaceSelection(text);
 			}
-		});
-		NativeInterface.runEventPump();
+			catch (UnsupportedFlavorException e) {
+				// TODO: handle exception
+				JOptionPane.showInputDialog(this, e);
+			}
+			catch (IOException e) {
+				// TODO: handle exception
+				JOptionPane.showInputDialog(this, e);
+			}	
+		}
+		String source = text;
+		String result = null;
+		try {
+			if(source != null){
+				result = TranslateActionUtil.translateToEn(source);
+				TextState.translateResult.setText("      Source: "+source + "        Target：" + result);
+				Timer timer = new Timer(2000 * result.length(), new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						TextState.translateResult.setText("");
+					}
+					
+				});
+				timer.start();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(result == null)
+			System.out.println("Unknown Exception");
+		
 	}
 
 	@Override

@@ -35,14 +35,15 @@ public class FileActionUtil {
 		ArrayList<String> container = new ArrayList<String>();
 		FileReader fr = null;
 		BufferedReader br = null;
+		String[] pathSet = new String[4];
 		int count = 0;
 		try{
 			fr = new FileReader(filename);
 			br = new BufferedReader(fr);
 			String path = br.readLine();
-			while(path != null && count < 4){
-				count++;
-				container.add(path);
+			while(path != null){
+				pathSet[count % 4] = path;
+				count ++;
 				path = br.readLine();
 			}
 		}
@@ -60,6 +61,10 @@ public class FileActionUtil {
 			catch(IOException e){
 				e.printStackTrace();
 			}
+		}
+		for(String a : pathSet){
+			if(a != null)
+				container.add(a);
 		}
 		return container;
 		

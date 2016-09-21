@@ -1,30 +1,140 @@
-(FUNCTION	main
-  PARAMS: NULL
+(FUNCTION	minloc
+  PARAMS: INT a | INT low | INT high
   BLOCK 0: 
 	PUSH []  [GR BP]
 	MOV [GR BP]  [GR SP]
+	LOAD [REG 0]  [GR SP INT 8]
+	LOAD [REG 1]  [GR SP INT 12]
+	LOAD [REG 2]  [GR SP INT 16]
   BLOCK 1: 
-	MOV [REG 0]  [INT 5]
+	MOV [REG 5]  [REG 1]
+	MOV [REG 4]  [REG 0]
+	STORE []  [REG 4 VAR_NAME x]
+	MOV [REG 6]  [REG 1]
+	ADD [REG 6]  [REG 6 INT 1]
+	MOV [REG 3]  [REG 6]
   BLOCK 4: 
-	CMP [FR Flag]  [REG 0 INT 10]
+	CMP [FR Flag]  [REG 3 REG 2]
+	BLT []  [BLOCK 5 FR Flag]
+  BLOCK 3: 
+	JMP []  [BLOCK 4]
+  BLOCK 8: 
+	CMP [FR Flag]  [REG 0 REG 4]
+	BLT []  [BLOCK 7 FR Flag]
+  BLOCK 6: 
+	MOV [REG 4]  [REG 0]
+	STORE []  [REG 4 VAR_NAME x]
+	MOV [REG 5]  [REG 3]
+  BLOCK 9: 
+	MOV [REG 9]  [REG 3]
+	ADD [REG 9]  [REG 9 INT 1]
+	MOV [REG 3]  [REG 9]
+  BLOCK 5: 
+	MOV [GR AX]  [REG 5]
+  BLOCK 2: 
+	MOV [GR SP]  [GR BP]
+	POP [GR BP]  []
+	RET []  [GR AX]
+  BLOCK 7: 
+	JMP []  [BLOCK 9]
+)
+(FUNCTION	sort
+  PARAMS: INT a | INT low | INT high
+  BLOCK 0: 
+	PUSH []  [GR BP]
+	MOV [GR BP]  [GR SP]
+	LOAD [REG 0]  [GR SP INT 8]
+	LOAD [REG 1]  [GR SP INT 12]
+	LOAD [REG 2]  [GR SP INT 16]
+  BLOCK 1: 
+	MOV [REG 3]  [REG 1]
+  BLOCK 4: 
+	MOV [REG 5]  [REG 2]
+	SUB [REG 5]  [REG 5 INT 1]
+	CMP [FR Flag]  [REG 3 REG 5]
 	BLT []  [BLOCK 2 FR Flag]
   BLOCK 3: 
+	PUSH []  [REG 2]
+	PUSH []  [REG 3]
 	PUSH []  [REG 0]
-	CALL []  [FUNC_NAME printf]
-	ADD [GR SP]  [GR SP INT 4]
-	MOV [REG 3]  [GR AX]
+	CALL []  [FUNC_NAME minloc]
+	ADD [GR SP]  [GR SP INT 12]
+	MOV [REG 8]  [GR AX]
+	MOV [REG 4]  [REG 8]
+	MOV [REG 7]  [REG 0]
+	MOV [REG 0]  [REG 0]
+	MOV [REG 0]  [REG 7]
+	MOV [REG 9]  [REG 3]
+	ADD [REG 9]  [REG 9 INT 1]
+	MOV [REG 3]  [REG 9]
 	JMP []  [BLOCK 4]
   BLOCK 2: 
 	MOV [GR SP]  [GR BP]
 	POP [GR BP]  []
 	RET []  [GR AX]
 )
-(FUNCTION	printf
-  PARAMS: INT i
+(FUNCTION	output
+  PARAMS: INT args
   BLOCK 0: 
 	PUSH []  [GR BP]
 	MOV [GR BP]  [GR SP]
 	LOAD [REG 0]  [GR SP INT 8]
+  BLOCK 2: 
+	MOV [GR SP]  [GR BP]
+	POP [GR BP]  []
+	RET []  [GR AX]
+)
+(FUNCTION	input
+  PARAMS: NULL
+  BLOCK 0: 
+	PUSH []  [GR BP]
+	MOV [GR BP]  [GR SP]
+  BLOCK 2: 
+	MOV [GR SP]  [GR BP]
+	POP [GR BP]  []
+	RET []  [GR AX]
+)
+(FUNCTION	main
+  PARAMS: NULL
+  BLOCK 0: 
+	PUSH []  [GR BP]
+	MOV [GR BP]  [GR SP]
+  BLOCK 1: 
+	MOV [REG 0]  [INT 0]
+  BLOCK 4: 
+	CMP [FR Flag]  [REG 0 INT 10]
+	BLT []  [BLOCK 2 FR Flag]
+  BLOCK 3: 
+	LOAD [REG 2]  [VAR_NAME x]
+	CALL []  [FUNC_NAME input]
+	MOV [REG 3]  [GR AX]
+	MOV [REG 2]  [REG 3]
+	STORE []  [REG 2 VAR_NAME x]
+	MOV [REG 4]  [REG 0]
+	ADD [REG 4]  [REG 4 INT 1]
+	MOV [REG 0]  [REG 4]
+	PUSH []  [INT 10]
+	PUSH []  [INT 0]
+	LOAD [REG 5]  [VAR_NAME x]
+	PUSH []  [REG 5]
+	CALL []  [FUNC_NAME sort]
+	ADD [GR SP]  [GR SP INT 12]
+	MOV [REG 6]  [GR AX]
+	MOV [REG 0]  [INT 0]
+	JMP []  [BLOCK 4]
+  BLOCK 7: 
+	CMP [FR Flag]  [REG 0 INT 10]
+	BLT []  [BLOCK 5 FR Flag]
+  BLOCK 6: 
+	LOAD [REG 8]  [VAR_NAME x]
+	PUSH []  [REG 8]
+	CALL []  [FUNC_NAME output]
+	ADD [GR SP]  [GR SP INT 4]
+	MOV [REG 9]  [GR AX]
+	MOV [REG 10]  [REG 0]
+	ADD [REG 10]  [REG 10 INT 1]
+	MOV [REG 0]  [REG 10]
+	JMP []  [BLOCK 7]
   BLOCK 2: 
 	MOV [GR SP]  [GR BP]
 	POP [GR BP]  []

@@ -34,8 +34,8 @@ public class Semantic {
 	private Node root = null;
 	public Program program = new Program();
 	private ErrorList err = ErrorList.getInstance();
-	public static final HashMap<String, VariableDeclaration> globalSymbolTable = new HashMap<>();
-	public static final HashMap<String, FunctionDeclaration> globalFuntionTable = new HashMap<>();
+	public static HashMap<String, VariableDeclaration> globalSymbolTable = new HashMap<>();
+	public static HashMap<String, FunctionDeclaration> globalFuntionTable  = new HashMap<>();
 	private static Semantic INSTANCE = null;
 	
 	private Semantic(Node root){
@@ -48,7 +48,6 @@ public class Semantic {
 	}
 	public void init() throws Throwable{
 		program(root);
-//		err.throwsAllExceptions();
 		program.printASTree();
 	}
 	private void program(Node currNode){
