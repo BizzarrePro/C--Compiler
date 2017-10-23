@@ -167,7 +167,7 @@ while(!Stack.isEmpty){
 </pre>
 </code>
 <br>
-这样的结构借鉴了*Luke van der Hoeven* 团队实现的编译器构建AST的思想，在此感谢大神。
+此结构使用了设计模式中的Interpreter模式，每个用文法定义的产生式都被表示为一个由以上类的实例构成的抽象语法树。
 
 ##### &emsp;AST建立
 
